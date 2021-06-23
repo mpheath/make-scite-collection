@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <title>About GlobalTools</title>
+ <style>
+  body {background: #383838}
+  h1 {color: lightblue; background: #444444; padding: 2px}
+  h2 {color: lightblue; padding-top: 30px; font-size: 125%}
+  p {padding-left: 10px; color: #CCCCCC}
+  code, li {color: #CDCDCD}
+  pre {border: 1px grey solid; margin-left: 30px; padding: 5px; background: #303030}
+  table {margin-left: 40px}
+  td {vertical-align: text-top; padding-right: 10px}
+
+  /* unvisited link */
+  a:link {color: skyblue}
+  a:link {color: #BBBBBB; text-decoration: none}
+
+  /* visited link */
+  a:visited {color: darkseagreen}
+
+  /* mouse over link */
+  a:hover {color: white; background: black}
+
+  /* selected link */
+  a:active {color: purple}
+ </style>
+</head>
+
+<body>
+ <h1>About GlobalTools</h1>
+
+ <p>ListBox with a list of tools that should work with most any language
+ in general. GlobalTools functions can be found in SciTEStartup.lua.</p>
+
+ <p>Links:</p>
+
+ <table>
+  <tr>
+   <td>
+    <a href="#01">Clear All</a><br>
+    <a href="#02">ClearAnnotations</a><br>
+    <a href="#03">ClearBookmarks</a><br>
+    <a href="#04">ClearErrormarks</a><br>
+    <a href="#05">ClearOthermarks</a><br>
+    <a href="#06">CopyFileDir</a><br>
+    <a href="#07">CopyFileName</a><br>
+    <a href="#08">CopyFileNameExt</a><br>
+    <a href="#09">CopyFilePath</a><br>
+    <a href="#10">CurSelCountBraces</a><br>
+    <a href="#11">DiffFileNameExt</a><br>
+    <a href="#12">EskilFilePath</a><br>
+   </td>
+   <td>
+    <a href="#13">FrhedFilePath</a><br>
+    <a href="#14">InsertDate</a><br>
+    <a href="#15">OpenAbbrevFile</a><br>
+    <a href="#16">OpenApiFile</a><br>
+    <a href="#17">OpenChmFile</a><br>
+    <a href="#18">OpenFileDir</a><br>
+    <a href="#19">OpenHtaFile</a><br>
+    <a href="#20">OpenLuaExtensionFile</a><br>
+    <a href="#21">OpenSciteVarsFile</a><br>
+    <a href="#22">PrintApiKeywords</a><br>
+    <a href="#23">PrintApiLuaPropFiles</a><br>
+    <a href="#24">PrintAsciiTable</a><br>
+   </td>
+   <td>
+    <a href="#25">PrintCommentLines</a><br>
+    <a href="#26">PrintCommentedCodeLines</a><br>
+    <a href="#27">PrintFindText</a><br>
+    <a href="#28">PrintGlobalNames...</a><br>
+    <a href="#28">PrintGlobalTables...</a><br>
+    <a href="#29">PrintReminders</a><br>
+    <a href="#30">PrintSciteVars</a><br>
+    <a href="#31">ReplaceSelEscape</a><br>
+    <a href="#32">ReplaceSelSortLines</a><br>
+    <a href="#33">ReplaceSelSortList</a><br>
+    <a href="#34">ReplaceSelWrapList</a><br>
+    <a href="#35">SelectCalltipColour</a><br>
+   </td>
+   <td>
+    <a href="#36">StartExeFile</a><br>
+    <a href="#37">StripTrailingSpaces</a><br>
+    <a href="#38">ToggleCodePage</a><br>
+    <a href="#39">ToggleDimComments</a><br>
+    <a href="#40">ToggleExtendedTools</a><br>
+    <a href="#41">ToggleHighlightCurrentWord</a><br>
+    <a href="#42">ToggleMonospaceFont</a><br>
+    <a href="#43">WinMergeFilePath</a><br>
+    <a href="#44">WinMergeFilePath unsaved</a><br>
+   </td>
+  </tr>
+ </table>
+
+
+
+ <h2 id="01">Clear All</h2>
+
+ <p>Clear all annotations and marks.</p>
+
+
+
+ <h2 id="02">ClearAnnotations</h2>
+
+ <p>Clear all annotations.</p>
+
+
+
+ <h2 id="03">ClearBookmarks</h2>
+
+ <p>Clear all bookmarks. Does same action as <i>Search -> Clear All Bookmarks</i>
+ from the SciTE editor menu.</p>
+
+
+
+ <h2 id="04">ClearErrormarks</h2>
+
+ <p>Clear all error marks created by double click on red error lines in the
+ output pane.</p>
+
+
+
+ <h2 id="05">ClearOthermarks</h2>
+
+ <p>Clear marks that custom programs may add. The user may not see them unless
+ added by a script.</p>
+
+
+
+ <h2 id="06">CopyFileDir</h2>
+
+ <p>Copy file directory path to the clipboard.</p>
+
+
+
+ <h2 id="07">CopyFileName</h2>
+
+ <p>Copy filename without extension to the clipboard.</p>
+
+
+
+ <h2 id="08">CopyFileNameExt</h2>
+
+ <p>Copy filename with extension to the clipboard.</p>
+
+
+
+ <h2 id="09">CopyFilePath</h2>
+
+ <p>Copy absolute file path to the clipboard.</p>
+
+
+
+ <h2 id="10">CurSelCountBraces</h2>
+
+ <p>Count braces in current selection. Prints the result to the output pane.</p>
+
+ <p>Braces:</p>
+
+ <ul>
+  <li>( )</li>
+  <li>{ }</li>
+  <li>[ ]</li>
+  <li>&lt; &gt;</li>
+ </ul>
+
+
+
+ <h2 id="11">DiffFileNameExt</h2>
+
+ <p>Diff <i>FileNameExt</i> with fossil or git.</p>
+
+
+
+ <h2 id="12">EskilFilePath</h2>
+
+ <p>Run Eskil to diff <i>FilePath</i> with a checkout</p>
+
+ <p>Eskil expected location:&nbsp;
+ <code>"$(SciTEDefaultHome)\eskil\eskil.exe"</code></p>
+
+
+
+ <h2 id="13">FrhedFilePath</h2>
+
+ <p>Run Frhed to hex edit <i>FilePath</i>.</p>
+
+ <p>Frhed expected location:&nbsp;
+ <code>"$(SciTEDefaultHome)\frhed\frhed.exe"</code></p>
+
+
+
+ <h2 id="14">InsertDate</h2>
+
+ <p>Insert date at position of caret. If <code>yyyy-mm-dd</code> pattern with
+ digits is selected, the selection will be replaced with current date.</p>
+
+
+
+ <h2 id="15">OpenAbbrevFile</h2>
+
+ <p>Open a <i>abbrev.properties</i> file which are searched in the subfolders of
+ <i>SciteDefaultHome</i>.</p>
+
+
+
+ <h2 id="16">OpenApiFile</h2>
+
+ <p>Open a api file which are searched in <code>"$(SciteDefaultHome)\api"</code>.</p>
+
+
+
+ <h2 id="17">OpenChmFile</h2>
+
+ <p>Open a chm file which are searched in the subfolders of <i>SciteDefaultHome</i>.
+ Some other locations may be searched, example <i>scite.chm</i> in the root of
+ <i>SciteDefaultHome</i>.</p>
+
+
+
+ <h2 id="18">OpenFileDir</h2>
+
+ <p>Open file directory in a file browser like explorer.</p>
+
+
+
+ <h2 id="19">OpenHtaFile</h2>
+
+ <p>Open a hta file which are searched in the subfolders of
+ <i>SciteDefaultHome</i>.</p>
+
+
+
+ <h2 id="20">OpenLuaExtensionFile</h2>
+
+ <p>Open a lua extension file which are searched as <i>extension.lua</i>
+ in the subfolders of <i>SciteDefaultHome</i>.</p>
+
+
+
+ <h2 id="21">OpenSciteVarsFile</h2>
+
+ <p>Open <i>scitevars.cfg</i> file which can be used by PrintSciteVars.</p>
+
+
+
+ <h2 id="22">PrintApiKeywords</h2>
+
+ <p>Print keywords from api files, like those used in autocomplete.</p>
+
+
+
+ <h2 id="23">PrintApiLuaPropFiles</h2>
+
+ <p>Print api, lua and properties files.</p>
+
+
+
+ <h2 id="24">PrintAsciiTable</h2>
+
+ <p>Prints ASCII table to output. Includes Extended ASCII. May need
+ to have the codepage set to 0 to show the Extended ASCII correct.</p>
+
+
+
+ <h2 id="25">PrintCommentLines</h2>
+
+ <p>Get comment lines from the editor pane and print to the output pane.</p>
+
+ <p>Filetypes supported:</p>
+
+ <ul>
+  <li>au3</li>
+  <li>cmd</li>
+  <li>lua</li>
+  <li>pas</li>
+  <li>php</li>
+  <li>properties</li>
+  <li>ps1</li>
+  <li>py</li>
+ </ul>
+
+
+ <h2 id="26">PrintCommentedCodeLines</h2>
+
+ <p>Get comment code lines from the editor pane and print to the output pane.</p>
+
+ <p>Same filetypes supported as PrintCommentLines.</p>
+
+
+
+ <h2 id="27">PrintFindText</h2>
+
+ <p>Based on <code>http://lua-users.org/wiki/SciteMiscScripts</code></p>
+
+ <p>Like the find and search built into SciTE, except this can print the
+ results to the output pane.</p>
+
+
+
+ <h2 id="28">PrintGlobalNames... PrintGlobalTables...</h2>
+
+ <p>Print Lua names and tables. Used for viewing and debugging the Lua
+ internals which is why it is included as a extended tool for use as it
+ is for special use.</p>
+
+
+
+ <h2 id="29">PrintReminders</h2>
+
+ <p>Find reminder lines in the edit pane and print them.
+ Code concept from RSciTE.</p>
+
+ <p>Currently searches for these words with a trailing colon:</p>
+
+ <ul>
+  <li><code>debug:</code></li>
+  <li><code>reminder:</code></li>
+  <li><code>test:</code></li>
+  <li><code>testing:</code></li>
+  <li><code>todo:</code></li>
+ </ul>
+
+
+
+ <h2 id="30">PrintSciteVars</h2>
+
+ <p>Print SciTE property variables. By default, prints the standard
+ variables defined in <i>SciTEDoc.html</i>. If <i>scitevars.cfg</i> is located
+ in <i>SciTEDefaultHome</i>, the file will be read for property variable names
+ and will include them. Comment lines starting with <code>;</code> or
+ <code>#</code> will be ignored when the file is read.</p>
+
+
+
+ <h2 id="31">ReplaceSelEscape</h2>
+
+ <p>Escapes special characters.
+ Currently does api, bat, cmd, hta, html, lua, py, pyw, sql.</p>
+
+ <p>Escaping in general is very broad, though an example is for html:</p>
+
+ <code><pre>&amp;</pre></code>
+
+ <p>changes to:</p>
+
+ <code><pre>&amp;amp;</pre></code>
+
+
+
+ <h2 id="32">ReplaceSelSortLines</h2>
+
+ <p>Sorts a selection of text by line.</p>
+
+ <p>Example:</p>
+
+ <code><pre>item3
+item1
+item2</pre></code>
+
+ <p>changes to:</p>
+
+ <code><pre>item1
+item2
+item3</pre></code>
+
+
+
+ <h2 id="33">ReplaceSelSortList</h2>
+
+ <p>Sorts a JSON style list.</p>
+
+ <p>Example:</p>
+
+ <code><pre>["item3", "item1", "item2"]</pre></code>
+
+ <p>changes to:</p>
+
+ <code><pre>["item1", "item2", "item3"]</pre></code>
+
+
+
+ <h2 id="34">ReplaceSelWrapList</h2>
+
+ <p>Wraps a JSON style list.</p>
+
+ <p>Example:</p>
+
+ <code><pre>["item1", "item2", "item3"]</pre></code>
+
+ <p>changes to:</p>
+
+ <code><pre>["item1",
+ "item2",
+ "item3"]</pre></code>
+
+
+
+ <h2 id="35">SelectCalltipColour</h2>
+
+ <p>Change colours of both autocomplete and calltip popups.</p>
+
+
+
+ <h2 id="36">StartExeFile</h2>
+
+ <p>Executables can be added to subfolders, such as Frhed, for reading the
+ <i>FilePath</i>. StartExeFile will instead run these executables without
+ any arguments.</p>
+
+
+
+ <h2 id="37">StripTrailingSpaces</h2>
+
+ <p>SciTE can be set to strip whitespace characters at end of lines on save.
+ This tool allows the user to strip the end of lines in the edit pane.
+ Can be useful if the property of <i>strip.trailing.spaces</i> is not used
+ globally or by the current filepattern.</p>
+
+
+
+ <h2 id="38">ToggleCodePage</h2>
+
+ <p>Toggle between 0 (ANSI), 65001 (UTF8) and the actual codepage.</p>
+
+
+
+ <h2 id="39">ToggleDimComments</h2>
+
+ <p>Toggle comment colours from normal colour to a lighter colour.
+ Dimming may not be useful for general programming though debugging
+ code with dimmed comments may help with focus. Toggles on or off.</p>
+
+
+
+ <h2 id="40">ToggleExtendedTools</h2>
+
+ <p>Initially, some tools may be not shown in the ListBox, due to not being
+ suitable for regular use. This option allows the user to toggle the list by
+ reshowing the ListBox with the changes.</p>
+
+
+
+ <h2 id="41">ToggleHighlightCurrentWord</h2>
+
+ <p>Toggle highlight current word at position of caret.
+ For distraction free programming, default to off.
+ Toggles on or off.</p>
+
+
+
+ <h2 id="42">ToggleMonospaceFont</h2>
+
+ <p>Toggle with monospace font and proportional font. If <i>font.override</i>
+ property has been appended to global font properties, default font is
+ monospace. This function allows proportional font.</p>
+
+
+
+ <h2 id="43">WinMergeFilePath</h2>
+
+ <p>Passes <i>FilePath</i> as 1st argument to WinMerge. As a consequence,
+ WinMerge will show the <i>Select Files or Folders dialog</i>. Choose your
+ settings and then press the <i>Compare</i> button.</p>
+
+ <p>WinMerge expected location:&nbsp;
+ <code>"%ProgramFiles%\WinMerge\WinMergeU.exe"</code></p>
+
+
+
+ <h2 id="44">WinMergeFilePath unsaved</h2>
+
+ <p>Passes <i>FilePath</i> as 1st argument to WinMerge. The SciTE edit
+ pane is read and saved to a temporary file, and that file is passed as
+ the 2nd argument to WinMerge.</p>
+
+ <p>This can be useful if you do not know the difference, especially if
+ a messagebox asks to reload shows to determine whether to save or not
+ after the reload. If the later is the case, select <i>No</i> to the
+ messagebox and then use this tool to compare. <i>File -> Revert</i>
+ can be used if <i>FilePath</i> on disk is wanted after the compare
+ is done.</p>
+
+</body>
+
+</html>

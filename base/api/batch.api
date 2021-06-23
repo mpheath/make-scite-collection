@@ -1,0 +1,143 @@
+__appdata__
+__cd__
+AllUsersProfile
+AppData
+assoc (-)\nDisplays or modifies file extension associations\n\nASSOC [.ext[=[fileType]]]
+attrib (-)\nDisplays or changes file attributes.\n\nATTRIB [+R | -R] [+A | -A ] [+S | -S] [+H | -H] [+I | -I]\n       [drive:][path][filename] [/S [/D] [/L]]
+bcdedit (-)\nBoot Configuration Data Store Editor.
+break (-)\nSets or Clears Extended CTRL+C checking on DOS system\n\nThis is present for Compatibility with DOS systems. It has no effect\nunder Windows.\n\nIf Command Extensions are enabled, and running on the Windows\nplatform, then the BREAK command will enter a hard coded breakpoint\nif being debugged by a debugger.
+cacls (-)\nNOTE: Cacls is now deprecated, please use Icacls.\n\n Displays or modifies access control lists (ACLs) of files\n\n CACLS filename [/T] [/M] [/L] [/S[:SDDL]] [/E] [/C] [/G user:perm]\n        [/R user [...]] [/P user:perm [...]] [/D user [...]]
+call (-)\nCalls one batch program from another.\n\nCALL [drive:][path]filename [batch-parameters]
+cd (-)\nDisplays the name of or changes the current directory.\n\nCHDIR [/D] [drive:][path]\nCHDIR [..]\nCD [/D] [drive:][path]\nCD [..]
+chcp (-)\nDisplays or sets the active code page number.\n\nCHCP [nnn]\n\n  nnn   Specifies a code page number.\n\nType CHCP without a parameter to display the active code page number.
+chkdsk (-)\nChecks a disk and displays a status report.\n\n\nCHKDSK [volume[[path]filename]]] [/F] [/V] [/R] [/X] [/I] [/C] [/L[:size]] [/B]
+chkntfs (-)\nDisplays or modifies the checking of disk at boot time.\n\nCHKNTFS volume [...]\nCHKNTFS /D\nCHKNTFS /T[:time]\nCHKNTFS /X volume [...]\nCHKNTFS /C volume [...]
+choice (-)\nCHOICE [/C choices] [/N] [/CS] [/T timeout /D choice] [/M text]\n\nDescription:\n    This tool allows users to select one item from a list\n    of choices and returns the index of the selected choice.
+cls (-)\nClears the screen.\n\nCLS
+cmd (-)\nStarts a new instance of the Windows command interpreter\n\nCMD [/A | /U] [/Q] [/D] [/E:ON | /E:OFF] [/F:ON | /F:OFF] [/V:ON | /V:OFF]\n    [[/S] [/C | /K] string]
+color (-)\nSets the default console foreground and background colors.\n\nCOLOR [attr]
+CommonProgramFiles
+CommonProgramFiles(X86)
+CommonProgramW6432
+comp (-)\nCompares the contents of two files or sets of files.\n\nCOMP [data1] [data2] [/D] [/A] [/L] [/N=number] [/C] [/OFF[LINE]]
+compact (-)\nDisplays or alters the compression of files on NTFS partitions.\n\nCOMPACT [/C | /U] [/S[:dir]] [/A] [/I] [/F] [/Q] [filename [...]]
+ComputerName
+ComSpec
+con
+convert (-)\nConverts a FAT volume to NTFS.\n\nCONVERT volume /FS:NTFS [/V] [/CvtArea:filename] [/NoSecurity] [/X]
+copy (-)\nCopies one or more files to another location.\n\nCOPY [/D] [/V] [/N] [/Y | /-Y] [/Z] [/L] [/A | /B ] source [/A | /B]\n     [+ source [/A | /B] [+ ...]] [destination [/A | /B]]
+cscript (-)\nUsage: CScript scriptname.extension [option...] [arguments...]
+date (-)\nDisplays or sets the date.\n\nDATE [/T | date]
+defined
+del (-)\nDeletes one or more files.\n\nDEL [/P] [/F] [/S] [/Q] [/A[[:]attributes]] names\nERASE [/P] [/F] [/S] [/Q] [/A[[:]attributes]] names
+delims=
+dir (-)\nDisplays a list of files and subdirectories in a directory.\n\nDIR [drive:][path][filename] [/A[[:]attributes]] [/B] [/C] [/D] [/L] [/N]\n  [/O[[:]sortorder]] [/P] [/Q] [/R] [/S] [/T[[:]timefield]] [/W] [/X] [/4]
+disabledelayedexpansion
+disableextensions
+diskcomp (-)\nCompares the contents of two floppy disks.\n\nDISKCOMP [drive1: [drive2:]]
+diskcopy (-)\nCopies the contents of one floppy disk to another.\n\nDISKCOPY [drive1: [drive2:]] [/V]
+diskpart (-)\ndiskpart [/s <script>] [/?]
+do
+doskey (-)\nEdits command lines, recalls Windows commands, and creates macros.\n\nDOSKEY [/REINSTALL] [/LISTSIZE=size] [/MACROS[:ALL | :exename]]\n  [/HISTORY] [/INSERT | /OVERSTRIKE] [/EXENAME=exename] [/MACROFILE=filename]\n  [macroname=[text]]
+driverquery (-)\nDRIVERQUERY [/S system [/U username [/P [password]]]]\n              [/FO format] [/NH] [/SI] [/V]\nDescription:\n    Enables an administrator to display a list of\n    installed device drivers.
+echo (-)\nDisplays messages, or turns command-echoing on or off.\n\n  ECHO [ON | OFF]\n  ECHO [message]
+else
+enabledelayedexpansion
+enableextensions
+endlocal (-)\nEnds localization of environment changes in a batch file.\nEnvironment changes made after ENDLOCAL has been issued are\nnot local to the batch file; the previous settings are not\nrestored on termination of the batch file.\n\nENDLOCAL
+eol=
+errorlevel
+exist
+exit (-)\nQuits the CMD.EXE program (command interpreter) or the current batch\nscript.\n\nEXIT [/B] [exitCode]
+fc (-)\nCompares two files or sets of files and displays the differences between\nthem.\n\nFC [/A] [/C] [/L] [/LBn] [/N] [/OFF[LINE]] [/T] [/U] [/W] [/nnnn]\n   [drive1:][path1]filename1 [drive2:][path2]filename2\nFC /B [drive1:][path1]filename1 [drive2:][path2]filename2
+ffmpeg
+find (-)\nSearches for a text string in a file or files.\n\nFIND [/V] [/C] [/N] [/I] [/OFF[LINE]] "string" [[drive:][path]filename[ ...]]
+findstr (-)\nSearches for strings in files.\n\nFINDSTR [/B] [/E] [/L] [/R] [/S] [/I] [/X] [/V] [/N] [/M] [/O] [/P] [/F:file]\n        [/C:string] [/G:file] [/D:dir list] [/A:color attributes] [/OFF[LINE]]\n        strings [[drive:][path]filename[ ...]]
+for (-)\nRuns a specified command for each file in a set of files.\n\nFOR %variable IN (set) DO command [command-parameters]\nFOR /D %variable IN (set) DO command [command-parameters]\nFOR /R [[drive:]path] %variable IN (set) DO command [command-parameters]\nFOR /L %variable IN (start,step,end) DO command [command-parameters]
+format (-)\nFormats a disk for use with Windows.\n\nFORMAT volume [/FS:file-system] [/V:label] [/Q] [/A:size] [/C] [/X] [/P:passes] [/S:state]\nFORMAT volume [/V:label] [/Q] [/F:size] [/P:passes]\nFORMAT volume [/V:label] [/Q] [/T:tracks /N:sectors] [/P:passes]\nFORMAT volume [/V:label] [/Q] [/P:passes]\nFORMAT volume [/Q]
+fsutil
+ftype (-)\nDisplays or modifies file types used in file extension associations\n\nFTYPE [fileType[=[openCommandString]]]
+goto (-)\nDirects cmd.exe to a labeled line in a batch program.\n\nGOTO label
+gpresult (-)\nGPRESULT [/S system [/U username [/P [password]]]] [/SCOPE scope]\n           [/USER targetusername] [/R | /V | /Z] [(/X | /H) <filename> [/F]]\n\nDescription:\n    This command line tool displays the Resultant Set of Policy (RSoP)\n    information for a target user and computer.
+HomeDrive
+HomePath
+icacls
+if (-)\nPerforms conditional processing in batch programs.\n\nIF [NOT] ERRORLEVEL number command\nIF [NOT] string1==string2 command\nIF [NOT] EXIST filename command
+in
+label (-)\nCreates, changes, or deletes the volume label of a disk.\n\nLABEL [drive:][label]\nLABEL [/MP] [volume] [label]
+LocalAppData
+LogonServer
+md (-)\nCreates a directory.\n\nMKDIR [drive:]path\nMD [drive:]path
+mklink (-)\nCreates a symbolic link.\n\nMKLINK [[/D] | [/H] | [/J]] Link Target
+mode (-)\nConfigures system devices.\n\nSerial port:       MODE COMm[:] [BAUD=b] [PARITY=p] [DATA=d] [STOP=s]\n                                [to=on|off] [xon=on|off] [odsr=on|off]\n                                [octs=on|off] [dtr=on|off|hs]\n                                [rts=on|off|hs|tg] [idsr=on|off]\nDevice Status:     MODE [device] [/STATUS]\nRedirect printing: MODE LPTn[:]=COMm[:]\nSelect code page:  MODE CON[:] CP SELECT=yyy\nCode page status:  MODE CON[:] CP [/STATUS]\nDisplay mode:      MODE CON[:] [COLS=c] [LINES=n]\nTypematic rate:    MODE CON[:] [RATE=r DELAY=d]
+more (-)\nDisplays output one screen at a time.\n\nMORE [/E [/C] [/P] [/S] [/Tn] [+n]] < [drive:][path]filename\ncommand-name | MORE [/E [/C] [/P] [/S] [/Tn] [+n]]\nMORE /E [/C] [/P] [/S] [/Tn] [+n] [files]
+move (-)\nMoves files and renames files and directories.\n\nTo move one or more files:\nMOVE [/Y | /-Y] [drive:][path]filename1[,...] destination\n\nTo rename a directory:\nMOVE [/Y | /-Y] [drive:][path]dirname1 dirname2
+net (-)\nNET [ ACCOUNTS | COMPUTER | CONFIG | CONTINUE | FILE | GROUP | HELP |\n      HELPMSG | LOCALGROUP | PAUSE | SESSION | SHARE | START |\n      STATISTICS | STOP | TIME | USE | USER | VIEW ]
+netsh (-)\nUsage: netsh [-a AliasFile] [-c Context] [-r RemoteMachine] [-u [DomainName\\]UserName] [-p Password | *]\n             [Command | -f ScriptFile]
+not
+nul
+Number_Of_Processors
+openfiles (-)\nOPENFILES /parameter [arguments]\n\nDescription:\n    Enables an administrator to list or disconnect files and folders\n    that have been opened on a system.
+OS
+Path
+PathExt
+pause (-)\nSuspends processing of a batch program and displays the message\n    Press any key to continue . . .
+ping (-)\nUsage: ping [-t] [-a] [-n count] [-l size] [-f] [-i TTL] [-v TOS]\n            [-r count] [-s count] [[-j host-list] | [-k host-list]]\n            [-w timeout] [-R] [-S srcaddr] [-4] [-6] target_name
+popd (-)\nChanges to the directory stored by the PUSHD command.\n\nPOPD
+powershell (-)\nPowerShell[.exe] [-PSConsoleFile <file> | -Version <version>]\n    [-NoLogo] [-NoExit] [-Sta] [-Mta] [-NoProfile] [-NonInteractive]\n    [-InputFormat {Text | XML}] [-OutputFormat {Text | XML}]\n    [-WindowStyle <style>] [-EncodedCommand <Base64EncodedCommand>]\n    [-File <filePath> <args>] [-ExecutionPolicy <ExecutionPolicy>]\n    [-Command { - | <script-block> [-args <arg-array>]\n                  | <string> [<CommandParameters>] } ]
+Processor_Architecture
+Processor_Identifier
+Processor_Level
+Processor_Revision
+ProgramData
+ProgramFiles
+ProgramFiles(X86)
+ProgramW6432
+Prompt (-)\nChanges the cmd.exe command prompt.\n\nPROMPT [text]
+PSModulePath
+Public
+pushd (-)\nStores the current directory for use by the POPD command, then\nchanges to the specified directory.\n\nPUSHD [path | ..]
+py (-)\nusage: C:\\Program Files\\Python\\38\\python.exe [option] ... [-c cmd | -m mod | file | -] [arg] ...
+python (-)\nusage: C:\\Program Files\\Python\\38\\python.exe [option] ... [-c cmd | -m mod | file | -] [arg] ...
+rd (-)\nRemoves (deletes) a directory.\n\nRMDIR [/S] [/Q] [drive:]path\nRD [/S] [/Q] [drive:]path
+rem (-)\nRecords comments (remarks) in a batch file or CONFIG.SYS.\n\nREM [comment]
+ren (-)\nRenames a file or files.\n\nRENAME [drive:][path]filename1 filename2.\nREN [drive:][path]filename1 filename2.
+replace (-)\nReplaces files.\n\nREPLACE [drive1:][path1]filename [drive2:][path2] [/A] [/P] [/R] [/W]\nREPLACE [drive1:][path1]filename [drive2:][path2] [/P] [/R] [/S] [/W] [/U]
+reply
+robocopy (-)\nRobust File Copy for Windows
+sc (-)\nSC is a command line program used for communicating with the\nService Control Manager and services.\n\nsc <server> [command] [service name] <option1> <option2>...
+schtasks (-)\nSCHTASKS /parameter [arguments]\n\nDescription:\n    Enables an administrator to create, delete, query, change, run and\n    end scheduled tasks on a local or remote system.
+SessionName
+set (-)\nDisplays, sets, or removes cmd.exe environment variables.\n\nSET [variable=[string]]\nSET /A expression\nSET /P variable=[promptString]
+setlocal (-)\nBegins localization of environment changes in a batch file.  Environment\nchanges made after SETLOCAL has been issued are local to the batch file.\nENDLOCAL must be issued to restore the previous settings.  When the end\nof a batch script is reached, an implied ENDLOCAL is executed for any\noutstanding SETLOCAL commands issued by that batch script.
+shift (-)\nChanges the position of replaceable parameters in a batch file.\n\nSHIFT [/n]
+shutdown (-)\nUsage: shutdown [/i | /l | /s | /r | /g | /a | /p | /h | /e] [/f]\n    [/m \\\\computer][/t xxx][/d [p|u:]xx:yy [/c "comment"]]
+skip=
+sort (-)\nSORT [/R] [/+n] [/M kilobytes] [/L locale] [/REC recordbytes]\n  [[drive1:][path1]filename1] [/T [drive2:][path2]]\n  [/O [drive3:][path3]filename3]
+sqlite3 (-)\nUsage: sqlite3 [OPTIONS] FILENAME [SQL]
+start (-)\nStarts a separate window to run a specified program or command.\n\nSTART ["title"] [/D path] [/I] [/MIN] [/MAX] [/SEPARATE | /SHARED]\n      [/LOW | /NORMAL | /HIGH | /REALTIME | /ABOVENORMAL | /BELOWNORMAL]\n      [/NODE <NUMA node>] [/AFFINITY <hex affinity mask>] [/WAIT] [/B]\n      [command/program] [parameters]
+subst (-)\nAssociates a path with a drive letter.\n\nSUBST [drive1: [drive2:]path]\nSUBST drive1: /D
+SystemDrive
+systeminfo (-)\nSYSTEMINFO [/S system [/U username [/P [password]]]] [/FO format] [/NH]\n\nDescription:\n    This tool displays operating system configuration information for\n    a local or remote machine, including service pack levels.
+SystemRoot
+taskkill (-)\nTASKKILL [/S system [/U username [/P [password]]]]\n         { [/FI filter] [/PID processid | /IM imagename] } [/T] [/F]\n\nDescription:\n    This tool is used to terminate tasks by process id (PID) or image name.
+tasklist (-)\nTASKLIST [/S system [/U username [/P [password]]]]\n         [/M [module] | /SVC | /V] [/FI filter] [/FO format] [/NH]\n\nDescription:\n    This tool displays a list of currently running processes on\n    either a local or remote machine.
+Temp
+time (-)\nDisplays or sets the system time.\n\nTIME [/T | time]
+timeout (-)\nTIMEOUT [/T] timeout [/NOBREAK]\n\nDescription:\n    This utility accepts a timeout parameter to wait for the specified\n    time period (in seconds) or until any key is pressed. It also\n    accepts a parameter to ignore the key press.
+title (-)\nSets the window title for the command prompt window.\n\nTITLE [string]
+tokens=
+tree (-)\nGraphically displays the folder structure of a drive or path.\n\nTREE [drive:][path] [/F] [/A]
+type (-)\nDisplays the contents of a text file or files.\n\nTYPE [drive:][path]filename
+usebackq
+UserDomain
+UserName
+UserProfile
+ver (-)\nDisplays the Windows version.\n\nVER
+verify (-)\nTells cmd.exe whether to verify that your files are written correctly to a\ndisk.\n\nVERIFY [ON | OFF]
+vol (-)\nDisplays the disk volume label and serial number, if they exist.\n\nVOL [drive:]
+where (-)\nWHERE [/R dir] [/Q] [/F] [/T] pattern...\n\nDescription:\n    Displays the location of files that match the search pattern.\n    By default, the search is done along the current directory and\n    in the paths specified by the PATH environment variable.
+WinDir
+wmic
+wscript (-)\nUsage: WScript scriptname.extension [option...] [arguments...]
+xcopy (-)\nCopies files and directory trees.\n\nXCOPY source [destination] [/A | /M] [/D[:date]] [/P] [/S [/E]] [/V] [/W]\n                           [/C] [/I] [/Q] [/F] [/L] [/G] [/H] [/R] [/T] [/U]\n                           [/K] [/N] [/O] [/X] [/Y] [/-Y] [/Z] [/B]\n                           [/EXCLUDE:file1[+file2][+file3]...]
