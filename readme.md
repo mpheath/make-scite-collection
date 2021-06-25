@@ -74,8 +74,7 @@ Checking the changes to the properties files can be difficult to do manually so 
 
 This only applies to *Sc1.exe* with the embedded properties file as the external properties remain external.
 
-[Resource Hacker] is used to insert *Embedded.properties* in the executable file.
-This could be done manually with *Resource Hacker*, though the script *insert_embedded.py* does it without needing knowledge of how to do it correct... everytime.
+[Resource Hacker] is used to insert *Embedded.properties* in the executable file. This could be done manually with *Resource Hacker*, though the script *insert_embedded.py* does it without needing knowledge of how to do it correct... everytime.
 
 If ResourceHacker.exe is not found, the script may offer to download *resource_hacker.zip* and extract *ResourceHacker.exe* into the bin folder.
 
