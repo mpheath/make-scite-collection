@@ -546,7 +546,7 @@ api.$(file.patterns.sql)=$(SciteDefaultHome)\api\sql.api
 autocomplete.sql.ignorecase=1
 autocomplete.sql.start.characters=$(chars.alpha)$(chars.numeric)$_@#
 calltip.sql.ignorecase=1
-calltip.sql.word.characters =$(chars.alpha)$(chars.numeric)_
+calltip.sql.word.characters=$(chars.alpha)$(chars.numeric)_
 ```
 
 #### vb: Add indenting
