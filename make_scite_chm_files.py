@@ -12,28 +12,83 @@ settings = common.settings
 settings['scite_only'] = False
 
 
+def get_absent_property_items(content):
+    '''Get property items absent of an id attribute.'''
+
+    properties = []
+
+    # Get command... property section and style... property section.
+    alt = r'command\.name\.<i>number</i>\.<i>filepattern|style\.<i>lexer</i>\.\d'
+
+    matches = re.findall(r'<tr>\s*<td>\s*((?:' + alt + r').*?)\s*</td>',
+                         content, re.S|re.I)
+
+    if matches:
+        for item in matches:
+
+            # Split into items.
+            items = re.split(r'<br />\s*', item, flags=re.S|re.I)
+
+            if items:
+                for item in items:
+
+                    # Remove tags.
+                    item = re.sub('<.+?>', '', item)
+
+                    # Add to the list.
+                    if item:
+                        properties.append(item)
+
+    return properties
+
+
 def make_index(file, outfile):
     '''Make index file for scite.chm.'''
 
     with open(file) as r:
         content = r.read()
 
+    # Get property items with a id|name attribute.
     matches = re.findall(r"(?:id|name)=[\"']property-(.+?)[\"']", content, re.I)
 
     if not matches:
         return
 
+    # Get property items absent of an id|name attribute.
+    # Anchor to a known id|name preceding its location.
+    items = get_absent_property_items(content)
+
+    if items:
+        for index, item in enumerate(items):
+            if item not in matches:
+                if ('property-' + item) not in content:
+                    if item.startswith('command.'):
+                        if 'property-command.go.needs' in content:
+                            items[index] = item + '#' + 'command.go.needs'
+                    elif item.startswith('style.'):
+                        if 'property-style.*' in content:
+                            items[index] = item + '#' + 'style.*'
+
+        matches.extend(items)
+
+    # Sort items.
     matches.sort(key=str.lower)
 
+    # Write the index file.
     with open(outfile, 'w') as w:
         w.write('<!DOCTYPE HTML>\n'
                 '<HTML>\n<BODY>\n<UL>\n')
 
         for item in matches:
+            if '#' not in item:
+                item = item + '#' + item
+
+            items = item.split('#')
+
             w.write('\t<LI> <OBJECT type="text/sitemap">\n'
                     '\t\t<param name="Name" value="{1}">\n'
-                    '\t\t<param name="Local" value="{0}#property-{1}">\n'
-                    '\t\t</OBJECT>\n'.format(os.path.basename(file), item))
+                    '\t\t<param name="Local" value="{0}#property-{2}">\n'
+                    '\t\t</OBJECT>\n'.format(os.path.basename(file), *items))
 
         w.write('</UL>\n</BODY>\n</HTML>\n')
 

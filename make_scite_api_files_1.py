@@ -12,6 +12,61 @@ settings = common.settings
 settings['os_specific'] = True
 
 
+def get_absent_property_items(content):
+    '''Get property items absent of an id attribute.'''
+
+    properties = []
+
+    # Items expected to have a id attribute.
+    exclude = ['style.lexer.34', 'style.lexer.35']
+
+    # Brief property doc string.
+    doc = {
+        'style.lexer.32': 'Default style...',
+        'style.lexer.33': 'Line numbers in the margin...',
+        'style.lexer.36': 'Control characters...',
+        'style.lexer.37': 'Indentation guides...',
+        'style.lexer.38': 'Calltips...',
+        'command.name.number.filepattern': 'Tools menu text item...',
+        'command.number.filepattern': 'Command string...',
+        'command.is.filter.number.filepattern': 'Optional...',
+        'command.subsystem.number.filepattern': 'Subsytem default is 0...',
+        'command.save.before.number.filepattern': '1 auto save 2 no save else ask...',
+        'command.input.number.filepattern': 'Windows only. Optional...',
+        'command.replace.selection.number.filepattern': 'Optional...',
+        'command.quiet.number.filepattern': '1 no echo...',
+        'command.mode.number.filepattern': 'Comma-separated list of settings...',
+        'command.shortcut.number.filepattern': 'Keyboard shortcut for the command...'}
+
+    for item in doc:
+        if doc[item] and not doc[item].startswith('\\n '):
+            doc[item] = '\\n ' + doc[item]
+
+    # Get command... property section and style... property section.
+    alt = r'command\.name\.<i>number</i>\.<i>filepattern|style\.<i>lexer</i>\.\d'
+
+    matches = re.findall(r'<tr>\s*<td>\s*((?:' + alt + r').*?)\s*</td>',
+                         content, re.S|re.I)
+
+    if matches:
+        for item in matches:
+
+            # Split into items.
+            items = re.split(r'<br />\s*', item, flags=re.S|re.I)
+
+            if items:
+                for item in items:
+
+                    # Remove tags.
+                    item = re.sub('<.+?>', '', item)
+
+                    # Add to list if not in the exclude list.
+                    if item and item not in exclude:
+                        properties.append(item + ' (-) [property]' + doc.get(item, ''))
+
+    return properties
+
+
 if __name__ == '__main__':
 
     # Set output path.
@@ -26,7 +81,7 @@ if __name__ == '__main__':
     if not os.path.isfile(file):
         exit('"' + file + '" not found')
 
-    with open(os.path.join('scite', 'doc', 'SciTEDoc.html')) as r:
+    with open(file) as r:
         content = r.read()
 
     # Remove leading classes to ensure matches in the next re pattern.
@@ -104,6 +159,12 @@ if __name__ == '__main__':
 
             for item in prop:
                 current['list'].append('{} (-) [{}]\\n {}'.format(item, current['tag'], doc))
+
+    # Get property items absent of an id attribute.
+    items = get_absent_property_items(content)
+
+    if items:
+        sciteproperties.extend(items)
 
     sciteproperties.sort()
     scitevariables.sort()
