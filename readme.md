@@ -51,6 +51,7 @@ Actual filename of *rluawfx.dll* downloaded is *rluawfx-en.dll*.
 
 This is optional to do as the pre-made binaries may be suitable. If you do make SciTE then GCC will be needed. The script *make_scite.py* will make *SciTE.exe*, *Sc1.exe* and the Dynamic Link Libraries (DLLs).
 
+Based on use of *mingw32-make* command of the [tdm-gcc] compiler.
 
 ## Edit Properties
 
@@ -196,6 +197,7 @@ Paths searched for programs:
  [json.lua]: https://github.com/rxi/json.lua
  [Resource Hacker]: http://www.angusj.com/resourcehacker/
  [RSciTE]: https://github.com/robertorossi73/rscite
+ [tdm-gcc]: https://github.com/jmeubank/tdm-gcc/releases
  [WinMerge]: https://winmerge.org/
  [UPX]: https://upx.github.io/
 
