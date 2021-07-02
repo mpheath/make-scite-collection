@@ -29,9 +29,11 @@ If you do not already have the binaries and source files, then the script *downl
 
 ## Download base tools
 
-Download [Eskil] and [Frhed] to the base directory used by *make_scite_setup.py*. Frhed is x86 (32 bit) and x64 (64 bit). The user gets to choose only 1 Frhed so pick the bitness to suit the target OS. These tools are optional.
+Download [Eskil], [Frhed] and [Luacheck] to the base directory used by *make_scite_setup.py*. Frhed is x86 (32 bit) and x64 (64 bit). The user gets to choose only 1 Frhed so pick the bitness to suit the target OS. Luacheck is 64 bit only and is a defined tool in the lua.properties override file. These tools are optional.
 
 Important reminder, SciTE 64 bit setup uses Frhed in *SciTEStartup.lua*, SciTE 32 bit does not use Eskil and Frhed in *SciTEStartup.lua* as the Lua code is minimal in the latter, due to *rluawfx.dll* being 64 bit.
+
+Eskil is [GPLv2] license. Frhed is [GPLv2] license. Luacheck is [MIT] license. 
 
 
 ## Download rluawfx.dll
@@ -142,7 +144,7 @@ The compiler may print some warnings, though the chm file may compile OK. I have
 
 Created as a basic setup for new users to start with, or to quickly setup for some portable setup of SciTE. Once the setup is done, then the files can be copied to a more permanent location to be customized more and to be put to use. As been mentioned, 32 bit SciTE does not work with *rluawfx.dll*, so it's features will not be available. If using SciTE 32 bit, *SciTEStartup.lua* created may be much smaller.
 
-If [json.lua] is supplied, it's license is MIT. *json.lua* can be quite useful for getting data from the json files created by these scripts.
+If [json.lua] is supplied, it's license is [MIT]. *json.lua* can be quite useful for getting data from the json files created by these scripts.
 
 If *SciTELauncher.au3* is supplied, compile with latest [AutoIt3] *Aut2Exe.exe* compiler. The setup script may prompt to download *Aut2Exe.exe* and will do the compile automatically. If you accept to download *Aut2Exe.exe*, you accept the [AutoIt3 License]. The launcher executable can be passed a *-register* argument to open a Gui to register or unregister some registry entries in `HKCU\Software\Classes` or the option of `HKLM\Software\Classes`. Ensure the launcher is in it's correct location before registering. Once registered, look for the item named SciTE in the context menu. The context menu entry will display for any file or directory background.
 
@@ -192,9 +194,12 @@ Paths searched for programs:
  [Eskil]: http://eskil.tcl-lang.org/index.html/doc/trunk/htdocs/download.html
  [Free Pascal]: https://www.freepascal.org/
  [Frhed]: https://github.com/WinMerge/frhed/releases
+ [GPLv2]: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  [GPLv3]: https://www.gnu.org/licenses/gpl-3.0.en.html
  [Html Help Workshop]: https://docs.microsoft.com/en-us/previous-versions/windows/desktop/htmlhelp/microsoft-html-help-downloads
  [json.lua]: https://github.com/rxi/json.lua
+ [Luacheck]: https://github.com/mpeterv/luacheck
+ [MIT]: https://opensource.org/licenses/MIT
  [Resource Hacker]: http://www.angusj.com/resourcehacker/
  [RSciTE]: https://github.com/robertorossi73/rscite
  [tdm-gcc]: https://github.com/jmeubank/tdm-gcc/releases
