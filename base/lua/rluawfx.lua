@@ -16,16 +16,21 @@ function InputBox(prompt, title, msg)
     title = title or 'SciTE'
     msg = msg or 'Insert the data'
 
-    local tmpname = os.tmpname()
-    local result = rwfx_InputBox(prompt, title, msg, tmpname)
+    local tmpfile = os.tmpname()
+
+    if string.sub(tmpfile, 1, 1) == '\\' then
+        tmpfile = os.getenv('TEMP') .. tmpfile
+    end
+
+    local result = rwfx_InputBox(prompt, title, msg, tmpfile)
 
     if result then
-        local file = io.open(tmpname)
+        local file = io.open(tmpfile)
 
         if file then
             local content = file:read('a')
             file:close()
-            os.remove(tmpname)
+            os.remove(tmpfile)
             return content
         end
     end
