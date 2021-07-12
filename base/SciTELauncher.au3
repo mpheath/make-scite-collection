@@ -190,6 +190,23 @@ Func _GetSciTE()
 EndFunc
 
 
+Func _IsRegKeyOccupied($sKey)
+    ; Check if registry key is empty.
+
+    ; Check if default value is set a value.
+    RegRead($sKey, '')
+    If Not @error Then Return 1
+
+    ; Check if subkey exist.
+    RegEnumKey($sKey, 1)
+    If Not @error Then Return 2
+
+    ; Check if subvalue exist.
+    RegEnumVal($sKey, 1)
+    If Not @error Then Return 3
+EndFunc
+
+
 Func _Register()
     ; Register or UnRegister SciTE Launcher.
 
@@ -198,13 +215,22 @@ Func _Register()
     Local $bRegistered
     Local $iButtonClose, $iButtonRegister, $iButtonUnRegister, $iGui, $iGuiMsg
     Local $iLabelMachine, $iLabelUser, $iRadioMachine, $iRadioUser
-    Local $sRootkey1, $sRootkey2
+    Local $sKey, $sRootkey1, $sRootkey2
     Local $aCheck[4]
+
     Local $aRootkeys[4] = [ _
         'HKCU\Software\Classes\*\shell\SciTE', _
         'HKCU\Software\Classes\Directory\Background\shell\SciTE', _
         'HKLM\Software\Classes\*\shell\SciTE', _
         'HKLM\Software\Classes\Directory\Background\shell\SciTE']
+
+    ; Subkeys to remove if empty.
+    Local $aSubkeys[5] = [ _
+        '*\shell', _
+        '*', _
+        'Directory\Background\shell', _
+        'Directory\Background', _
+        'Directory']
 
     ; Create the Gui.
     $iGui = GUICreate('SciTE Launcher - Register', 320, 220)
@@ -260,6 +286,14 @@ Func _Register()
                 If $iGuiMsg = $iButtonUnRegister Then
                     RegDelete($sRootkey1)
                     RegDelete($sRootkey2)
+
+                    For $sKey in $aSubkeys
+                        $sKey = StringLeft($sRootkey1, 22) & $sKey
+
+                        If Not _IsRegKeyOccupied($sKey) Then
+                            RegDelete($sKey)
+                        EndIf
+                    Next
                 ElseIf $bRegistered Then
                     MsgBox(0x30, 'Warning', 'An entry is True.' & @CRLF & _
                         'UnRegister required before Register!', 0, $iGui)
