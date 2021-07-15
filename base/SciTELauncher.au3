@@ -87,6 +87,8 @@ If $CMDLINE[0] Then
             If Not @error Then
                 Sleep(500)
                 _RunSciTESession($sFilename)
+                WinWait('[CLASS:SciTEWindow]', '', 3)
+                WinActivate('[CLASS:SciTEWindow]')
 
                 If StringInStr($sFilename, '\') Then
                     Sleep(10000)
