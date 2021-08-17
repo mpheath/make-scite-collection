@@ -425,6 +425,8 @@ _update = {
         ['style.hypertext.126', '$(colour.maroon),italics,$(colour.hypertext.server.php.back)'],
     ],
     'inno': [
+        # Change colour.string to colour.keyword.
+        ['style.inno.3', '$(colour.keyword)'],
         # Remove back and bolden section head.
         ['style.inno.4', 'bold'],
     ],
