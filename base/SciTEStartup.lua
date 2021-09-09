@@ -783,6 +783,7 @@ function PrintCommentLines(mode)
     -- Get the pattern from the file extension.
     local chars = {['au3'] = '^%s*(;[^~].*)$',
                    ['cmd'] = '^%s*([rR][eE][mM]%s*[^~].*)$',
+                   ['iss'] = '^%s*(;[^~].*)$',
                    ['lua'] = '^%s*(%-%-[^~].*)$',
                    ['pas'] = '^%s*(#[^~].*)$',
                    ['php'] = '^%s*(#[^~].*)$',
@@ -802,11 +803,13 @@ function PrintCommentLines(mode)
         pattern = string.gsub(pattern, '%[%^%~%]', '~')
     end
 
-    -- Set an alternative pattern for cmd.
+    -- Set an alternative pattern.
     local alt_pattern
 
     if fileext == 'cmd' then
         alt_pattern = string.gsub(pattern, '%[rR.-mM%]', '::')
+    elseif fileext == 'iss' then
+        alt_pattern = string.gsub(pattern, '%(;', '(//')
     end
 
     local markerNumber
@@ -829,8 +832,10 @@ function PrintCommentLines(mode)
     for i = 1, #lines do
         local line = string.match(lines[i], pattern)
 
-        if line == nil and fileext == 'cmd' then
-            line = string.match(lines[i], alt_pattern)
+        if line == nil then
+            if fileext == 'cmd' or fileext == 'iss' then
+                line = string.match(lines[i], alt_pattern)
+            end
         end
 
         if line ~= nil then
