@@ -1,0 +1,15 @@
+Check:
+Description:
+ExtraDiskSpaceRequired:
+Flags:
+Languages:
+MinVersion:
+Name:
+OnlyBelowVersion:
+Types:
+checkablealone
+disablenouninstallwarning
+dontinheritcheck
+exclusive
+fixed
+restart

@@ -1,0 +1,15 @@
+Check:
+Components:
+Description:
+Flags:
+GroupDescription:
+Languages:
+MinVersion:
+Name:
+OnlyBelowVersion:
+checkablealone
+checkedonce
+dontinheritcheck
+exclusive
+restart
+unchecked

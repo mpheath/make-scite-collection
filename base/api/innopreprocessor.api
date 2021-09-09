@@ -1,0 +1,125 @@
+#append
+#define
+#dim
+#elif
+#else
+#emit
+#endif
+#endsub
+#error
+#expr
+#file
+#for
+#if
+#ifdef
+#ifexist
+#ifndef
+#ifnexist
+#include
+#insert
+#pragma
+#redim
+#sub
+#undef
+__COUNTER__
+__FILE__
+__INCLUDE__
+__LINE__
+__OPT_X__
+__PATHFILENAME__
+__POPT_X__
+__WIN32__
+CompilerPath
+ISPP_INVOKED
+ISPPCC_INVOKED
+NewLine
+PREPROCVER
+SourcePath
+Tab
+UNICODE
+Ver
+WINDOWS
+AddBackslash(str S)preprocess function -> str
+ChangeFileExt(str FileName, str NewExt)preprocess function -> str
+ComparePackedVersion(int Version1, int Version2)preprocess function -> int
+Copy(str 1, int 2, int? 3)preprocess function -> str
+CopyFile(str 1, str 2)preprocess function -> void
+DecodeVer(int Version, int Digits = 3)preprocess function -> str
+Defined(<ident>)preprocess function -> int
+Delete(str *S, int Index, int Count = MaxInt)preprocess function -> void
+DeleteFile(str)preprocess function -> void
+DeleteFileNow(str)preprocess function -> void
+DimOf(<ident>)preprocess function -> int
+DirExists(str)preprocess function -> int
+EncodeVer(int Major, int Minor, int Revision = 0, int Build = -1)preprocess function -> int
+EntryCount(str)preprocess function -> int
+Error(str S)preprocess function -> void
+Exec(str 1, str? 2, str? 3, int? 4, int? 5)preprocess function -> int
+ExtractFileDir(str PathName)preprocess function -> str
+ExtractFileExt(str PathName)preprocess function -> str
+ExtractFileName(str PathName)preprocess function -> str
+ExtractFilePath(str PathName)preprocess function -> str
+FileClose(int)preprocess function -> void
+FileEof(int)preprocess function -> int
+FileExists(str)preprocess function -> int
+FileOpen(str)preprocess function -> int
+FileRead(int)preprocess function -> str
+FileReset(int)preprocess function -> void
+FileSize(str)preprocess function -> int
+Find(int 1, str 2, int? 3, str? 4, int? 5, str? 6, int? 7)preprocess function -> int
+FindClose(int)preprocess function -> void
+FindCode()preprocess function -> int
+FindFirst(str, int)preprocess function -> int
+FindGetFileName(int)preprocess function -> str
+FindNext(int)preprocess function -> int
+FindSection(str Section = "Files")preprocess function -> int
+FindSectionEnd(str Section = "Files")preprocess function -> int
+ForceDirectories(str)preprocess function -> int
+GetDateTimeString(str, str, str)preprocess function -> str
+GetEnv(str)preprocess function -> str
+GetFileDateTimeString(str, str, str, str)preprocess function -> str
+GetMD5OfFile(str)preprocess function -> str
+GetMD5OfString(str)preprocess function -> str
+GetPackedVersion(str Filename, int *Version)preprocess function -> str
+GetSHA1OfFile(str)preprocess function -> str
+GetSHA1OfString(str)preprocess function -> str
+GetStringFileInfo(str 1, str 2, int? 3)preprocess function -> str
+GetVersionComponents(str Filename, int *Major, int *Minor, int *Revision, int *Build)preprocess function -> str
+GetVersionNumbers(str Filename, int *VersionMS, int *VersionLS)preprocess function -> str
+GetVersionNumbersString(str Filename)preprocess function -> str
+Insert(str *S, int Index, str Substr)preprocess function -> void
+Int(any 1, int? 2)preprocess function -> int
+IsWin64()preprocess function -> int
+Len(str)preprocess function -> int
+LowerCase(str)preprocess function -> str
+Max(int A, int B, int C = MinInt)preprocess function -> int
+Message(str S)preprocess function -> void
+Min(int A, int B, int C = MaxInt)preprocess function -> int
+PackVersionComponents(int Major, int Minor, int Revision, int Build)preprocess function -> int
+PackVersionNumbers(int VersionMS, int VersionLS)preprocess function -> int
+Pos(str 1, str 2)preprocess function -> int
+Power(int X, int P = 2)preprocess function -> int
+RPos(str 1, str 2)preprocess function -> int
+ReadIni(str 1, str 2, str 3, str? 4)preprocess function -> str
+ReadReg(int 1, str 2, str? 3, any? 4)preprocess function -> any
+RemoveBackslash(str S)preprocess function -> str
+RemoveFileExt(str FileName)preprocess function -> void
+SamePackedVersion(int Version1, int Version2)preprocess function -> int
+SameStr(str S1, str S2)preprocess function -> int
+SameText(str S1, str S2)preprocess function -> int
+SaveStringToFile(str Filename, str S, int? Append, int? UTF8)preprocess function -> int
+SaveToFile(str)preprocess function -> void
+SetSetupSetting(str 1, str 2)preprocess function -> void
+SetupSetting(str)preprocess function -> str
+Str(any)preprocess function -> str
+StrToVersion(str Version)preprocess function -> int
+StringChange(str, str, str)preprocess function -> str
+Trim(str)preprocess function -> str
+TypeOf(<ident>)preprocess function -> int
+UnpackVersionComponents(int Version, int *Major, int *Minor, int *Revision, int *Build)preprocess function -> void
+UnpackVersionNumbers(int Version, int *VersionMS, int *VersionLS)preprocess function -> void
+UpperCase(str)preprocess function -> str
+VersionToStr(int Version)preprocess function -> void
+Warning(str S)preprocess function -> void
+WriteIni(str 1, str 2, str 3, any 4)preprocess function -> void
+YesNo(str S)preprocess function -> int

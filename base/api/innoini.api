@@ -1,0 +1,15 @@
+Check:
+Components:
+Filename:
+Flags:
+Key:
+Languages:
+MinVersion:
+OnlyBelowVersion:
+Section:
+String:
+Tasks:
+createkeyifdoesntexist
+uninsdeleteentry
+uninsdeletesection
+uninsdeletesectionifempty
