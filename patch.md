@@ -273,6 +273,31 @@ calltip.hypertext.ignorecase=1
 calltip.hypertext.word.characters=$(chars.alpha)$(chars.numeric)<!
 ```
 
+#### inno: Add indenting, api, autocomplete and calltips
+
+Set indent.size to match the Inno Setup Compiler editor.
+The api property is minimal and expected to be overrided
+in inno.properties if is split into multiple api files.
+
+```
+
+comment.block.inno=;~
+```
+
+```
+
+comment.block.inno=;~
+
+api.$(file.patterns.inno)=$(SciteDefaultHome)\api\inno.api
+autocomplete.inno.start.characters=$(chars.alpha)$(chars.numeric)$(chars.accented)_{[#
+autocomplete.$(file.patterns.inno).ignorecase=1
+calltip.inno.end.definition=)
+block.start.$(file.patterns.inno)=8 begin else for repeat var while
+block.end.$(file.patterns.inno)=8 else end until
+word.characters.$(file.patterns.inno)=$(chars.alpha)$(chars.numeric)$(chars.accented)
+indent.size.$(file.patterns.inno)=2
+```
+
 #### lua: Add indenting, api, autocomplete and calltips
 
 ```
