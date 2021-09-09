@@ -9,6 +9,10 @@ local rwfx_ExecuteCmd = package.loadlib(rwfx_NameDLL, 'c_SendCmdScite')
 local rwfx_Sleep = package.loadlib(rwfx_NameDLL, 'c_Sleep')
 
 
+-- Warning to show once per instance.
+local Warning_SendCmdScite = true
+
+
 function InputBox(prompt, title, msg)
     -- Show a rluawfx input box gui.
 
@@ -71,10 +75,35 @@ end
 
 
 function SendCmdScite(command)
-    -- Send a command to the SciTE Director Interface.
+    -- Send a command to the SciTE Director.
     -- Does not return anything in source.
 
-    return rwfx_ExecuteCmd(command)
+    -- Set a property and read it to confirm if safe to send message.
+    local identifier = props['WindowID']
+    rwfx_ExecuteCmd('property:IdentifySciTEDirector=' .. identifier)
+
+    if props['IdentifySciTEDirector'] ~= identifier then
+        local lang = props['Language']
+
+        local msg = '! SendCmdScite() called from Lua, failed to identify\r\n' ..
+                    '! the SciTE Director window for the language ' .. lang .. '.\r\n' ..
+                    '! More than 1 SciTE Editor window can cause this failure\r\n' ..
+                    '! as another SciTE Director window may get priority.\r\n' ..
+                    '! If reload properties is needed, a change of tab or\r\n' ..
+                    '! similar event can help to provoke a reload.\r\n' ..
+                    '! Recommend only 1 SciTE Editor for the language ' .. lang .. '.\r\n'
+
+        if Warning_SendCmdScite then
+            Warning_SendCmdScite = false
+            print('! This warning will print once only for this instance!')
+            print(msg)
+        end
+
+        return false
+    end
+
+    rwfx_ExecuteCmd(command)
+    return true
 end
 
 
