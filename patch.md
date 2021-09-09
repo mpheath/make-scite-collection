@@ -253,40 +253,6 @@ block.start.*.css=5 {
 block.end.*.css=5 }
 ```
 
-#### forth: Fix comment chars by doubling \ and doubling newline part 1/2
-
-```
-
-comment.block.forth=\
-```
-
-```
-
-comment.block.forth=\\
-
-```
-
-#### forth: Fix comment chars by doubling \ and doubling newline part 2/2
-
-```
-comment.stream.start.forth=(
-comment.stream.end.forth=)
-comment.box.start.forth=\
-comment.box.middle.forth=\
-comment.box.end.forth=\
-```
-
-```
-comment.box.start.forth=\\
-
-comment.box.middle.forth=\\
-
-comment.box.end.forth=\\
-
-comment.stream.start.forth=(
-comment.stream.end.forth=)
-```
-
 #### html: Add auto.close.tags, api, autocomplete and calltips
 
 ```
