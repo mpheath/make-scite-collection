@@ -37,7 +37,8 @@ if __name__ == '__main__':
         print('read from the output files')
 
     # Exclude these known property names.
-    exclude = ['font.locale', 'font.monospace', 'font.override', 'font.quality']
+    exclude = ['font.locale', 'font.monospace', 'font.monospaced.list',
+               'font.override', 'font.quality']
 
     # Get property names.
     scitestyles = set()
