@@ -111,8 +111,11 @@ if __name__ == '__main__':
             break
 
     if os.path.isfile(source_zipfile):
-        print('warning: This may remove current lexilla, scintilla and scite '
-              'directories and then extract the source from the zipfile.')
+        for item in source_dirs:
+            if os.path.exists(os.path.join(initial_dir, item)):
+                print('warning: This may remove current lexilla, scintilla and scite '
+                      'directories and then extract the source from the zipfile.')
+                break
 
         reply = input('Extract {} to current directory [n|y]: '
                       .format(os.path.basename(source_zipfile)))
