@@ -30,7 +30,7 @@ def scintilla_version(sep=None):
     # Read scite\version.txt may v5.0 and later, else scintilla/version.txt.
     file = os.path.join(initial_dir, 'scite', 'version.txt')
 
-    if os.path.isfile(file):
+    if not os.path.isfile(file):
         file = os.path.join(initial_dir, 'scintilla', 'version.txt')
 
     version = ''
