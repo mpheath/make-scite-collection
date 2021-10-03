@@ -17,6 +17,7 @@
 {autotemplates}
 {cm:
 {cmd}
+{code:
 {commonappdata}
 {commoncf32}
 {commoncf64}
