@@ -127,10 +127,10 @@ function SetSection(char)
     local curproperty = props['api.$(file.patterns.inno)']
 
     -- Table of inno section names.
-    local list = {'Setup', 'Types', 'Components', 'Tasks', 'Dirs',
-                  'Files', 'Icons', 'INI', 'InstallDelete', 'Languages',
-                  'Messages', 'CustomMessages', 'LangOptions', 'Registry',
-                  'Run', 'UninstallDelete', 'UninstallRun', 'Code'}
+    local list = {'Setup', 'Types', 'Components', 'Tasks', 'InstallDelete',
+                  'Dirs', 'Files', 'Icons', 'INI', 'Registry', 'Run',
+                  'UninstallDelete', 'UninstallRun', 'Languages',
+                  'LangOptions', 'CustomMessages', 'Messages', 'Code'}
 
     -- Get current line text.
     local curline = editor:GetCurLine()
