@@ -30,7 +30,7 @@ def properties_to_json(src):
     dic = {'version': '', 'module': {}}
 
     # Get the editor version.
-    version = common.scintilla_version('.')
+    version = common.scite_version('.')
 
     if not version:
         version = input('Enter editor version: ')

@@ -29,7 +29,7 @@ if __name__ == '__main__':
         os.makedirs(download)
 
     # Read version and print as current version.
-    version = common.scintilla_version()
+    version = common.scite_version()
 
     if version:
         print('current:', version)

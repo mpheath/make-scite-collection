@@ -95,9 +95,6 @@ def make_index(file, outfile):
 
 if __name__ == '__main__':
 
-    # Set Scintilla version.
-    scintilla_version = common.scintilla_version('.')
-
     # Set output path.
     output = settings['output']
 
@@ -161,7 +158,7 @@ if __name__ == '__main__':
                                          default_topic=default_topic,
                                          index_key=index_key,
                                          app=app,
-                                         version=scintilla_version))
+                                         version=common.scite_version('.', folder)))
 
             for item in files:
                 w.write(item + '\n')

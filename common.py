@@ -24,11 +24,11 @@ def lua_version():
     return version
 
 
-def scintilla_version(sep=None):
-    '''Read version from scite\version.txt else scintilla/version.txt.'''
+def scite_version(sep=None, folder='scite'):
+    '''Read version from folder/version.txt else scintilla/version.txt.'''
 
-    # Read scite\version.txt may v5.0 and later, else scintilla/version.txt.
-    file = os.path.join(initial_dir, 'scite', 'version.txt')
+    # Read folder/version.txt with v5.0 and later, else scintilla/version.txt.
+    file = os.path.join(initial_dir, folder, 'version.txt')
 
     if not os.path.isfile(file):
         file = os.path.join(initial_dir, 'scintilla', 'version.txt')

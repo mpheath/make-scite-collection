@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
     # Set SciTE path.
     scite = []
-    version = common.scintilla_version()
+    version = common.scite_version()
 
     filepath = os.path.join(os.getcwd(), 'scite', 'bin', 'Sc1.exe')
 
