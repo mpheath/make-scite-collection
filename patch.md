@@ -290,7 +290,8 @@ comment.block.inno=;~
 
 api.$(file.patterns.inno)=$(SciteDefaultHome)\api\inno.api
 autocomplete.inno.start.characters=$(chars.alpha)$(chars.numeric)$(chars.accented)_{[#
-autocomplete.$(file.patterns.inno).ignorecase=1
+autocomplete.inno.ignorecase=1
+calltip.inno.ignorecase=1
 calltip.inno.end.definition=)
 block.start.$(file.patterns.inno)=8 begin else for repeat var while
 block.end.$(file.patterns.inno)=8 else end until
