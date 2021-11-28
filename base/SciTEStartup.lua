@@ -770,7 +770,7 @@ function PrintCommentLines(mode)
     local text = editor:GetText()
     local fileext = props['FileExt']
 
-    if text == nil then
+    if text == nil or text == '' then
         print('No editor text.')
         return
     end
@@ -1150,7 +1150,7 @@ function PrintReminders()
     i = 0
     line = editor:GetLine(i)
 
-    while line do
+    while line or line ~= '' do
         line_lower = string.lower(line)
 
         for _, item in ipairs(list_tag) do
@@ -1795,7 +1795,7 @@ function WinMergeFilePath(mode)
         if mode == 'unsaved' then
             local text = editor:GetText()
 
-            if text == nil then
+            if text == nil or text == '' then
                 print('No editor text.')
                 return
             end
