@@ -1141,16 +1141,14 @@ end
 function PrintReminders()
     -- Find reminder lines in source. Code concept from RSciTE.
 
-    local i, line, line_lower
+    local line, line_lower
 
     local list_tag = {'debug', 'reminder', 'test', 'testing', 'todo'}
 
     print('Search keywords: ' .. table.concat(list_tag, ', '))
 
-    i = 0
-    line = editor:GetLine(i)
-
-    while line or line ~= '' do
+    for i = 0, editor.LineCount - 1 do
+        line = editor:GetLine(i)
         line_lower = string.lower(line)
 
         for _, item in ipairs(list_tag) do
@@ -1159,9 +1157,6 @@ function PrintReminders()
                 break
             end
         end
-
-        i = i + 1
-        line = editor:GetLine(i)
     end
 end
 
