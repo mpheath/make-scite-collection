@@ -428,7 +428,7 @@ function InsertDate()
 end
 
 
-function OnBeforeSave(filename)
+function OnBeforeSave(filename)  --luacheck: no unused args
     -- Event handler for about to save file.
 
     -- Check if ensure final line end setting is enabled.
@@ -453,9 +453,10 @@ function OnBeforeSave(filename)
 end
 
 
-function OnOpen(filename)
+function OnOpen(filename)  --luacheck: no unused args
     -- Event handler for opening a file tab.
 
+    -- Update the context menu.
     UserContextMenu()
 end
 
@@ -463,6 +464,7 @@ end
 function OnSwitchFile()
     -- Event handler for switching file tab.
 
+    -- Update the context menu.
     UserContextMenu()
 
     -- Toggle clean command on or off.
