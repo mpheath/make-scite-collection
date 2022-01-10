@@ -1819,7 +1819,8 @@ function WinMergeFilePath(mode)
 
             -- Build command to diff the file with the temporary file.
             command = 'title WinMerge Unsaved & ' ..
-                      '"' .. app .. '" "' .. filepath .. '" /u "' .. tmpfile .. '"'
+                      '"' .. app .. '" /u /wl /dl "Unsaved" ' ..
+                      '"' .. tmpfile .. '" "' .. filepath .. '"'
         else
             -- Build command to diff the file with another file.
             command = 'start "" /b "' .. app .. '" /u "' .. filepath .. '"'
