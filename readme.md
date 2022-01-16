@@ -53,6 +53,8 @@ Actual filename of *rluawfx.dll* downloaded is *rluawfx-en.dll*.
 
 This is optional to do as the pre-made binaries may be suitable. If you do make SciTE then GCC will be needed. The script *make_scite.py* will make *SciTE.exe*, *Sc1.exe* and the Dynamic Link Libraries (DLLs).
 
+Another item in the menu is Make TestLexer. A compiled TestLexer.exe can run test files to detect if an issue exists in the lexers.
+
 Based on use of *mingw32-make* command of the [tdm-gcc] compiler.
 
 ## Edit Properties
