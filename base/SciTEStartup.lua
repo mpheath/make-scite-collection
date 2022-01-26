@@ -1409,7 +1409,7 @@ function ReplaceSelWrapList()
     end
 
     -- Get end of line sequence.
-    eol = ({'\r\n', '\r', '\n'})[editor.EOLMode + 1]
+    local eol = ({'\r\n', '\r', '\n'})[editor.EOLMode + 1]
 
     -- Insert newlines.
     text = string.gsub(text, '(["\']?), (["\']?)', '%1,' .. eol .. indent .. '%2')
