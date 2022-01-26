@@ -1408,8 +1408,11 @@ function ReplaceSelWrapList()
         indent = indent .. ' '
     end
 
+    -- Get end of line sequence.
+    eol = ({'\r\n', '\r', '\n'})[editor.EOLMode + 1]
+
     -- Insert newlines.
-    text = string.gsub(text, '(["\']?), (["\']?)', '%1,\n' .. indent .. '%2')
+    text = string.gsub(text, '(["\']?), (["\']?)', '%1,' .. eol .. indent .. '%2')
 
     -- Replace selection.
     editor:ReplaceSel(text)
