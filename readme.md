@@ -29,11 +29,11 @@ If you do not already have the binaries and source files, then the script *downl
 
 ## Download base tools
 
-Download [Eskil], [Frhed] and [Luacheck] to the base directory used by *make_scite_setup.py*. Frhed is x86 (32 bit) and x64 (64 bit). The user gets to choose only 1 Frhed so pick the bitness to suit the target OS. Luacheck is 64 bit only and is a defined tool in the lua.properties override file. These tools are optional.
+Download [Eskil], [Frhed], [Luacheck] and [SQLite] to the base directory used by *make_scite_setup.py*. Frhed is x86 (32 bit) and x64 (64 bit). The user gets to choose only 1 Frhed so pick the bitness to suit the target OS. Luacheck is 64 bit only and is a defined tool in the lua.properties override file. These tools are optional.
 
 Important reminder, SciTE 64 bit setup uses Frhed in *SciTEStartup.lua*, SciTE 32 bit does not use Eskil and Frhed in *SciTEStartup.lua* as the Lua code is minimal in the latter, due to *rluawfx.dll* being 64 bit.
 
-Eskil is [GPLv2] license. Frhed is [GPLv2] license. Luacheck is [MIT] license. 
+Eskil is [GPLv2] license. Frhed is [GPLv2] license. Luacheck is [MIT] license. SQLite is [Public domain].
 
 
 ## Download rluawfx.dll
@@ -202,8 +202,10 @@ Paths searched for programs:
  [json.lua]: https://github.com/rxi/json.lua
  [Luacheck]: https://github.com/mpeterv/luacheck
  [MIT]: https://opensource.org/licenses/MIT
+ [Public domain]: http://en.wikipedia.org/wiki/Public_Domain
  [Resource Hacker]: http://www.angusj.com/resourcehacker/
  [RSciTE]: https://github.com/robertorossi73/rscite
+ [SQLite]: https://www.sqlite.org/
  [tdm-gcc]: https://github.com/jmeubank/tdm-gcc/releases
  [WinMerge]: https://winmerge.org/
  [UPX]: https://upx.github.io/
