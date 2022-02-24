@@ -34,9 +34,313 @@ GlobalSettings = {
 
     -- Paths that may need to be globally known.
     ['paths'] = {
+        ['dbeditor'] = os.path.join(os.getenv('ProgramFiles'),
+                                    'DB Browser for SQLite',
+                                    'DB Browser for SQLite.exe'),
         ['eskil'] = os.path.join(props['SciteDefaultHome'], 'eskil', 'eskil.exe'),
         ['frhed'] = os.path.join(props['SciteDefaultHome'], 'frhed', 'Frhed.exe'),
+        ['sqlite'] = os.path.join(props['SciteDefaultHome'], 'sqlite', 'sqlite3.exe'),
         ['winmerge'] = os.path.join(os.getenv('ProgramFiles'), 'WinMerge', 'WinMergeU.exe')}}
+
+
+function BackupFilePath()
+    -- Save FilePath to database and access later.
+
+    local sqlite = GlobalSettings['paths']['sqlite']
+    local filepath = props['FilePath']
+    local dbfile = filepath .. '.backups'
+
+    -- Validate.
+    if filepath == '' then
+        print('Require a FilePath.')
+        return
+    end
+
+    if props['FileNameExt'] == '' then
+        print('Require a FileNameExt.')
+        return
+    end
+
+    -- Database handling functions.
+    local function InitilizeDatabase()
+        -- Create the database and the main table.
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"CREATE TABLE main ' ..
+                        '(cdate TEXT,' ..
+                        ' comment TEXT,' ..
+                        ' content BLOB)""'
+
+        os.execute(command)
+    end
+
+    local function SelectDatabaseItem()
+        -- Show ListBox and return the selected rowid and comment.
+
+        -- Get the rowids and the comments.
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '-separator "\t" ' ..
+                        '"SELECT rowid, comment FROM main"'
+
+        local file = io.popen(command)
+
+        if file == nil then
+            return
+        end
+
+        local rowids = {}
+        local comments = {}
+
+        for line in file:lines() do
+            for rowid, comment in string.gmatch(line, '(.-)\t(.+)') do
+                table.insert(rowids, rowid)
+                table.insert(comments, comment)
+            end
+        end
+
+        -- Select item from the ListBox to return the rowid and comment.
+        local result = ListBox(comments, 'Select the commit', #comments - 1)
+
+        if result ~= nil then
+            return rowids[result + 1], comments[result + 1]
+        end
+    end
+
+    -- Select mode from the list box.
+    local list = {'Commit filepath',
+                  'Delete any commit',
+                  'Edit the database',
+                  'Open any commit',
+                  'Print all comments',
+                  'Restore any commit to edit pane',
+                  'Restore any commit to filepath',
+                  'WinMerge any commit'}
+
+    if not os.path.exist(dbfile) then
+        list = {list[1]}
+    end
+
+    local result = ListBox(list, 'Select the mode')
+
+    if result == nil then
+        return
+    end
+
+    local mode = string.lower(list[result + 1])
+
+    if mode == 'commit filepath' then
+
+        -- Prepare the default commit comment.
+        local text = ''
+
+        if not os.path.exist(dbfile) then
+            text = 'Initial commit'
+        end
+
+        -- Get commit comment from input box.
+        local comment = InputBox(text, 'Commit', 'Enter a comment.\r\n\r\n' ..
+                                 'Dir: "' .. props['FileDir'] .. '"\r\n' ..
+                                 'File: "' .. props['FileNameExt'] .. '"')
+
+        if comment == nil then
+            return
+        end
+
+        comment = string.gsub(comment, '^%s*(.-)%s*$', '%1')
+
+        if comment == '' then
+            print('Commit comment cannot be empty')
+            return
+        end
+
+        -- Escape single quotes in comments.
+        comment = string.gsub(comment, '\'', '\'\'')
+
+        -- Initialize the database.
+        if not os.path.exist(dbfile) then
+            InitilizeDatabase()
+        end
+
+        -- Insert the new entry.
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"INSERT INTO main VALUES' ..
+                        '(date(\'now\', \'localtime\'),' ..
+                        ' \'' .. comment .. '\',' ..
+                        ' readfile(\'' .. filepath .. '\'))""'
+
+        os.execute(command)
+
+        return
+    end
+
+    -- Check if database file exist.
+    if not os.path.exist(dbfile) then
+        print('The database file does not exist.')
+        return
+    end
+
+    if mode == 'delete any commit' then
+
+        local rowid = SelectDatabaseItem()
+
+        if rowid == nil then
+            return
+        end
+
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"DELETE FROM main WHERE rowid = ' ..
+                        tostring(rowid) .. ';VACUUM""'
+
+        os.execute(command)
+
+    elseif mode == 'edit the database' then
+
+        -- Set path to the database editor.
+        local app = GlobalSettings['paths']['dbeditor']
+
+        -- Run the database editor.
+        local command = 'start "" "' .. app .. '" "' .. dbfile .. '"'
+
+        os.execute(command)
+
+    elseif mode == 'open any commit' then
+
+        local rowid = SelectDatabaseItem()
+
+        if rowid == nil then
+            return
+        end
+
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"SELECT content FROM main WHERE rowid = ' ..
+                        tostring(rowid) .. '""'
+
+        local file = io.popen(command)
+
+        if file == nil then
+            return
+        end
+
+        local text = file:read('a')
+        file:close()
+
+        -- Open an empty tab and append the content.
+        if text then
+            scite.Open('')
+
+            if editor:GetText() == '' then
+                editor:SetText(text)
+            else
+                print('Not recognized as a empty pane.')
+            end
+        end
+
+    elseif mode == 'print all comments' then
+
+        -- Print comments.
+        local command = '"' .. sqlite .. '" -separator "  " "' .. dbfile .. '" ' ..
+                        '"SELECT cdate, comment FROM main"'
+
+        Run(command, false)
+
+    elseif mode == 'restore any commit to edit pane' then
+
+        -- Get the rowid.
+        local rowid = SelectDatabaseItem()
+
+        if rowid == nil then
+            return
+        end
+
+        -- Read the committed content.
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"SELECT content FROM main WHERE rowid = ' ..
+                        tostring(rowid) .. '""'
+
+        local file = io.popen(command)
+
+        if file == nil then
+            return
+        end
+
+        local text = file:read('a')
+        text = string.gsub(text, '\n\n$', '\n')
+        file:close()
+
+        -- Restore the content in the current tab.
+        if text then
+            editor:ClearAll()
+
+            if editor:GetText() == '' then
+                editor:SetText(text)
+            else
+                print('Not recognized as a empty pane.')
+            end
+        end
+
+    elseif mode == 'restore any commit to filepath' then
+
+        -- Get the rowid.
+        local rowid = SelectDatabaseItem()
+
+        if rowid == nil then
+            return
+        end
+
+        -- Write to FilePath.
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"SELECT writefile(\'' .. filepath .. '\', content) ' ..
+                        'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+
+        os.execute(command)
+
+    elseif mode == 'winmerge any commit' then
+
+        -- Set path to WinMerge.
+        local app = GlobalSettings['paths']['winmerge']
+
+        -- Get the rowid and the comment.
+        local rowid, comment = SelectDatabaseItem()
+
+        if rowid == nil then
+            return
+        end
+
+        if string.len(comment) > 40 then
+            comment = string.sub(comment, 1, 37) .. '...'
+        end
+
+        -- Write the text to a temporary file.
+        local tmpfile = os.tmpname()
+
+        if string.sub(tmpfile, 1, 1) == '\\' then
+            tmpfile = os.getenv('TEMP') .. tmpfile
+        end
+
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
+                        'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+
+        os.execute(command)
+
+        -- Build file extension argument.
+        local fileext = props['FileExt']
+        local fileext_arg = ''
+
+        if fileext ~= '' then
+            fileext_arg = '/fileext "' .. fileext .. '" '
+        end
+
+        -- Build command to diff the file with the temporary file.
+        command = '"' .. app .. '" /u /wl ' ..
+                  fileext_arg ..
+                  '/dl "' .. comment .. '" ' ..
+                  '"' .. tmpfile .. '" "' .. filepath .. '" ' ..
+                  '& del "' .. tmpfile .. '"'
+
+        -- Run WinMerge.
+        os.execute('start "" /b cmd /s /c "' .. command .. '"')
+    end
+end
 
 
 function CurSelCountBraces()
@@ -237,6 +541,10 @@ function GlobalTools()
 
     -- List of tools.
     local list = {}
+
+    if props['FileNameExt'] ~= '' then
+        list['BackupFilePath'] = BackupFilePath
+    end
 
     list['ClearAll']  = function()
                             editor:AnnotationClearAll()
@@ -1420,7 +1728,11 @@ end
 
 
 function Run(command, execute)
-    -- Run the command and print the output. If execute is true, no output.
+    -- Run the command and print the output.
+    -- Execute:
+    --   true = no output.
+    --   false = print all with normalized eol.
+    --   nil = print line by line.
 
     local filedir = props['FileDir']
 
@@ -1441,8 +1753,18 @@ function Run(command, execute)
 
     local file = io.popen(command)
 
-    for line in file:lines() do
-        print(line)
+    if execute == false then
+        local text = file:read('a')
+
+        if os.path.sep == '\\' then
+            text = string.gsub(text, '\r?\n', '\r\n')
+        end
+
+        print(text)
+    else
+        for line in file:lines() do
+            print(line)
+        end
     end
 
     file:close()
