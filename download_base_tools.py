@@ -2,8 +2,29 @@
 
 '''Copy or extract base tools from the downloaded files.'''
 
-import os, shutil, urllib.request, zipfile
+import os, re, shutil, urllib.request, zipfile
 import common
+
+
+def get_sqlite_url():
+    '''Get download link for latest tools.'''
+
+    url = 'https://www.sqlite.org/download.html'
+
+    try:
+        with urllib.request.urlopen(url) as r:
+            content = r.read().decode('utf-8')
+    except urllib.error.HTTPError as err_msg:
+        print('   ', err_msg)
+
+    pattern = r'^PRODUCT,.*,(\d+/sqlite-tools-win32-x86-\d+.zip)'
+
+    product = re.findall(pattern, content, re.M)
+
+    if len(product) == 1:
+        return 'https://www.sqlite.org/' + product[0]
+
+    return ''
 
 
 if __name__ == '__main__':
@@ -39,7 +60,14 @@ if __name__ == '__main__':
         'luacheck|x64': {
             'url': 'https://github.com/mpeterv/luacheck/releases/download'
                    '/0.23.0/luacheck.exe',
-            'dest': os.path.join(base, 'lua')}}
+            'dest': os.path.join(base, 'lua')},
+        'sqlite': {
+            'url': '',
+            'dest': os.path.join(base, 'sqlite')}}
+
+    # Get url for sqlite.
+    if not os.path.exists(dic['sqlite']['dest']):
+        dic['sqlite']['url'] = get_sqlite_url()
 
     # Check base tools files and subfolders exist.
     for key in dic:
@@ -65,6 +93,9 @@ if __name__ == '__main__':
         title = title.title()
         file = os.path.basename(url)
         prompt = '' if os.path.isfile(file) else 'Download and '
+
+        if not url:
+            continue
 
         # Ask the user if OK to do the operation.
         if url.endswith('.exe'):
@@ -96,7 +127,19 @@ if __name__ == '__main__':
                 os.makedirs(folder)
 
                 with zipfile.ZipFile(file) as z:
-                    z.extractall(dest)
+                    if file.startswith('sqlite-tools'):
+                        content = None
+
+                        for item in z.namelist():
+                            if item.endswith('sqlite3.exe'):
+                                content = z.read(item)
+                                break
+
+                        if content:
+                            with open(os.path.join(dest, 'sqlite3.exe'), 'wb') as w:
+                                w.write(content)
+                    else:
+                        z.extractall(dest)
             else:
                 if not os.path.exists(dest):
                     os.makedirs(dest)
