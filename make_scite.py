@@ -26,8 +26,8 @@ def make_scite():
             p.wait()
 
 
-def make_testlexer():
-    '''Make TestLexer.exe for testing Lexilla lexers.'''
+def make_testlexers():
+    '''Make TestLexers.exe for testing Lexilla lexers.'''
 
     cwd = os.getcwd()
 
@@ -74,17 +74,19 @@ if __name__ == '__main__':
           '----------\n'
           ' 0  Quit\n'
           ' 1  Make SciTE\n'
-          ' 2  Make TestLexer\n'
+          ' 2  Make TestLexers\n'
           ' 3  Clean\n')
 
     reply = input('Enter numbers: ').strip()
 
     if reply:
         for item in reply.split():
-            if item == '1':
+            if item == '0':
+                break
+            elif item == '1':
                 make_scite()
             elif item == '2':
-                make_testlexer()
+                make_testlexers()
             elif item == '3':
                 clean()
             else:
