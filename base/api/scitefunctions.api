@@ -34,5 +34,5 @@ scite.SendOutput(SCI_constant, ...) - sends a message to the output pane.
 scite.StripSet(number, '<choose a fruit>') The editable part of combo boxes and editable text can be set with StripSet(element, value).
 scite.StripSetList(number, "Example\\nApple\\nPear") The list part of combo boxes can be set with StripSetList(element, value)\n where the items in 'value' are separated with new lines.
 scite.StripShow("!'Explanation:'{}(&Search)'Name:'[Name](OK)(Cancel)")\n There are 5 supported elements:\n labels, editable text, combo boxes, buttons and default buttons.\n These are surrounded by different indicator strings:\n   ' '  for labels\n    []  for editable text\n    {}  for combo boxes\n    ()  for buttons\n   (()) for default buttons\n There can also be a newline to start a new line and a ! to show a close box on Windows only.
-scite.StripValue() The value of editable text or combo boxes can be retrieved with StripValue(element).
-scite.UpdateStatusBar(??)
+scite.StripValue(element) The value of editable text or combo boxes can be retrieved with StripValue(element).
+scite.UpdateStatusBar(boolean) Updates the StatusBar. If boolean is True, sets file properties status.
