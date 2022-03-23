@@ -1,10 +1,6 @@
 -- Defined SciTE Lua extension for inno language.
 
 
--- Test SciTE Director to provoke a possible warning message.
-SendCmdScite('askfilename:')
-
-
 function OnChar(char)
     -- Do a task on char.
 
@@ -119,7 +115,7 @@ function SetSection(char)
 
         if new ~= nil and new ~= cur then
             props['api.$(file.patterns.inno)'] = new
-            SendCmdScite('reloadproperties:')
+            scite.ReloadProperties()
         end
     end
 
