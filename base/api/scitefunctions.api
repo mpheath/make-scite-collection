@@ -29,6 +29,7 @@ props(-) Get or set SciTE property settings.\n Example: props['SciteDefaultHome'
 scite.ConstantName(number[, prefix]) - returns the symbolic name of a Scintilla / SciTE constant.\n - optional prefix to find a specific constant name.
 scite.MenuCommand(IDM_constant) - equivalent to the corresponding IDM_ command defined in SciTE.h
 scite.Open(filename) - opens a file in a new buffer.\n - activates the file's buffer if it is already opened.
+scite.ReloadProperties() - performs a reload of properties
 scite.SendEditor(SCI_constant, ...) - sends a message to the editor pane.\n - equivalent to the corresponding iface function or property.
 scite.SendOutput(SCI_constant, ...) - sends a message to the output pane.
 scite.StripSet(number, '<choose a fruit>') The editable part of combo boxes and editable text can be set with StripSet(element, value).
