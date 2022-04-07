@@ -39,14 +39,12 @@ if __name__ == '__main__':
             comment = re.sub(' {2,}', ' ', comment)
 
             if ')' in signature:
-                if retval:
-                    pattern = '{0} {2}\\n Return: {1}'
-                else:
-                    pattern = '{0} {2}'
-            else:
-                pattern = '{0} (-) [{1}]\\n {2}'
+                pattern = 'styler:{0} {2}'
 
-            pattern = 'styler:' + pattern
+                if retval:
+                    pattern += '\\n Return: {1}'
+            else:
+                pattern = 'styler.{0} (-) [{1}]\\n {2}'
 
             stylers.append(pattern.format(signature, retval, comment))
 
