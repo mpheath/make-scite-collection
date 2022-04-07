@@ -2,7 +2,7 @@
 
 '''Make scitestyler.api file from ScriptLexer.html.'''
 
-import os, re
+import os, re, textwrap
 import common
 
 
@@ -30,6 +30,8 @@ if __name__ == '__main__':
     if matches:
         matches = re.findall(r'<tr><td>(.*?)(?: : (\w+)){0,1}</td>\s*<td>(.*?)</td></tr>', matches[-1], re.I|re.S)
 
+        wrapper = textwrap.TextWrapper(width=75)
+
         stylers = []
 
         for item in matches:
@@ -37,6 +39,9 @@ if __name__ == '__main__':
 
             comment = re.sub('\r?\n|\t', ' ', comment)
             comment = re.sub(' {2,}', ' ', comment)
+
+            if len(comment) > 75:
+                comment = '\\n'.join(wrapper.wrap(comment))
 
             if ')' in signature:
                 pattern = 'styler:{0} {2}'
