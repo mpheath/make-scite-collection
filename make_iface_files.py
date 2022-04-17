@@ -90,7 +90,7 @@ def make_hta():
             '  body {background: #383838}\n'
             '  h1 {color: lightblue; background: #444444; padding: 2px}\n'
             '  pre {border: 1px solid grey; padding: 10px; background-color: #FBFBFB}\n'
-            '  table {color: #CCCCCC; background: #333333}'
+            '  table {color: #CCCCCC; background: #333333}\n'
             '  table, th, tr, td {border: #555555 solid 1px; border-collapse: collapse}\n'
             '  th {color: #FFFFFF; background: #000000}\n'
             '  p {color: #CCCCCC}\n'
