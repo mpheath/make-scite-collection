@@ -5,14 +5,16 @@
  <meta charset="utf-8">
  <title>About GlobalTools</title>
  <style>
-  body {background: #383838}
+  body {background: #383838; color: #CCCCCC}
   h1 {color: lightblue; background: #444444; padding: 2px}
   h2 {color: lightblue; padding-top: 30px; font-size: 125%}
-  p {padding-left: 10px; color: #CCCCCC}
+  p {padding-left: 10px}
+  dl {padding-left: 30px}
+  dd {padding-bottom: 7px}
   code, li {color: #CDCDCD}
   pre {border: 1px grey solid; margin-left: 30px; padding: 5px; background: #303030}
   table {margin-left: 40px}
-  td {vertical-align: text-top; padding-right: 10px}
+  td {vertical-align: text-top; padding-right: 25px}
 
   /* unvisited link */
   a:link {color: #BBBBBB; text-decoration: none}
@@ -31,8 +33,8 @@
 <body>
  <h1>About GlobalTools</h1>
 
- <p>ListBox with a list of tools that should work with most any language
- in general. GlobalTools functions can be found in SciTEStartup.lua.</p>
+ <p>ListBox with a list of tools that should work with the editor and most of
+ any language in general. GlobalTools functions can be found in SciTEStartup.lua.</p>
 
  <p>Links:</p>
 
@@ -101,55 +103,56 @@
 
  <p>Backup <i>FilePath</i> to a SQLite database file and access later.</p>
 
- <p>It could be regarded as a simple versioning system as it is similar, though a backup system was chosen to imply that is not to replace a proper versioning system. It is probably something in between as it is not to replace a proper dedicated backup system either. As it is full content backup, it could also be used to store different variations of a file.</p>
+ <p>It could be regarded as a simple versioning system as it is similar,
+ though a backup system was chosen to imply that is not to replace a
+ proper versioning system. It is probably something in between as it
+ is not to replace a proper dedicated backup system either.
+ As it is full content backup, it could also be used to store
+ different variations of a file.</p>
 
- <p>A versioning system is incremental differencing, while this is full content backup. It can be used within a directory based version system like Git without conflict. It can do this as it is only for the target file. It is suitable for temporary backups or can be long term use like a versioning system. The later is inefficient based on the size increase of the database and might be better instead with a proper versioning system.</p>
+ <p>A versioning system is incremental differencing, while this is
+ full content backup. It can be used within a directory based version
+ system like Git without conflict. It can do this as it is only for the
+ target file. It is suitable for temporary backups or can be long term
+ use like a versioning system. The later is inefficient based on the
+ size increase of the database and might be better instead with a
+ proper versioning system.</p>
 
- <p>The database name will be like <code>filename.ext.backups</code> if the target file is named <code>filename.ext</code>.</p>
+ <p>The database name will be like <code>filename.ext.backups</code>
+ if the target file is named <code>filename.ext</code>.</p>
 
  <p>Modes:</p>
 
- <ul>
-  <li>Commit filepath</li>
-  <ul>
-   <li>Read <i>FilePath</i> and insert into the database. The full content is saved as a type blob.</li>
-  </ul>
+ <dl>
+  <dt>Commit filepath</dt>
+  <dd>Read <i>FilePath</i> and insert into the database.
+  The full content is saved as a type blob.</dd>
 
-  <li>Delete any commit</li>
-  <ul>
-   <li>Select any commit to delete that commit. A vacuum operation will occur to reduce the size of the database.</li>
-  </ul>
+  <dt>Delete any commit</dt>
+  <dd>Select any commit to delete that commit.
+  A vacuum operation will occur to reduce the size of the database.</dd>
 
-  <li>Edit the database</li>
-  <ul>
-   <li>Edit the database with an installed DB Browser for SQLite.</li>
-  </ul>
+  <dt>Edit the database</dt>
+  <dd>Edit the database with an installed DB Browser for SQLite.</dd>
 
-  <li>Open any commit</li>
-  <ul>
-   <li>Select any commit to open a new tab and insert the content into the editor pane.</li>
-  </ul>
+  <dt>Open any commit</dt>
+  <dd>Select any commit to open a new tab and insert the content
+  into the editor pane.</dd>
 
-  <li>Print all comments</li>
-  <ul>
-   <li>Print all comments from the database to the output pane.</li>
-  </ul>
+  <dt>Print all comments</dt>
+  <dd>Print all comments from the database to the output pane.</dd>
 
-  <li>Restore any commit to edit pane</li>
-  <ul>
-   <li>Select any commit to clear the content and then insert the content from the commit into the editor pane.</li>
-  </ul>
+  <dt>Restore any commit to edit pane</dt>
+  <dd>Select any commit to clear the content and then insert the
+  content from the commit into the editor pane.</dd>
 
-  <li>Restore any commit to filepath</li>
-  <ul>
-   <li>Select any commit to write the content to <i>FilePath</i>.</li>
-  </ul>
+  <dt>Restore any commit to filepath</dt>
+  <dd>Select any commit to write the content to <i>FilePath</i>.</dd>
 
-  <li>WinMerge any commit</li>
-  <ul>
-   <li>Select any commit to write to a temporary file and compare with <i>FilePath</i> in WinMerge.</li>
-  </ul>
- </ul>
+  <dt>WinMerge any commit</dt>
+  <dd>Select any commit to write to a temporary file and compare
+  with <i>FilePath</i> in WinMerge.</dd>
+ </dl>
 
 
 
@@ -167,7 +170,9 @@
 
  <h2 id="04">ClearBookmarks</h2>
 
- <p>Clear all bookmarks. Does same action as <i>Search -> Clear All Bookmarks</i>
+ <p>Clear all bookmarks.</p>
+
+ <p>Does same action as <i>Search -> Clear All Bookmarks</i>
  from the SciTE editor menu.</p>
 
 
@@ -181,8 +186,10 @@
 
  <h2 id="06">ClearOthermarks</h2>
 
- <p>Clear marks that custom programs may add. The user may not see them unless
- were added by a script.</p>
+ <p>Clear marks that programs may add.</p>
+
+ <p>The user may not see these marks unless were added by a
+ custom script or program.</p>
 
 
 
@@ -251,48 +258,53 @@
 
  <h2 id="15">InsertDate</h2>
 
- <p>Insert date at position of caret. If <code>yyyy-mm-dd</code> pattern with
- digits is selected, the selection will be replaced with current date.</p>
+ <p>Insert date at position of caret.</p>
+
+ <p>If <code>yyyy-mm-dd</code> pattern with digits is selected,
+ the selection will be replaced with current date.</p>
 
 
 
  <h2 id="16">OpenAbbrevFile</h2>
 
- <p>Open a <i>abbrev.properties</i> file which are searched in the subfolders of
- <i>SciteDefaultHome</i>.</p>
+ <p>Open a <i>abbrev.properties</i> file which is searched
+ in the subfolders of <i>SciteDefaultHome</i>.</p>
 
 
 
  <h2 id="17">OpenApiFile</h2>
 
- <p>Open a api file which are searched in <code>"$(SciteDefaultHome)\api"</code>.</p>
+ <p>Open a api file which is searched in
+ <code>"$(SciteDefaultHome)\api"</code>.</p>
 
 
 
  <h2 id="18">OpenChmFile</h2>
 
- <p>Open a chm file which are searched in the subfolders of <i>SciteDefaultHome</i>.
- Some other locations may be searched, example <i>scite.chm</i> in the root of
+ <p>Open a chm file which is searched in the subfolders of
  <i>SciteDefaultHome</i>.</p>
+
+ <p>Some other locations may be searched, example <i>scite.chm</i>
+ in the root of <i>SciteDefaultHome</i>.</p>
 
 
 
  <h2 id="19">OpenFileDir</h2>
 
- <p>Open file directory in a file browser like explorer.</p>
+ <p>Open the file directory in a file browser like explorer.</p>
 
 
 
  <h2 id="20">OpenHtaFile</h2>
 
- <p>Open a hta file which are searched in the subfolders of
- <i>SciteDefaultHome</i>.</p>
+ <p>Open a hta file which is searched in the subfolders
+ of <i>SciteDefaultHome</i>.</p>
 
 
 
  <h2 id="21">OpenLuaExtensionFile</h2>
 
- <p>Open a lua extension file which are searched as <i>extension.lua</i>
+ <p>Open a lua extension file which is searched as <i>extension.lua</i>
  in the subfolders of <i>SciteDefaultHome</i>.</p>
 
 
@@ -317,8 +329,10 @@
 
  <h2 id="25">PrintAsciiTable</h2>
 
- <p>Prints ASCII table to output. Includes Extended ASCII. May need
- to have the codepage set to 0 to show the Extended ASCII correct.</p>
+ <p>Print an ASCII table to the output pane.</p>
+
+ <p>Includes Extended ASCII. May need to have the codepage
+ set to 0 to show the Extended ASCII correct.</p>
 
 
 
@@ -340,6 +354,7 @@
  </ul>
 
 
+
  <h2 id="27">PrintCommentedCodeLines</h2>
 
  <p>Get comment code lines from the editor pane and print to the output pane.</p>
@@ -350,25 +365,27 @@
 
  <h2 id="28">PrintFindText</h2>
 
- <p>Based on <code>http://lua-users.org/wiki/SciteMiscScripts</code></p>
+ <p>Print search results found from selected text or current word.</p>
 
  <p>Like the find and search built into SciTE, except this can print the
  results to the output pane.</p>
+
+ <p>Based on code from <i>http://lua-users.org/wiki/SciteMiscScripts</i></p>
 
 
 
  <h2 id="29">PrintGlobalNames... PrintGlobalTables...</h2>
 
- <p>Print Lua names and tables. Used for viewing and debugging the Lua
- internals which is why it is included as a extended tool for use as it
- is for special use.</p>
+ <p>Print Lua names and tables.</p>
+
+ <p>Used for viewing and debugging the Lua internals which is why it is
+ included as a extended tool for use as it is for special use.</p>
 
 
 
  <h2 id="30">PrintReminders</h2>
 
- <p>Find reminder lines in the edit pane and print them.
- Code concept from RSciTE.</p>
+ <p>Find reminder lines in the edit pane and print to the output pane.</p>
 
  <p>Currently searches for these words with a trailing colon:</p>
 
@@ -380,22 +397,27 @@
   <li><code>todo:</code></li>
  </ul>
 
+ <p>Based on code from RSciTE.</p>
+
 
 
  <h2 id="31">PrintSciteVars</h2>
 
- <p>Print SciTE property variables. By default, prints the standard
- variables defined in <i>SciTEDoc.html</i>. If <i>scitevars.cfg</i> is located
- in <i>SciTEDefaultHome</i>, the file will be read for property variable names
- and will include them. Comment lines starting with <code>;</code> or
- <code>#</code> will be ignored when the file is read.</p>
+ <p>Print SciTE property variables.</p>
+
+ <p>By default, prints the standard variables defined in <i>SciTEDoc.html</i>.
+ If <i>scitevars.cfg</i> is located in <i>SciTEDefaultHome</i>, the file will
+ be read for property variable names and will include them. Comment lines
+ starting with <code>;</code> or <code>#</code> will be ignored when the
+ file is read.</p>
 
 
 
  <h2 id="32">ReplaceSelEscape</h2>
 
- <p>Escapes special characters.
- Currently does api, bat, cmd, hta, html, lua, py, pyw, sql.</p>
+ <p>Escapes certain special characters used in some languages.</p>
+
+ <p>Currently does api, bat, cmd, hta, html, lua, py, pyw, sql.</p>
 
  <p>Escaping in general is very broad, though an example is for html:</p>
 
@@ -463,18 +485,21 @@ item3</pre></code>
 
  <h2 id="37">StartExeFile</h2>
 
- <p>Executables can be added to subfolders, such as Frhed, for reading the
- <i>FilePath</i>. StartExeFile will instead run these executables without
- any arguments.</p>
+ <p>Run executables in the subfolders of <code>SciteDefaultHome</code>.</p>
+
+ <p>Executables can be added to subfolders, such as Frhed.
+ StartExeFile will run these executables without any arguments.</p>
 
 
 
  <h2 id="38">StripTrailingSpaces</h2>
 
- <p>SciTE can be set to strip whitespace characters at end of lines on save.
+ <p>Strip trailing spaces from the current document in the edit pane.</p>
+
+ <p>SciTE can be set to strip whitespace characters at end of lines.
  This tool allows the user to strip the end of lines in the edit pane.
- Can be useful if the property of <i>strip.trailing.spaces</i> is not used
- globally or by the current filepattern.</p>
+ Can be useful if the property of <i>strip.trailing.spaces</i> is not
+ used globally or by the current filepattern.</p>
 
 
 
@@ -486,41 +511,47 @@ item3</pre></code>
 
  <h2 id="40">ToggleDimComments</h2>
 
- <p>Toggle comment colours from normal colour to a lighter colour.
- Dimming may not be useful for general programming though debugging
+ <p>Toggle comment colours from normal colour to a lighter colour.</p>
+
+ <p>Dimming may not be useful for general programming though debugging
  code with dimmed comments may help with focus. Toggles on or off.</p>
 
 
 
  <h2 id="41">ToggleExtendedTools</h2>
 
- <p>Initially, some tools may be not shown in the ListBox, due to not being
+ <p>Toggle the ListBox to show or hide the extended tools.</p>
+
+ <p>Initially, some tools may not be shown in the ListBox, due to not being
  suitable for regular use. This option allows the user to toggle the list by
- reshowing the ListBox with the changes.</p>
+ reshowing the ListBox with or without the extended tools. Toggles on or off.</p>
 
 
 
  <h2 id="42">ToggleHighlightCurrentWord</h2>
 
- <p>Toggle highlight current word at position of caret.
- For distraction free programming, default to off.
+ <p>Toggle highlight current word at position of the caret.</p>
+
+ <p>For distraction free programming, default to off.
  Toggles on or off.</p>
 
 
 
  <h2 id="43">ToggleMonospaceFont</h2>
 
- <p>Toggle with monospace font and proportional font. If <i>font.override</i>
- property has been appended to global font properties, default font is
- monospace. This function allows proportional font.</p>
+ <p>Toggle with monospace font and proportional font.</p>
+
+ <p>If <i>font.override</i> property has been appended to
+ global font properties, default font is monospace.
+ This function allows proportional font.</p>
 
 
 
  <h2 id="44">WinMergeFilePath</h2>
 
- <p>Passes <i>FilePath</i> as 1st argument to WinMerge. As a consequence,
- WinMerge will show the <i>Select Files or Folders dialog</i>. Choose your
- settings and then press the <i>Compare</i> button.</p>
+ <p>Passes <i>FilePath</i> as 1st argument to WinMerge.
+ WinMerge will then show the <i>Select Files or Folders dialog</i>.
+ Choose your settings and then press the <i>Compare</i> button.</p>
 
  <p>WinMerge expected location:&nbsp;
  <code>"%ProgramFiles%\WinMerge\WinMergeU.exe"</code></p>
@@ -529,16 +560,18 @@ item3</pre></code>
 
  <h2 id="45">WinMergeFilePath unsaved</h2>
 
- <p>Passes <i>FilePath</i> as 1st argument to WinMerge. The SciTE edit
- pane is read and saved to a temporary file, and that file is passed as
- the 2nd argument to WinMerge.</p>
+ <p>Compares the edit pane content with <i>FilePath</i> content.</p>
 
- <p>This can be useful if you do not know the difference, especially if
- a messagebox asks to reload shows to determine whether to save or not
- after the reload. If the later is the case, select <i>No</i> to the
- messagebox and then use this tool to compare. <i>File -> Revert</i>
- can be used if <i>FilePath</i> on disk is wanted after the compare
- is done.</p>
+ <p>The edit pane of SciTE is read and saved to a temporary file
+ and is passed as the 1st file argument to WinMerge.
+ The <i>FilePath</i> is passed as the 2nd file argument to WinMerge.</p>
+
+ <p>This can be useful if you do not know the difference between the
+ edit pane content and the file content. Especially if a messagebox asks
+ to reload from file to determine whether to save or not after the reload.
+ If the later is the case, select <i>No</i> to the messagebox and then use
+ this tool to compare. <i>File -> Revert</i> menu item can be used if
+ <i>FilePath</i> on disk is wanted after the compare is done.</p>
 
 </body>
 
