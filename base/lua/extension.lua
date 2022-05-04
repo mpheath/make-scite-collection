@@ -7,12 +7,15 @@ function FunctionHelp()
     local currentword = props['CurrentWord']
     local scitedir = props['SciteDefaultHome']
     local file = assert(io.open(scitedir .. '\\lua\\lua.json'))
+    local t
 
     -- Read the json file.
     if file ~= nil then
-        content = file:read('a')
+        local content = file:read('a')
         file:close()
         t = json.decode(content)
+    else
+        return
     end
 
     -- Show currentword value.
@@ -24,7 +27,7 @@ function FunctionHelp()
     -- Show all keys to select from as alternative.
     local list = {}
 
-    for k, v in pairs(t) do
+    for k in pairs(t) do
         table.insert(list, k)
     end
 
