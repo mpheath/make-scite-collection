@@ -4,6 +4,15 @@
 function OnChar(char)
     -- Event handler for a character added to the editor.
 
+    local function LengthEntered()
+        -- Get the length entered for autocomplete.
+
+        local pos = editor.CurrentPos
+        local startpos = editor:WordStartPosition(pos, true)
+        local len = pos - startpos
+        return len
+    end
+
     -- Get the character style at current position.
     local style = editor.StyleAt[editor:WordStartPosition(editor.CurrentPos, true)]
 
@@ -17,6 +26,7 @@ function OnChar(char)
                     [17]='squote_fstring',
                     [18]='triple_squote_fstring',
                     [19]='triple_dquote_fstring'} do
+
         if style == id then
             return
         end
@@ -29,19 +39,16 @@ function OnChar(char)
 
         -- AutoComplete import module names.
         if string.match(curline, "^%s*import ") then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
             local names = props['substylewords.11.1.$(file.patterns.py)']
-            editor:AutoCShow(len, names)
+
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
             return true
         end
 
         -- AutoComplete exception names.
         if string.match(curline, "^%s*except ") then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
+
             local names = props['keywordclass1.python3']
 
             if names ~= '' then
@@ -55,7 +62,8 @@ function OnChar(char)
 
                 names = table.concat(filtered, ' ')
 
-                editor:AutoCShow(len, names)
+                local length = LengthEntered()
+                editor:AutoCShow(length, names)
                 return true
             end
         end
@@ -66,12 +74,7 @@ function OnChar(char)
         local match
 
         -- AutoComplete variable name file [rw] methods.
-        match = nil
-
         if string.match(curline, '%f[%w][rw]%.\r?\n?$') then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
 
             local names = 'buffer close closed detach encoding errors ' ..
                           'fileno flush isatty line_buffering mode name ' ..
@@ -79,12 +82,51 @@ function OnChar(char)
                           'reconfigure seek seekable tell truncate ' ..
                           'writable write write_through writelines'
 
-            editor:AutoCShow(len, names)
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
+            return true
+        end
+
+        -- AutoComplete variable name file re methods.
+        if string.match(curline, '%f[%w](re_%w+)%.\r?\n?$') then
+
+            local names = 'findall finditer flags fullmatch ' ..
+                          'groupindex groups match pattern ' ..
+                          'scanner search split sub subn'
+
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
+            return true
+        end
+
+        -- AutoComplete variable name file subprocess.Popen methods.
+        if string.match(curline, '%f[%w][p]%.\r?\n?$') then
+
+            local names = 'args communicate encoding errors kill pid poll ' ..
+                          'returncode send_signal stderr stdin stdout ' ..
+                          'terminate text_mode universal_newlines wait'
+
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
+            return true
+        end
+
+        -- AutoComplete variable name file zipfile.Zipfile methods.
+        if string.match(curline, '%f[%w][z]%.\r?\n?$') then
+
+            local names = 'NameToInfo close comment compression ' ..
+                          'compresslevel debug extract extractall ' ..
+                          'filelist filename fp getinfo infolist ' ..
+                          'mode namelist open printdir pwd read ' ..
+                          'setpassword start_dir testzip write writestr'
+
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
             return true
         end
 
         -- AutoComplete variable name dict methods.
-        match = nil
+        match = false
 
         for _, word in pairs{'dic', 'settings'} do
             if string.match(curline, '%f[%w]' .. word .. '%.\r?\n?$') then
@@ -94,19 +136,16 @@ function OnChar(char)
         end
 
         if match then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
-
             local names = 'clear copy fromkeys get items keys ' ..
                           'pop popitem setdefault update values'
 
-            editor:AutoCShow(len, names)
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
             return true
         end
 
         -- AutoComplete variable name list methods.
-        match = nil
+        match = false
 
         for _, word in pairs{'items', 'texts', 'contents', 'lines'} do
             if string.match(curline, '%f[%w]' .. word .. '%.\r?\n?$') then
@@ -116,19 +155,16 @@ function OnChar(char)
         end
 
         if match then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
-
             local names = 'append clear copy count extend ' ..
                           'index insert pop remove reverse sort'
 
-            editor:AutoCShow(len, names)
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
             return true
         end
 
         -- AutoComplete literal or variable name number methods.
-        match = nil
+        match = false
 
         for _, word in pairs{'count', 'idx', 'index', 'integer', 'number'} do
             if string.match(curline, '%f[%w]' .. word .. '%.\r?\n?$') then
@@ -137,20 +173,18 @@ function OnChar(char)
             end
         end
 
-        if match or string.match(curline, "[0-9]%.\r?\n?$") then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
+        if match or string.match(curline, "%f[%w]([0-9]+)%.\r?\n?$") then
 
             local names = 'as_integer_ratio bit_length conjugate denominator ' ..
                           'from_bytes imag numerator real to_bytes'
 
-            editor:AutoCShow(len, names)
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
             return true
         end
 
         -- AutoComplete literal or variable name string methods.
-        match = nil
+        match = false
 
         for _, word in pairs{'item', 'text', 'content', 'line'} do
             if string.match(curline, '%f[%w]' .. word .. '%.\r?\n?$') then
@@ -160,9 +194,6 @@ function OnChar(char)
         end
 
         if match or string.match(curline, "['\"]%.\r?\n?$") then
-            local pos = editor.CurrentPos
-            local startpos = editor:WordStartPosition(pos, true)
-            local len = pos - startpos
 
             local names = 'capitalize casefold center count encode endswith ' ..
                           'expandtabs find format format_map index isalnum ' ..
@@ -174,14 +205,15 @@ function OnChar(char)
                           'split splitlines startswith strip swapcase ' ..
                           'title translate upper zfill'
 
-            editor:AutoCShow(len, names)
+            local length = LengthEntered()
+            editor:AutoCShow(length, names)
             return true
         end
     end
 end
 
 
-function OnKey(keycode, shift, ctrl, alt)
+function OnKey(keycode)
     -- Event handler for a keycode.
 
     -- On Enter key.
