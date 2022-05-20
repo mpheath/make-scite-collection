@@ -1,7 +1,29 @@
 -- About: https://github.com/robertorossi73/rscite/
 
+
+-- MsgBox constants.
+IDCANCEL = 0x2
+IDNO = 0x7
+IDOK = 0x1
+IDYES = 0x6
+MB_DEFBUTTON1 = 0x0
+MB_DEFBUTTON2 = 0x100
+MB_DEFBUTTON3 = 0x200
+MB_ICONERROR = 0x10
+MB_ICONINFORMATION = 0x40
+MB_ICONQUESTION = 0x20
+MB_ICONWARNING = 0x30
+MB_OK = 0x0
+MB_OKCANCEL = 0x1
+MB_YESNO = 0x4
+MB_YESNOCANCEL = 0x3
+
+
+-- DLL filename.
 local rwfx_NameDLL = 'rluawfx-en.dll'
 
+-- Load functions from the DLL.
+local rwfx_GetColorDlg = package.loadlib(rwfx_NameDLL, 'c_GetColorDlg')
 local rwfx_ListBox = package.loadlib(rwfx_NameDLL, 'c_ListDlg')
 local rwfx_MsgBox = package.loadlib(rwfx_NameDLL, 'c_MsgBox')
 local rwfx_InputBox = package.loadlib(rwfx_NameDLL, 'c_InputBox')
@@ -11,6 +33,20 @@ local rwfx_Sleep = package.loadlib(rwfx_NameDLL, 'c_Sleep')
 
 -- Warning to show once per instance.
 local Warning_SendCmdScite = true
+
+
+function ColourDialog()
+    -- Show a colour selection dialog box gui.
+
+    local colour = rwfx_GetColorDlg()
+
+    if colour then
+        local hex = string.gsub(string.format('%06X', colour),
+                                              '(%x%x)(%x%x)(%x%x)',
+                                              '%3%2%1')
+        return '#' .. hex
+    end
+end
 
 
 function InputBox(prompt, title, msg)
