@@ -214,7 +214,7 @@ local function BackupFilePath()
         os.execute(command)
     end
 
-    local function SelectDatabaseItem()
+    local function SelectDatabaseItem(index, total)
         -- Show ListBox and return the selected rowid and comment.
 
         -- Get the rowids and the comments.
@@ -239,7 +239,18 @@ local function BackupFilePath()
         end
 
         -- Select item from the ListBox to return the rowid and comment.
-        local result = ListBox(comments, 'Select the commit', #comments - 1)
+        local title = 'Select the commit'
+
+        if total ~= nil and total > 1 then
+            for k, v in pairs({'1st', '2nd', '3rd'}) do
+                if index == k then
+                    title = string.format('Select the %s of %s commits', v, total)
+                    break
+                end
+            end
+        end
+
+        local result = ListBox(comments, title, #comments - 1)
 
         if result ~= nil then
             return rowids[result + 1], comments[result + 1]
@@ -253,8 +264,7 @@ local function BackupFilePath()
                   'Edit the database',
                   'Open any commit',
                   'Print all comments',
-                  'Restore any commit to edit pane',
-                  'Restore any commit to filepath',
+                  'Restore any commit',
                   'WinMerge any commit'}
 
     if not os.path.exist(dbfile) then
@@ -268,6 +278,31 @@ local function BackupFilePath()
     end
 
     local mode = string.lower(list[result + 1])
+
+    -- Show lists with multiple modes.
+    if mode == 'restore any commit'
+    or mode == 'winmerge any commit' then
+
+        if mode == 'restore any commit' then
+            list = {'Restore any commit to edit pane',
+                    'Restore any commit to filepath'}
+        elseif mode == 'winmerge any commit' then
+            list = {'WinMerge any commit with any commit',
+                    'WinMerge any commit with any commit 3-way',
+                    'WinMerge any commit with any filepath',
+                    'WinMerge any commit with any filepath 3-way',
+                    'WinMerge any commit with filepath',
+                    'WinMerge any commit with filepath 3-way'}
+        end
+
+        result = ListBox(list, 'Select the mode')
+
+        if result == nil then
+            return
+        end
+
+        mode = string.lower(list[result + 1])
+    end
 
     if mode == 'commit filepath' then
 
@@ -460,36 +495,65 @@ local function BackupFilePath()
 
         os.execute(command)
 
-    elseif mode == 'winmerge any commit' then
+    elseif string.match(mode, '^winmerge any commit') then
 
         -- Set path to WinMerge.
         local app = GlobalSettings['paths']['winmerge']
 
-        -- Get the rowid and the comment.
-        local rowid, comment = SelectDatabaseItem()
+        -- Set number of tmpfiles and set filepath value.
+        local tmpfilecount = 1
 
-        if rowid == nil then
-            return
+        if mode ~= 'winmerge any commit' then
+            local text = string.match(mode, '^winmerge any commit with (.+)$')
+
+            for k, v in pairs({['any commit'        ] = {2, nil     },
+                               ['any commit 3-way'  ] = {3, nil     },
+                               ['any filepath'      ] = {1, ''      },
+                               ['any filepath 3-way'] = {2, ''      },
+                               ['filepath'          ] = {1, filepath},
+                               ['filepath 3-way'    ] = {2, filepath}}) do
+                if k == text then
+                    tmpfilecount, filepath = v[1], v[2]
+                    break
+                end
+            end
         end
 
-        if string.len(comment) > 40 then
-            comment = string.sub(comment, 1, 37) .. '...'
+        -- Get tmpfile names and comments and write the tmpfiles.
+        local comments = {}
+        local tmpfiles = {}
+
+        for i = 1, tmpfilecount do
+
+            -- Get the rowid and the comment.
+            local rowid, comment = SelectDatabaseItem(i, tmpfilecount)
+
+            if rowid == nil then
+                return
+            end
+
+            if string.len(comment) > 40 then
+                comment = string.sub(comment, 1, 37) .. '...'
+            end
+
+            -- Write the text to a temporary file.
+            local tmpfile = os.tmpname()
+
+            if string.sub(tmpfile, 1, 1) == '\\' then
+                tmpfile = os.getenv('TEMP') .. tmpfile
+            end
+
+            table.insert(tmpfiles, tmpfile)
+            table.insert(comments, comment)
+
+            local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                            '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
+                            'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+
+            os.execute(command)
         end
 
-        -- Write the text to a temporary file.
-        local tmpfile = os.tmpname()
-
-        if string.sub(tmpfile, 1, 1) == '\\' then
-            tmpfile = os.getenv('TEMP') .. tmpfile
-        end
-
-        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
-                        '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
-                        'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
-
-        os.execute(command)
-
-        -- Build file extension argument.
+        -- Build the file extension argument.
         local fileext = props['FileExt']
         local fileext_arg = ''
 
@@ -497,12 +561,30 @@ local function BackupFilePath()
             fileext_arg = '/fileext "' .. fileext .. '" '
         end
 
-        -- Build command to diff the file with the temporary file.
-        command = '"' .. app .. '" /u /wl ' ..
-                  fileext_arg ..
-                  '/dl "' .. comment .. '" ' ..
-                  '"' .. tmpfile .. '" "' .. filepath .. '" ' ..
-                  '& del "' .. tmpfile .. '"'
+        -- Build the command to diff the files.
+        local command = '"' .. app .. '" /u ' .. fileext_arg ..
+                        '/dl "' .. comments[1] .. '" ' ..
+                        '/wl "' .. tmpfiles[1] .. '" '
+
+        if filepath then
+            command = command .. '"' .. filepath .. '" '
+        end
+
+        local args = {{'/dr', '/wr'}, {'/dm', '/wm'}}
+
+        for i = 2, #tmpfiles do
+            local v = args[#tmpfiles + 1 - i]
+
+            command = command ..
+                      string.format('%s "%s" %s "%s" ',
+                                    v[1], comments[i], v[2], tmpfiles[i])
+        end
+
+        for i = 1, #tmpfiles do
+            command = command .. string.format('&del "%s" ', tmpfiles[i])
+        end
+
+        command = string.sub(command, 1, -2)
 
         -- Run WinMerge.
         os.execute('start "" /b cmd /s /c "' .. command .. '"')
