@@ -249,6 +249,7 @@ local function BackupFilePath()
     -- Select mode from the list box.
     local list = {'Commit filepath',
                   'Delete any commit',
+                  'Delete the database',
                   'Edit the database',
                   'Open any commit',
                   'Print all comments',
@@ -341,6 +342,22 @@ local function BackupFilePath()
                         tostring(rowid) .. ';VACUUM""'
 
         os.execute(command)
+
+    elseif mode == 'delete the database' then
+
+        -- Get confirmation.
+        if MsgBox('Delete the database?', 'BackupFilePath', MB_ICONQUESTION|
+                                                            MB_DEFBUTTON2|
+                                                            MB_YESNO) == IDNO then
+            return
+        end
+
+        -- Delete the database.
+        local ok, err = os.remove(dbfile)
+
+        if not ok then
+            MsgBox(err, 'BackupFilePath', MB_ICONWARNING)
+        end
 
     elseif mode == 'edit the database' then
 
