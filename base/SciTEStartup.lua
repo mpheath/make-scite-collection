@@ -193,12 +193,12 @@ local function BackupFilePath()
 
     -- Validate.
     if filepath == '' then
-        print('Require a FilePath.')
+        MsgBox('Require a FilePath.', 'BackupFilePath', MB_ICONWARNING)
         return
     end
 
     if props['FileNameExt'] == '' then
-        print('Require a FileNameExt.')
+        MsgBox('Require a FileNameExt.', 'BackupFilePath', MB_ICONWARNING)
         return
     end
 
@@ -289,7 +289,7 @@ local function BackupFilePath()
         comment = string.gsub(comment, '^%s*(.-)%s*$', '%1')
 
         if comment == '' then
-            print('Commit comment cannot be empty')
+            MsgBox('Commit comment cannot be empty', 'BackupFilePath', MB_ICONWARNING)
             return
         end
 
@@ -315,18 +315,27 @@ local function BackupFilePath()
 
     -- Check if database file exist.
     if not os.path.exist(dbfile) then
-        print('The database file does not exist.')
+        MsgBox('The database file does not exist.', 'BackupFilePath', MB_ICONWARNING)
         return
     end
 
     if mode == 'delete any commit' then
 
+        -- Select the commit.
         local rowid = SelectDatabaseItem()
 
         if rowid == nil then
             return
         end
 
+        -- Get confirmation.
+        if MsgBox('Delete the commit?', 'BackupFilePath', MB_ICONQUESTION|
+                                                          MB_DEFBUTTON2|
+                                                          MB_YESNO) == IDNO then
+            return
+        end
+
+        -- Delete the commit.
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"DELETE FROM main WHERE rowid = ' ..
                         tostring(rowid) .. ';VACUUM""'
@@ -371,7 +380,7 @@ local function BackupFilePath()
             if editor:GetText() == '' then
                 editor:SetText(text)
             else
-                print('Not recognized as a empty pane.')
+                MsgBox('Not recognized as a empty pane.', 'BackupFilePath', MB_ICONWARNING)
             end
         end
 
@@ -414,7 +423,7 @@ local function BackupFilePath()
             if editor:GetText() == '' then
                 editor:SetText(text)
             else
-                print('Not recognized as a empty pane.')
+                MsgBox('Not recognized as a empty pane.', 'BackupFilePath', MB_ICONWARNING)
             end
         end
 
@@ -524,12 +533,12 @@ local function DiffFileNameExt()
 
     -- Validate.
     if filenameext == '' then
-        print('Require a FileNameExt.')
+        MsgBox('Require a FileNameExt.', 'DiffFileNameExt', MB_ICONWARNING)
         return
     end
 
     if filedir == '' then
-        print('Require a FileDir.')
+        MsgBox('Require a FileDir.', 'DiffFileNameExt', MB_ICONWARNING)
         return
     end
 
@@ -568,7 +577,7 @@ local function DiffFileNameExt()
 
         return
     else
-        print('No repo files found.')
+        MsgBox('No repo files found.', 'DiffFileNameExt', MB_ICONWARNING)
     end
 end
 
@@ -580,19 +589,15 @@ local function EskilFilePath()
 
     -- Validate.
     if filepath == '' then
-        print('Require a filepath.')
+        MsgBox('Require a filepath.', 'EskilFilePath', MB_ICONWARNING)
         return
     end
 
     -- Run Eskil.
-    if os.path.sep == '\\' then
-        local app = GlobalSettings['paths']['eskil']
-        local command = 'start "" "' .. app .. '" "' .. filepath .. '"'
+    local app = GlobalSettings['paths']['eskil']
+    local command = 'start "" "' .. app .. '" "' .. filepath .. '"'
 
-        os.execute(command)
-    else
-        print('No command set for this operating system.')
-    end
+    os.execute(command)
 end
 
 
@@ -603,19 +608,15 @@ local function FrhedFilePath()
 
     -- Validate.
     if filepath == '' then
-        print('Require a filepath.')
+        MsgBox('Require a filepath.', 'FrhedFilePath', MB_ICONWARNING)
         return
     end
 
     -- Run Frhed.
-    if os.path.sep == '\\' then
-        local app = GlobalSettings['paths']['frhed']
-        local command = 'start "" "' .. app .. '" "' .. filepath .. '"'
+    local app = GlobalSettings['paths']['frhed']
+    local command = 'start "" "' .. app .. '" "' .. filepath .. '"'
 
-        os.execute(command)
-    else
-        print('No command set for this operating system.')
-    end
+    os.execute(command)
 end
 
 
@@ -741,14 +742,7 @@ local function OpenFileDir()
     -- Open the current files directory.
 
     local filedir = props['FileDir']
-
-    if os.path.sep == '\\' then
-
-        -- This command is for Windows.
-        os.execute('explorer "' .. filedir .. '"')
-    else
-        print('No command set for this operating system.')
-    end
+    os.execute('explorer "' .. filedir .. '"')
 end
 
 
@@ -903,13 +897,21 @@ local function PrintCommentLines(mode)
     local text = editor:GetText()
     local fileext = props['FileExt']
 
+    -- Set the title.
+    local title = 'PrintCommentLines'
+
+    if mode == 'code' then
+        title = 'PrintCodeCommentLines'
+    end
+
+    -- Check if valid.
     if text == nil or text == '' then
-        print('No editor text.')
+        MsgBox('No editor text.', title, MB_ICONWARNING)
         return
     end
 
     if fileext == '' then
-        print('No file extension.')
+        MsgBox('No file extension.', title, MB_ICONWARNING)
         return
     end
 
@@ -927,7 +929,7 @@ local function PrintCommentLines(mode)
     local pattern = chars[fileext]
 
     if pattern == nil then
-        print('No comment pattern.')
+        MsgBox('No comment pattern.', title, MB_ICONWARNING)
         return
     end
 
@@ -1000,7 +1002,7 @@ local function PrintFindText()
     end
 
     if findtext == '' then
-        print('No text to find.')
+        MsgBox('No text to find.', 'PrintFindText', MB_ICONWARNING)
         return
     end
 
@@ -1377,7 +1379,8 @@ local function ReplaceSelEscape()
         text = string.gsub(text, "'", "''")
 
     else
-        print('The filetype .' .. fileext .. ' is not set for escaping.')
+        MsgBox('The filetype .' .. fileext .. ' is not set for escaping.',
+               'ReplaceSelEscape', MB_ICONWARNING)
         return
     end
 
@@ -1392,11 +1395,7 @@ local function ReplaceSelSortLines()
     local text = editor:GetSelText()
 
     if text == '' then
-        print('Select lines to sort.\n\n' ..
-              'Example:\n' ..
-              '  item3\n  item1\n  item2\n\n' ..
-              'changes to:\n' ..
-              '  item1\n  item2\n  item3')
+        MsgBox('No text selected.', 'ReplaceSelSortLines', MB_ICONWARNING)
         return
     end
 
@@ -1404,7 +1403,7 @@ local function ReplaceSelSortLines()
     local sep = string.match(text, '\r?\n')
 
     if sep == nil then
-        print('No line separator.')
+        MsgBox('No line separator.', 'ReplaceSelSortLines', MB_ICONWARNING)
         return
     end
 
@@ -1438,11 +1437,7 @@ local function ReplaceSelSortList()
 
     -- Check if string is empty.
     if text == '' then
-        print('Select a list to wrap.\n\n' ..
-              'Example:\n' ..
-              '  ["item3", "item1", "item2"]\n\n' ..
-              'changes to:\n' ..
-              '  ["item1", "item2", "item3"]')
+        MsgBox('No text selected.', 'ReplaceSelSortList', MB_ICONWARNING)
         return
     end
 
@@ -1507,13 +1502,7 @@ local function ReplaceSelWrapList()
 
     -- Check if string is empty.
     if text == '' then
-        print('Select a list to wrap.\n\n' ..
-              'Example:\n' ..
-              '  ["item1", "item2", "item3"]\n\n' ..
-              'changes to:\n' ..
-              '  ["item1",\n' ..
-              '   "item2",\n' ..
-              '   "item3"]')
+        MsgBox('No text selected.', 'ReplaceSelSortList', MB_ICONWARNING)
         return
     end
 
@@ -1669,7 +1658,7 @@ local function StripTrailingSpaces()
 
     local report_nomatch = false
     local count = 0
-    local fs, fe = editor:findtext("[ \\t]+$", SCFIND_REGEXP)
+    local fs, fe = editor:findtext('[ \\t]+$', SCFIND_REGEXP)
 
     if fe then
         editor:BeginUndoAction()
@@ -1677,14 +1666,16 @@ local function StripTrailingSpaces()
         repeat
             count = count + 1
             editor:remove(fs, fe)
-            fs, fe = editor:findtext("[ \\t]+$", SCFIND_REGEXP, fs)
+            fs, fe = editor:findtext('[ \\t]+$', SCFIND_REGEXP, fs)
         until not fe
 
         editor:EndUndoAction()
 
-        print("Removed trailing spaces from " .. count .. " line(s).")
+        MsgBox('Removed trailing spaces from ' .. count .. ' line(s).',
+               'StripTrailingSpaces', MB_ICONINFORMATION)
     elseif report_nomatch then
-        print("Document was clean already; nothing to do.")
+        MsgBox('Document was clean already; nothing to do.',
+               'StripTrailingSpaces', MB_ICONINFORMATION)
     end
 end
 
@@ -1799,7 +1790,7 @@ local function ToggleMonospaceFont()
 
         -- Set font.override to monospace.
         if props['font.override'] == '' then
-           props['font.override'] = props['font.monospace']
+            props['font.override'] = props['font.monospace']
         end
     end
 end
@@ -1824,7 +1815,7 @@ local function UserContextMenu()
             if props['command.name.48.*'] ~= 'DebugPrintSelection' then
                 props['command.name.48.*'] = 'DebugPrintSelection'
                 props['command.shortcut.48.*'] = 'Alt+D'
-                SendCmdScite('reloadproperties:')
+                scite.ReloadProperties()
             end
         end
     else
@@ -1834,7 +1825,7 @@ local function UserContextMenu()
             if props['command.name.48.*'] == 'DebugPrintSelection' then
                 props['command.name.48.*'] = nil
                 props['command.shortcut.48.*'] = nil
-                SendCmdScite('reloadproperties:')
+                scite.ReloadProperties()
             end
         end
     end
@@ -1849,7 +1840,7 @@ local function WinMergeFilePath(mode)
 
     -- Validate.
     if filepath == '' then
-        print('Require a filepath.')
+        MsgBox('Require a filepath.', 'WinMergeFilePath', MB_ICONWARNING)
         return
     end
 
@@ -1863,7 +1854,7 @@ local function WinMergeFilePath(mode)
             local text = editor:GetText()
 
             if text == nil or text == '' then
-                print('No editor text.')
+                MsgBox('No editor text.', 'WinMergeFilePath unsaved', MB_ICONWARNING)
                 return
             end
 
@@ -1880,7 +1871,7 @@ local function WinMergeFilePath(mode)
             local file = io.open(tmpfile, 'w')
 
             if file == nil then
-                print('No file handle to write.')
+                MsgBox('No file handle to write.', 'WinMergeFilePath unsaved', MB_ICONWARNING)
                 return
             end
 
@@ -1907,8 +1898,6 @@ local function WinMergeFilePath(mode)
                 print(err)
             end
         end
-    else
-        print('No command set for this operating system.')
     end
 end
 
@@ -1930,7 +1919,7 @@ function DebugPrintSelection()
     end
 
     if text == '' then
-        print('No selected text.')
+        MsgBox('No selected text.', 'DebugPrintSelection', MB_ICONWARNING)
         return
     end
 
@@ -2218,8 +2207,8 @@ function OnBeforeSave()
             if MsgBox('The setting ensure.final.line.end may have caused an ' ..
                       'insertion of a newline sequence into a blank document.\n\n' ..
                       'Do you want the document to be cleared before ' ..
-                      'the save to file?', 'Sc1', 0x24) == 6 then
-
+                      'the save to file?', 'OnBeforeSave', MB_ICONQUESTION|
+                                                           MB_YESNO) == IDYES then
                 editor:ClearAll()
             end
         end
