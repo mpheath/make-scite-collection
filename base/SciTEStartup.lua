@@ -2062,6 +2062,19 @@ function GlobalTools()
         list['EskilFilePath'] = EskilFilePath
     end
 
+    if editor:CanUndo() or editor:CanRedo() then
+        list['EmptyUndoBuffer']   = function()
+                                        if MsgBox('Are you sure?',
+                                                  'EmptyUndoBuffer',
+                                                  MB_ICONQUESTION|
+                                                  MB_DEFBUTTON2|
+                                                  MB_YESNO) == IDYES then
+
+                                            editor:EmptyUndoBuffer()
+                                        end
+                                    end
+    end
+
     if os.path.exist(GlobalSettings['paths']['frhed']) then
         list['FrhedFilePath'] = function()
                                     FrhedFilePath()
