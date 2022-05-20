@@ -55,6 +55,113 @@ GlobalSettings = {
 -- Common functions.
 -- Must be at top to be accessible to other functions.
 
+Buffer = (function()
+    -- Provides a buffer table with a key for each filepath.
+
+    local function GetFilePath()
+        -- Return empty string on fail, to be consistent with props.
+
+        -- Get the current filepath.
+        local filepath = props['FilePath']
+
+        if filepath == '' then
+            return ''
+        end
+
+        -- Reject if filepath ends with a trailing back\slash.
+        if string.find(filepath, '[/\\]$') ~= nil then
+            return ''
+        end
+
+        return filepath
+    end
+
+    return {
+        buffer = {},
+
+        add = function(self)
+            -- Buffer:add()
+
+            local filepath = GetFilePath()
+
+            if filepath == '' then
+                return
+            end
+
+            if self.buffer[filepath] == nil then
+                self.buffer[filepath] = {}
+                return true
+            end
+        end,
+
+        get = function(self, key)
+            -- Buffer:get([key])
+
+            local filepath = GetFilePath()
+
+            if filepath == '' or self.buffer[filepath] == nil then
+                return
+            end
+
+            if key then
+                return self.buffer[filepath][key]
+            else
+                return self.buffer[filepath]
+            end
+        end,
+
+        has_strip = function(self)
+            -- Buffer:has_strip()
+
+            local filepath = GetFilePath()
+
+            if filepath == '' or self.buffer[filepath] == nil then
+                return
+            end
+
+            for k in pairs(self.buffer[filepath]) do
+                if string.find(k, '^strip_') ~= nil then
+                    return true
+                end
+            end
+        end,
+
+        insert = function(self, key, value)
+            -- Buffer:insert(key, value)
+
+            local filepath = GetFilePath()
+
+            if filepath == '' or self.buffer[filepath] == nil then
+                return
+            end
+
+            if value ~= nil then
+                self.buffer[filepath][key] = value
+                return true
+            end
+        end,
+
+        remove = function(self, key)
+            -- Buffer:remove([key])
+
+            local filepath = GetFilePath()
+
+            if filepath == '' or self.buffer[filepath] == nil then
+                return
+            end
+
+            if key then
+                self.buffer[filepath][key] = nil
+            else
+                self.buffer[filepath] = nil
+            end
+
+            return true
+        end
+    }
+end)()
+
+
 local _ = (function()
     -- Set autoit3dir (home of AutoIt3.exe) if not already set.
     -- Search for AutoIt3.exe in this order:
@@ -190,6 +297,18 @@ local function Run(command, execute)
 end
 
 
+local function ShowStrip()
+    -- Show a strip at the bottom of the pane.
+
+    local edit_commit = Buffer:get('strip_edit_commit')
+
+    if edit_commit then
+        scite.StripShow("'Comment:'[](?)(Com&pare)(Co&mmit)(&Cancel)")
+        scite.StripSet(1, edit_commit['comment'])
+    end
+end
+
+
 -- GlobalTools related functions.
 -- Must be above the GlobalTools function.
 
@@ -270,6 +389,7 @@ local function BackupFilePath()
     local list = {'Commit filepath',
                   'Delete any commit',
                   'Delete the database',
+                  'Edit any commit',
                   'Edit the database',
                   'Open any commit',
                   'Print all comments',
@@ -402,6 +522,46 @@ local function BackupFilePath()
         if not ok then
             MsgBox(err, 'BackupFilePath', MB_ICONWARNING)
         end
+
+    elseif mode == 'edit any commit' then
+
+        -- Select the commit.
+        local rowid, comment = SelectDatabaseItem()
+
+        if rowid == nil then
+            return
+        end
+
+        -- Write the commit to a temporary file and open it for editing.
+        local tmpfile = os.tmpname()
+
+        if string.sub(tmpfile, 1, 1) == '\\' then
+            tmpfile = os.getenv('TEMP') .. tmpfile
+        end
+
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
+                        '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
+                        'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+
+        os.execute(command)
+
+        -- Get the file extension.
+        local fileext = props['FileExt']
+
+        -- Open the tmpfile and show the strip.
+        scite.Open(tmpfile)
+
+        -- Record the details to pass to the strip.
+        Buffer:insert('strip_edit_commit', {['sqlite'] = sqlite,
+                                            ['dbfile'] = dbfile,
+                                            ['rowid'] = rowid,
+                                            ['comment'] = comment,
+                                            ['tmpfile'] = tmpfile,
+                                            ['filepath'] = filepath,
+                                            ['fileext'] = fileext})
+
+        Buffer:insert('tmpfile', true)
+        ShowStrip()
 
     elseif mode == 'edit the database' then
 
@@ -3112,6 +3272,10 @@ end
 function OnBeforeSave()
     -- Event handler for about to save file.
 
+    -- Add a buffer table for filepath.
+    -- Untitled buffers get a table if saved.
+    Buffer:add()
+
     -- Check if ensure final line end setting is enabled.
     if props['ensure.final.line.end'] == '1' then
 
@@ -3134,16 +3298,180 @@ function OnBeforeSave()
 end
 
 
+function OnClose(filepath)
+    -- Event handler for the current closing file.
+
+    -- Can be an empty string at startup.
+    if filepath == '' or filepath == nil then
+        return
+    end
+
+    -- Remove tmpfile and the filepath key.
+    if Buffer:get('tmpfile') then
+        os.remove(filepath)
+    end
+
+    Buffer:remove()
+end
+
+
 function OnOpen()
     -- Event handler for opening a file tab.
+
+    -- Add a buffer table for filepath.
+    Buffer:add()
+
+    -- Close strip if no strip data.
+    if not Buffer:has_strip() then
+        scite.StripShow('')
+    end
 
     -- Update the context menu.
     UserContextMenu()
 end
 
 
+function OnStrip(control, change)
+    -- Event handler for strips.
+
+    -- Close strip if no strip data.
+    if not Buffer:has_strip() then
+        scite.StripShow('')
+        return
+    end
+
+    -- Set names for the events.
+    local changetype = {'click', 'change', 'focusin', 'focusout'}
+
+    -- Get all of the strips data.
+    local edit_commit = Buffer:get('strip_edit_commit')
+
+    -- Handle an event from BackupFilePath().
+    if edit_commit then
+
+        -- Set names for the controls.
+        local controltype = {'comment', '?', 'compare', 'commit', 'cancel'}
+
+        -- Only handle the click event.
+        if changetype[change] ~= 'click' then
+            return
+        end
+
+        -- ? button clicked.
+        if controltype[control] == '?' then
+            local text = ''
+            local t = {}
+
+            for k in pairs(edit_commit) do
+                table.insert(t, k)
+            end
+
+            table.sort(t)
+
+            for i = 1, #t do
+                text = text .. t[i] .. ': ' .. edit_commit[ t[i] ] .. '\n\n'
+            end
+
+            text = string.sub(text, 1, -3)
+            MsgBox(text, 'Information')
+            return
+        end
+
+        -- Compare button clicked.
+        if controltype[control] == 'compare' then
+
+            -- Set path to WinMerge.
+            local winmerge = GlobalSettings['paths']['winmerge']
+
+            if not winmerge then
+                MsgBox('Path for WinMerge not set.', 'Compare', MB_ICONWARNING)
+                return
+            end
+
+            -- Build the file extension argument.
+            local fileext = edit_commit['fileext']
+            local fileext_arg = ''
+
+            if fileext ~= '' then
+                fileext_arg = '/fileext "' .. fileext .. '" '
+            end
+
+            -- Build the command to diff the files.
+            local command = '"' .. winmerge .. '" /u ' .. fileext_arg ..
+                            '/wl "' .. edit_commit['filepath'] .. '" ' ..
+                            '"' .. edit_commit['tmpfile'] .. '"'
+
+            -- Run WinMerge.
+            os.execute('start "" /b cmd /s /c "' .. command .. '"')
+
+            return
+        end
+
+        -- Commit button clicked.
+        if controltype[control] == 'commit' then
+
+            -- Get the comment.
+            local comment = string.gsub(scite.StripValue(1), "'", "''")
+            comment = string.match(comment, '^%s*(.-)%s*$')
+
+            if comment == nil or comment == '' then
+                MsgBox('Invalid commit comment', 'Commit', MB_ICONWARNING)
+                return
+            end
+
+            -- Insert the modified tmpfile into the database.
+            local command = '""' .. edit_commit['sqlite'] .. '" ' ..
+                            '"' .. edit_commit['dbfile'] .. '" ' ..
+                            '"UPDATE main ' ..
+                            "SET comment='" .. comment .. "'," ..
+                            'content=' ..
+                            'readfile(\'' .. edit_commit['tmpfile'] .. '\') ' ..
+                            'WHERE rowid = ' .. edit_commit['rowid'] .. '""'
+
+            -- Get filename only for dbfile for the following message.
+            local dbfile = string.match(edit_commit['dbfile'], '[^\\/]-$')
+
+            if not dbfile then
+                dbfile = edit_commit['dbfile']
+            end
+
+            -- Get confirmation.
+            local text = 'Database: "' .. dbfile .. '"\r\n\r\n' ..
+                         'Commit the update?'
+
+            if MsgBox(text, 'Commit', MB_ICONQUESTION|
+                                      MB_DEFBUTTON2|
+                                      MB_YESNO) == IDYES then
+                os.execute(command)
+            else
+                return
+            end
+        end
+
+        -- Close the strip.
+        scite.StripShow('')
+        Buffer:remove('strip_edit_commit')
+
+        -- Close the tmpfile tab.
+        if Buffer:get('tmpfile') then
+            scite.MenuCommand(IDM_CLOSE)
+        end
+    end
+end
+
+
 function OnSwitchFile()
     -- Event handler for switching file tab.
+
+    -- Add a buffer table for filepath.
+    Buffer:add()
+
+    -- Set strip show state.
+    if Buffer:has_strip() then
+        ShowStrip()
+    else
+        scite.StripShow('')
+    end
 
     -- Update the context menu.
     UserContextMenu()
