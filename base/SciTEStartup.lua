@@ -1044,6 +1044,63 @@ local function OpenHtaFile()
 end
 
 
+local function OpenTempFile()
+    -- Open a file for temporary use.
+
+    local fileext = props['FileExt']
+
+    if fileext == '' then
+        MsgBox('Require a FileExt.', 'OpenTempFile', MB_ICONWARNING)
+        return
+    end
+
+    -- Get the prefix from the file extension.
+    local prefixes = {['cmd'] = '::',
+                      ['cpp'] = '//',
+                      ['cxx'] = '//',
+                      ['json'] = '//',
+                      ['lua'] = '--',
+                      ['md'] = '#',
+                      ['pas'] = '//',
+                      ['php'] = '//',
+                      ['properties'] = '#',
+                      ['ps1'] = '#',
+                      ['py'] = '#',
+                      ['sql'] = '--',
+                      ['txt'] = '#'}
+
+    local prefix = prefixes[fileext] or ';'
+
+    -- Create the comment.
+    local comment
+
+    comment = prefix .. ' about: Temporary file ' ..
+              'that will be removed on close.\n\n'
+
+    -- Create the temporary file and open it.
+    local tmpfile = os.tmpname() .. '.' .. fileext
+
+    if string.sub(tmpfile, 1, 1) == '\\' then
+        tmpfile = os.getenv('TEMP') .. tmpfile
+    end
+
+    local file = io.open(tmpfile, 'w')
+
+    if file then
+        if comment then
+            file:write(comment)
+        end
+
+        file:close()
+        scite.Open(tmpfile)
+        editor:GotoLine(2)
+        Buffer:insert('tmpfile', true)
+    else
+        MsgBox('No file handle to write.', 'OpenTempFile', MB_ICONWARNING)
+    end
+end
+
+
 local function OpenLuaExtensionFile()
     -- Open a lua extension file.
 
@@ -3151,6 +3208,12 @@ function GlobalTools()
 
     if GlobalSettings['tools']['extended'] then
         list['OpenSciteVarsFile'] = OpenSciteVarsFile
+    end
+
+    if props['FileExt'] ~= '' then
+        if not string.find(props['FileExt'], '^%d+$') then
+            list['OpenTempFile']  = OpenTempFile
+        end
     end
 
     list['PrintApiKeywords']      = PrintApiKeywords
