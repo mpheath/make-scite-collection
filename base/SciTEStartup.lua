@@ -1834,71 +1834,69 @@ end
 
 local function WinMergeFilePath(mode)
     -- Run WinMerge to diff FilePath with another file.
-    -- If mode is 'unsaved', diff FilePath with editor text.
+    -- If mode is 'unsaved', diff editor with FilePath if exist, else with selection.
 
     local filepath = props['FilePath']
 
-    -- Validate.
-    if filepath == '' then
-        MsgBox('Require a filepath.', 'WinMergeFilePath', MB_ICONWARNING)
-        return
+    -- Set path to WinMerge.
+    local app = GlobalSettings['paths']['winmerge']
+
+    -- Build the command.
+    local command
+
+    if mode == 'unsaved' then
+        local text = editor:GetText()
+
+        if text == nil or text == '' then
+            MsgBox('No editor text.', 'WinMergeFilePath unsaved', MB_ICONWARNING)
+            return
+        end
+
+        -- Strip \r as lua may add \r to \n on write.
+        text = string.gsub(text, '\r', '')
+
+        -- Write the unsaved text to a temporary file.
+        local tmpfile = os.tmpname()
+
+        if string.sub(tmpfile, 1, 1) == '\\' then
+            tmpfile = os.getenv('TEMP') .. tmpfile
+        end
+
+        local file = io.open(tmpfile, 'w')
+
+        if file == nil then
+            MsgBox('No file handle to write.', 'WinMergeFilePath unsaved', MB_ICONWARNING)
+            return
+        end
+
+        file:write(text)
+        file:close()
+
+        -- Build the command to diff the files.
+        if mode == 'unsaved' then
+            command = '"' .. app .. '" /u ' ..
+                      '/dl "Unsaved" ' ..
+                      '/wl "' .. tmpfile .. '"'
+
+            if filepath ~= '' then
+                command = command .. ' "' .. filepath .. '"'
+            end
+        end
+
+        command = command .. ' &del "' .. tmpfile .. '"'
+    else
+        -- Check filepath.
+        if filepath == '' then
+            MsgBox('Require a filepath.', 'WinMergeFilePath', MB_ICONWARNING)
+            return
+        end
+
+        -- Build the command to diff the files.
+        command = '"' .. app .. '" /u "' .. filepath .. '"'
     end
 
     -- Run WinMerge.
-    if os.path.sep == '\\' then
-        local app, command, tmpfile
-
-        app = GlobalSettings['paths']['winmerge']
-
-        if mode == 'unsaved' then
-            local text = editor:GetText()
-
-            if text == nil or text == '' then
-                MsgBox('No editor text.', 'WinMergeFilePath unsaved', MB_ICONWARNING)
-                return
-            end
-
-            -- Strip \r as lua may add \r to \n on write.
-            text = string.gsub(text, '\r', '')
-
-            -- Write the unsaved text to a temporary file.
-            tmpfile = os.tmpname()
-
-            if string.sub(tmpfile, 1, 1) == '\\' then
-                tmpfile = os.getenv('TEMP') .. tmpfile
-            end
-
-            local file = io.open(tmpfile, 'w')
-
-            if file == nil then
-                MsgBox('No file handle to write.', 'WinMergeFilePath unsaved', MB_ICONWARNING)
-                return
-            end
-
-            file:write(text)
-            file:close()
-
-            -- Build command to diff the file with the temporary file.
-            command = 'title WinMerge Unsaved & ' ..
-                      '"' .. app .. '" /u /wl /dl "Unsaved" ' ..
-                      '"' .. tmpfile .. '" "' .. filepath .. '"'
-        else
-            -- Build command to diff the file with another file.
-            command = 'start "" /b "' .. app .. '" /u "' .. filepath .. '"'
-        end
-
-        -- Run WinMerge.
-        os.execute(command)
-
-        -- Remove temporary file.
-        if tmpfile ~= nil then
-            local ok, err = os.remove(tmpfile)
-
-            if ok == nil then
-                print(err)
-            end
-        end
-    end
+    os.execute('start "" /b cmd /s /c "' .. command .. '"')
 end
 
 
