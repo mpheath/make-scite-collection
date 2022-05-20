@@ -1731,6 +1731,107 @@ local function SelectCalltipColour()
 end
 
 
+local function SetColour()
+    -- Set a value for a colour variable.
+
+    -- Set the style names.
+    local list = {'Default',
+                  'colour.aqua',
+                  'colour.blue',
+                  'colour.char',
+                  'colour.code.comment.box',
+                  'colour.code.comment.doc',
+                  'colour.code.comment.line',
+                  'colour.code.comment.nested',
+                  'colour.default',
+                  'colour.embedded.comment',
+                  'colour.embedded.js',
+                  'colour.error',
+                  'colour.fuchsia',
+                  'colour.grey',
+                  'colour.keyword',
+                  'colour.lime',
+                  'colour.maroon',
+                  'colour.notused',
+                  'colour.number',
+                  'colour.operator',
+                  'colour.other.comment',
+                  'colour.other.operator',
+                  'colour.preproc',
+                  'colour.red',
+                  'colour.silver',
+                  'colour.string',
+                  'colour.string.unclosed',
+                  'colour.text.comment',
+                  'colour.white',
+                  'colour.whitespace',
+                  'colour.yellow'}
+
+    -- Get the selected name.
+    local result = ListBox(list, 'SetColour')
+
+    if result == nil then
+        return
+    end
+
+    result = result + 1
+    local name = list[result]
+
+    -- Unmask all recorded colour values.
+    if name == 'Default' then
+        for k in pairs(GlobalSettings['prop_list']) do
+            if string.find(k, '^colour%.') ~= nil then
+                GlobalSettings['prop_list'][k] = nil
+                props[k] = nil
+            end
+        end
+
+        return
+    end
+
+    -- Set fore and back colour by ColourDialog.
+    local title = name .. '=' .. props[name]
+    local value = ''
+
+    for _, v in pairs({'fore:', 'back:'}) do
+        result = MsgBox('Set ' .. v, title, MB_ICONQUESTION|
+                                            MB_YESNOCANCEL)
+        if result == IDYES then
+            result = ColourDialog()
+
+            if result == nil then
+                break
+            end
+
+            if value ~= '' then
+                value = value .. ','
+            end
+
+            value = value .. v .. result
+        elseif result == IDCANCEL then
+            return
+        end
+    end
+
+    -- Set eolfilled only if previously set.
+    if string.find(value, 'back:') and string.find(title, 'eolfilled') then
+        result = MsgBox('Set eolfilled', title, MB_ICONQUESTION|
+                                                MB_YESNOCANCEL)
+        if result == IDYES then
+            value = value .. ',eolfilled'
+        elseif result == IDCANCEL then
+            return
+        end
+    end
+
+    -- Set the value.
+    if value ~= '' then
+        props[name] = value
+        GlobalSettings['prop_list'][name] = props[name]
+    end
+end
+
+
 local function SetProperty()
     -- Change a property value for the current SciTE instance.
 
@@ -2813,6 +2914,7 @@ function GlobalTools()
     list['ReplaceSelSortList']          = ReplaceSelSortList
     list['ReplaceSelWrapList']          = ReplaceSelWrapList
     list['SelectCalltipColour']         = SelectCalltipColour
+    list['SetColour']                   = SetColour
     list['SetProperty']                 = SetProperty
     list['StartExeFile']                = StartExeFile
     list['StripTrailingSpaces']         = StripTrailingSpaces
