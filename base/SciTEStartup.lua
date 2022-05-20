@@ -32,6 +32,12 @@ GlobalSettings = {
         -- Hide or show extended tools. true=all tools, false=less tools.
         ['extended'] = false},
 
+    -- SetProperty record for the last property name set by the SelectProperty item.
+    ['prop_last'] = '',
+
+    -- SetProperty... record of property names with modified values.
+    ['prop_list'] = {},
+
     -- Paths that may need to be globally known.
     ['paths'] = {
         ['dbeditor'] = os.path.join(os.getenv('ProgramFiles'),
@@ -1439,6 +1445,23 @@ local function PrintSciteVars()
 end
 
 
+local function PrintPropertyList()
+    -- Print a list of property names and values modified by SetProperty.
+
+    local list = {}
+
+    for k, v in pairs(GlobalSettings['prop_list']) do
+        table.insert(list, string.format('%s=%s', k, v))
+    end
+
+    table.sort(list)
+
+    for i = 1, #list do
+        print(list[i])
+    end
+end
+
+
 local function ReplaceSelEscape()
     -- Escape special characters in some languages.
 
@@ -1704,6 +1727,544 @@ local function SelectCalltipColour()
     -- Set the highlight colour.
     if number then
         scite.SendEditor(SCI_CALLTIPSETFOREHLT, number)
+    end
+end
+
+
+local function SetProperty()
+    -- Change a property value for the current SciTE instance.
+
+    -- Preset property values.
+    local preset = {['off_on'] = {'Default', '0 = Off', '1 = On'},
+                    ['grey_colours'] = {'Default', 'Empty', 'SelectColour',
+                                        '#000000', '#111111', '#222222',
+                                        '#333333', '#444444', '#555555',
+                                        '#666666', '#777777', '#888888',
+                                        '#999999', '#AAAAAA', '#BBBBBB',
+                                        '#CCCCCC', '#DDDDDD', '#EEEEEE',
+                                        '#FFFFFF'},
+                    ['scroll_width'] = {'Default',
+                                        'Empty',
+                                        '80 = 80 characters',
+                                        '120 = 120 characters',
+                                        '160 = 160 characters',
+                                        '200 = 200 characters',
+                                        '256 = 256 characters',
+                                        '512 = 512 characters',
+                                        '1024 = 1024 characters',
+                                        '2048 = 2048 characters',
+                                        '4096 = 4096 characters',
+                                        '8192 = 8192 characters',
+                                        '10240 = 10240 characters',
+                                        '20480 = 20480 characters',
+                                        '40960 = 40960 characters',
+                                        '81920 = 81920 characters',
+                                        '102400 = 102400 characters'}}
+
+    -- Properties and the available values.
+    local list = {
+        ['are.you.sure.on.reload'] = preset.off_on,
+        ['autocomplete.choose.single'] = preset.off_on,
+        ['autocomplete.visible.item.count'] = {'Default',
+                                               'Empty',
+                                               '3 = 3 items',
+                                               '6 = 6 items',
+                                               '9 = 9 items',
+                                               '12 = 12 items',
+                                               '15 = 15 items',
+                                               '18 = 18 items',
+                                               '21 = 21 items',
+                                               '24 = 24 items',
+                                               '27 = 27 items',
+                                               '30 = 30 items'},
+        ['autocompleteword.automatic'] = preset.off_on,
+        ['braces.check'] = preset.off_on,
+        ['braces.sloppy'] = preset.off_on,
+        ['caret.additional.blinks'] = preset.off_on,
+        ['caret.additional.fore'] = preset.grey_colours,
+        ['caret.fore'] = preset.grey_colours,
+        ['caret.line.back'] = preset.grey_colours,
+        ['caret.line.frame'] = {'Default',
+                                '0 = Off',
+                                '1 = 1 pixel',
+                                '2 = 2 pixel',
+                                '3 = 3 pixel',
+                                '4 = 4 pixel',
+                                '5 = 5 pixel'},
+        ['caret.line.layer'] = {'Default',
+                                '0 = Opaque',
+                                '1 = Under text',
+                                '2 = Over text'},
+        ['caret.period'] = {'Default',
+                            '1000 = 1 second',
+                            '2000 = 2 seconds'},
+        ['caret.style'] = {'Default',
+                           '1 = Line',
+                           '2 = Block'},
+        ['caret.width'] = {'Default',
+                           '1 = 1 pixel',
+                           '2 = 2 pixels',
+                           '3 = 3 pixels',
+                           '4 = 4 pixels',
+                           '5 = 5 pixels',
+                           '6 = 6 pixels',
+                           '7 = 7 pixels',
+                           '8 = 8 pixels',
+                           '9 = 9 pixels'},
+        ['clear.before.execute'] = preset.off_on,
+        ['code.page'] = {'Default',
+                         '0 = ANSI',
+                         '65001 = UTF-8'},
+        ['default.file.ext'] = {'Default', 'Empty', '.au3', '.bas', '.c',
+                                '.cmd', '.cpp', '.css', '.cxx', '.diff',
+                                '.html', '.iss', '.js', '.json', '.lua',
+                                '.md', '.pas', '.php', '.properties',
+                                '.ps1', '.py', '.sh', '.sql', '.txt', '.xml'},
+        ['edge.colour'] = preset.grey_colours,
+        ['edge.column'] = {'Default',
+                           '40 = 40 characters',
+                           '60 = 60 characters',
+                           '80 = 80 characters',
+                           '100 = 100 characters',
+                           '120 = 120 characters',
+                           '140 = 140 characters',
+                           '160 = 160 characters',
+                           '180 = 180 characters',
+                           '200 = 200 characters'},
+        ['edge.mode'] = preset.off_on,
+        ['editor.config.enable'] = {'Default',
+                                    '0 = Off',
+                                    '1 = On for files to be opened'},
+        ['end.at.last.line'] = preset.off_on,
+        ['ensure.consistent.line.ends'] = preset.off_on,
+        ['ensure.final.line.end'] = preset.off_on,
+        ['eol.auto'] = preset.off_on,
+        ['error.inline'] = preset.off_on,
+        ['error.select.line'] = {'Default',
+                                 '0 = Goto line',
+                                 '1 = Goto line and select whole line'},
+        ['export.html.folding'] = preset.off_on,
+        ['export.html.title.fullpath'] = preset.off_on,
+        ['export.html.wysiwyg'] = preset.off_on,
+        ['export.keep.ext'] = {'Default',
+                               '0 = Filename.html',
+                               '1 = Fullpath.ext.html',
+                               '2 = Fullpath_ext.html'},
+        ['filter.context'] = {'Default',
+                              '0 = Off',
+                              '1 = 1 line',
+                              '2 = 2 line',
+                              '3 = 3 line'},
+        ['find.close.on.find'] = {'Default',
+                                  '0 = Close strip manually',
+                                  '1 = Close strip auto (Default if undefined)',
+                                  '2 = Close strip auto on match'},
+        ['find.command'] = {'Default',
+                            'Empty',
+                            'find /n "$(find.what)" $(find.files)',
+                            'findstr /n /s "$(find.what)" $(find.files)'},
+        ['find.replace.advanced'] = {'Default',
+                                     '0 = Off',
+                                     '1 = Enable replace in buffers'},
+        ['find.use.strip'] = preset.off_on,
+        ['fold'] = preset.off_on,
+        ['fold.compact'] = preset.off_on,
+        ['fold.flags'] = {'Default',
+                          '0 = Off',
+                          '2 = Line above unfolded',
+                          '4 = Line above folded',
+                          '6 = Line above both',
+                          '8 = Line below unfolded',
+                          '16 = Line below folded',
+                          '24 = Line below both',
+                          '30 = Line all',
+                          '64 = Debug fold levels'},
+        ['fold.highlight'] = preset.off_on,
+        ['fold.on.open'] = preset.off_on,
+        ['fold.stroke.width'] = {'Default',
+                                 '100 = Standard displays',
+                                 '200 = High DPI displays'},
+        ['fold.symbols'] = {'Default',
+                            '0 = Directional arrows',
+                            '1 = Plus and minus',
+                            '2 = Round shape',
+                            '3 = Square shape'},
+        ['font.monospace'] = {},
+        ['highlight.current.word'] = preset.off_on,
+        ['highlight.current.word.by.style'] = preset.off_on,
+        ['horizontal.scroll.width'] = preset.scroll_width,
+        ['horizontal.scroll.width.tracking'] = preset.off_on,
+        ['horizontal.scrollbar'] = preset.off_on,
+        ['indent.automatic'] = preset.off_on,
+        ['indent.closing'] = preset.off_on,
+        ['indent.opening'] = preset.off_on,
+        ['lexer.errorlist.escape.sequences'] = preset.off_on,
+        ['lexer.errorlist.value.separate'] = preset.off_on,
+        ['load.on.activate'] = preset.off_on,
+        ['output.horizontal.scroll.width'] = preset.scroll_width,
+        ['output.horizontal.scroll.width.tracking'] = preset.off_on,
+        ['output.horizontal.scrollbar'] = preset.off_on,
+        ['output.scroll'] = {'Default',
+                             '0 = No auto scroll',
+                             '1 = Auto scroll and return to command',
+                             '2 = Auto scroll to end and remain'},
+        ['properties.directory.enable'] = {'Default',
+                                           '0 = Off',
+                                           '1 = On for files to be opened'},
+        ['read.only'] = {'Default',
+                         '0 = Off',
+                         '1 = Open as read only'},
+        ['reload.preserves.undo'] = preset.off_on,
+        ['replace.use.strip'] = preset.off_on,
+        ['representations'] = {'Default',
+                               'Empty',
+                               '!1,#A0A0A0,\\x0D\\x0A=CRLF',
+                               '!1,#A0A0A0,\\x0A=LF,\\x0D=CR',
+                               '!1,#A0A0A0,\\x0D\\x0A=\\r\\n',
+                               '!1,#A0A0A0,\\x0A=\\n,\\x0D=\\r',
+                               '!1,#AAAA55,\\x20= ,!1,#A0A0A0,\\x0A=\\n,\\x0D=\\r'},
+        ['save.check.modified.time'] = preset.off_on,
+        ['save.deletes.first'] = preset.off_on,
+        ['save.find'] = preset.off_on,
+        ['save.on.deactivate'] = preset.off_on,
+        ['save.on.timer'] = {'Default',
+                             '0 = Off',
+                             '60 = 1 minute',
+                             '300 = 5 minutes',
+                             '600 = 10 minutes',
+                             '900 = 15 minutes',
+                             '1800 = 30 minutes',
+                             '2700 = 45 minutes',
+                             '3600 = 1 hour'},
+        ['save.position'] = preset.off_on,
+        ['save.recent'] = preset.off_on,
+        ['save.session'] = preset.off_on,
+        ['selection.additional.typing'] = {'Default',
+                                           '0 = Only the main selection',
+                                           '1 = All selections.'},
+        ['selection.multipaste'] = {'Default',
+                                    '0 = Only the last selection',
+                                    '1 = All selections'},
+        ['selection.multiple'] = preset.off_on,
+        ['selection.rectangular.switch.mouse'] = preset.off_on,
+        ['session.bookmarks'] = preset.off_on,
+        ['session.folds'] = preset.off_on,
+        ['strip.trailing.spaces'] = preset.off_on,
+        ['tabbar.hide.index'] = preset.off_on,
+        ['tabbar.hide.one'] = preset.off_on,
+        ['technology'] = {'Default',
+                          '0 = GDI',
+                          '1 = DirectWrite',
+                          '2 = DirectWrite (retain frame)',
+                          '3 = DirectWrite (works with some cards)'},
+        ['time.commands'] = preset.off_on,
+        ['title.full.path'] = {'Default',
+                               '0 = Filename',
+                               '1 = Fullpath',
+                               '2 = Filename in directory'},
+        ['title.show.buffers'] = preset.off_on,
+        ['virtual.space'] = {'Default',
+                             '0 = Off',
+                             '1 = Allow rectangle selection',
+                             '2 = Allow arrow keys and mouse click',
+                             '3 = Allow both',
+                             '4 = Prevent left arrow wrapping previous line'},
+        ['wrap.indent.mode'] = {'Default',
+                                '0 = Indented left of window + wrap.visual.startindent',
+                                '1 = Align to 1st subline',
+                                '2 = Align to 1st subline + 1 indent'},
+        ['wrap.visual.flags'] = {'Default',
+                                 '0 = Off',
+                                 '1 = End of lines',
+                                 '2 = Begin of lines',
+                                 '3 = Begin and end of lines'},
+        ['wrap.visual.flags.location'] = {'Default',
+                                          '0 = Begin and end markers near border',
+                                          '1 = End markers near text',
+                                          '2 = Begin markers near text',
+                                          '3 = All markers near text'},
+        ['wrap.visual.startindent'] = {'Default',
+                                       '0 = No indent',
+                                       '1 = 1 indent',
+                                       '2 = 2 indents',
+                                       '3 = 3 indents',
+                                       '4 = 4 indents'}}
+
+    -- Language related properties.
+    local language = props['Language']
+    local lexprops = {}
+
+    for _, v in pairs({'cpp', 'html', 'json', 'markdown',
+                       'properties', 'python', 'sql', 'xml'}) do
+
+        if v == language then
+            local text = 'Include ' .. language .. ' related property names?'
+
+            if MsgBox(text, 'SetProperty', MB_ICONQUESTION|
+                                           MB_DEFBUTTON2|
+                                           MB_YESNO) == IDNO then
+                goto endlanguages
+            end
+
+            break
+        end
+    end
+
+    if language == 'cpp' then
+        lexprops = {['fold.at.else'] = preset.off_on,
+                    ['fold.comment'] = preset.off_on,
+                    ['fold.cpp.comment.explicit'] = preset.off_on,
+                    ['fold.cpp.comment.multiline'] = preset.off_on,
+                    ['fold.cpp.explicit.anywhere'] = preset.off_on,
+                    ['fold.cpp.preprocessor.at.else'] = preset.off_on,
+                    ['fold.cpp.syntax.based'] = preset.off_on,
+                    ['fold.preprocessor'] = preset.off_on,
+                    ['lexer.cpp.allow.dollars'] = preset.off_on,
+                    ['lexer.cpp.backquoted.strings'] = preset.off_on,
+                    ['lexer.cpp.escape.sequence'] = preset.off_on,
+                    ['lexer.cpp.hashquoted.strings'] = preset.off_on,
+                    ['lexer.cpp.track.preprocessor'] = preset.off_on,
+                    ['lexer.cpp.triplequoted.strings'] = preset.off_on,
+                    ['lexer.cpp.update.preprocessor'] = preset.off_on,
+                    ['lexer.cpp.verbatim.strings.allow.escapes'] = preset.off_on,
+                    ['styling.within.preprocessor'] = preset.off_on}
+    elseif language == 'json' then
+        lexprops = {['lexer.json.allow.comments'] = preset.off_on,
+                    ['lexer.json.escape.sequence'] = preset.off_on}
+    elseif language == 'markdown' then
+        lexprops = {['lexer.markdown.header.eolfill'] = preset.off_on}
+    elseif language == 'properties' then
+        lexprops = {['lexer.props.allow.initial.spaces'] = preset.off_on}
+    elseif language == 'python' then
+        lexprops = {['fold.quotes.python'] = preset.off_on,
+                    ['indent.python.colon'] = preset.off_on,
+                    ['lexer.python.decorator.attributes'] = preset.off_on,
+                    ['lexer.python.identifier.attributes'] = preset.off_on,
+                    ['lexer.python.keywords2.no.sub.identifiers'] = preset.off_on,
+                    ['lexer.python.literals.binary'] = preset.off_on,
+                    ['lexer.python.strings.b'] = preset.off_on,
+                    ['lexer.python.strings.f'] = preset.off_on,
+                    ['lexer.python.strings.over.newline'] = preset.off_on,
+                    ['lexer.python.strings.u'] = preset.off_on,
+                    ['lexer.python.unicode.identifiers'] = preset.off_on,
+                    ['tab.timmy.whinge.level'] = {'Default',
+                                                  '0 = No indent check',
+                                                  '1 = Check line consistent',
+                                                  '2 = Check indent for space before tab',
+                                                  '3 = Check indent for any spaces',
+                                                  '4 = Check indent for any tabs'}}
+    elseif language == 'sql' then
+        lexprops = {['fold.sql.at.else'] = preset.off_on,
+                    ['lexer.sql.allow.dotted.word'] = preset.off_on,
+                    ['lexer.sql.numbersign.comment'] = preset.off_on,
+                    ['sql.backslash.escapes'] = preset.off_on}
+    elseif language == 'xml' or language == 'html' then
+        lexprops = {['fold.html'] = preset.off_on,
+                    ['fold.html.preprocessor'] = preset.off_on,
+                    ['fold.hypertext.comment'] = preset.off_on,
+                    ['fold.hypertext.heredoc'] = preset.off_on,
+                    ['fold.xml.at.tag.open'] = preset.off_on,
+                    ['html.tags.case.sensitive'] = preset.off_on,
+                    ['lexer.html.django'] = preset.off_on,
+                    ['lexer.html.mako'] = preset.off_on,
+                    ['lexer.xml.allow.scripts'] = preset.off_on}
+    end
+
+    for name, value in pairs(lexprops) do
+        list[name] = value
+    end
+
+    ::endlanguages::
+
+    -- Get the names.
+    local names = {}
+
+    for name in pairs(list) do
+        table.insert(names, name)
+    end
+
+    if names == '' then
+        return
+    end
+
+    if next(GlobalSettings['prop_list']) then
+        table.insert(names, 'Default')
+    end
+
+    table.insert(names, 'SelectProperty')
+
+    table.sort(names)
+
+    -- Get the selected name.
+    local result = ListBox(names, 'SetProperty')
+
+    if not result then
+        return
+    end
+
+    result = result + 1
+    local name = names[result]
+
+    -- Unmask all recorded property values.
+    if name == 'Default' then
+        for k in pairs(GlobalSettings['prop_list']) do
+            GlobalSettings['prop_list'][k] = nil
+            props[k] = nil
+        end
+
+        return
+    end
+
+    -- Set a property and value with a InputBox.
+    if name == 'SelectProperty' then
+        name = GlobalSettings['prop_last'] or ''
+
+        name = InputBox(name, 'SetProperty', 'Enter a property name')
+
+        if name == nil or name == '' then
+            return
+        end
+
+        local value = InputBox(props[name],
+                               'SetProperty',
+                               'Enter the value for ' .. name)
+
+        if value == nil then
+            return
+        end
+
+        if value == '' then
+            local reply = MsgBox('Set the value as empty for ' .. name .. '?' ..
+                                 '\r\n\r\n' ..
+                                 'Select No to unmask and use the actual value.',
+                                 'SetProperty', MB_YESNOCANCEL)
+
+            if reply == IDYES then
+                value = ''
+            elseif reply == IDNO then
+                value = nil
+            else
+                return
+            end
+        end
+
+        props[name] = value
+        GlobalSettings['prop_list'][name] = value
+        GlobalSettings['prop_last'] = name
+        return
+    end
+
+    -- Set edge.column to include current column position.
+    if name == 'edge.column' then
+        local column = editor.Column[editor.CurrentPos]
+
+        if column > 0 then
+            local text = string.format('%s = %s characters (Current Column)', column, column)
+            table.insert(list['edge.column'], text)
+        end
+    end
+
+    -- Set font.monospace values based on technology used.
+    if name == 'font.monospace' then
+
+        -- Get technology in use.
+        local directwrite = string.match(props['technology'], '[123]') ~= nil
+
+        -- Default fonts.
+        list[name] = {'Default',
+                      'font:Consolas,size:10',
+                      'font:Courier New,size:10',
+                      'font:Lucida Console,size:10'}
+
+        if not directwrite then
+            table.insert(list[name], 'font:Courier,size:10')
+        end
+
+        -- Include some 3rd party fonts.
+        local text = 'Include 3rd party fonts?'
+
+        if directwrite then
+            text = 'Using DirectWrite which supports font ligatures...\n\n' .. text
+        else
+            text = 'Using GDI\n\n' .. text
+        end
+
+        if MsgBox(text, name, MB_ICONQUESTION|
+                              MB_DEFBUTTON2|
+                              MB_YESNO) == IDYES then
+
+            -- Fonts with ligatures.
+            table.insert(list[name], 'font:Cascadia Code,size:10')
+            table.insert(list[name], 'font:Fira Code,size:10')
+            table.insert(list[name], 'font:JetBrains Mono,size:10')
+
+            -- Fonts without ligatures.
+            table.insert(list[name], 'font:Source Code Pro,size:10')
+
+            if directwrite then
+                table.insert(list[name], 'font:Cascadia Mono,size:10')
+            end
+        end
+
+        table.sort(list[name])
+    end
+
+    -- Get the selected value.
+    result = ListBox(table.concat(list[name], '|'), name .. '=' .. props[name])
+
+    if not result then
+        return
+    end
+
+    result = result + 1
+    local selected = (list[name])[result]
+
+    -- Set fold.flags with a wider line margin if debugging folds.
+    if name == 'fold.flags' then
+        local digits = string.match(selected, '^%d+')
+
+        if digits == '64' then
+            props['line.margin.width'] = '10+'
+        else
+            props['line.margin.width'] = nil
+        end
+    end
+
+    -- Set the Property with the new value.
+    if selected == 'Default' then
+        props[name] = nil
+        GlobalSettings['prop_list'][name] = nil
+    elseif selected == 'Empty' then
+        props[name] = ''
+        GlobalSettings['prop_list'][name] = ''
+    elseif selected == 'SelectColour' then
+        local colour = ColourDialog()
+
+        if colour then
+            props[name] = colour
+            GlobalSettings['prop_list'][name] = colour
+        end
+    else
+        local digits = string.match(selected, '^%-?%d+')
+
+        if digits then
+            props[name] = digits
+        else
+            props[name] = selected
+        end
+
+        GlobalSettings['prop_list'][name] = props[name]
+    end
+
+    -- Reload properties needed only for these items.
+    if name == 'title.full.path' or name == 'title.show.buffers' then
+        scite.ReloadProperties()
+    end
+
+    -- Show information about UI items.
+    if name == 'tabbar.hide.index' or name == 'tabbar.hide.one' then
+        MsgBox('A UI property may need a UI event to update.\n' ..
+               'Possibly switching tabs...', name, MB_ICONINFORMATION)
     end
 end
 
@@ -2243,11 +2804,16 @@ function GlobalTools()
         list['PrintSciteVars']          = PrintSciteVars
     end
 
+    if next(GlobalSettings['prop_list']) ~= nil then
+        list['PrintPropertyList']    = PrintPropertyList
+    end
+
     list['ReplaceSelEscape']            = ReplaceSelEscape
     list['ReplaceSelSortLines']         = ReplaceSelSortLines
     list['ReplaceSelSortList']          = ReplaceSelSortList
     list['ReplaceSelWrapList']          = ReplaceSelWrapList
     list['SelectCalltipColour']         = SelectCalltipColour
+    list['SetProperty']                 = SetProperty
     list['StartExeFile']                = StartExeFile
     list['StripTrailingSpaces']         = StripTrailingSpaces
     list['ToggleCodePage']              = ToggleCodePage
