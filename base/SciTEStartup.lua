@@ -38,6 +38,9 @@ GlobalSettings = {
     -- SetProperty... record of property names with modified values.
     ['prop_list'] = {},
 
+    -- SetStyle by ColourDialog=true, by InputBox=false, set by MsgBox=nil.
+    ['style_by_colour'] = nil,
+
     -- Paths that may need to be globally known.
     ['paths'] = {
         ['dbeditor'] = os.path.join(os.getenv('ProgramFiles'),
@@ -2370,6 +2373,142 @@ local function SetProperty()
 end
 
 
+local function SetStyle()
+    -- Change a style value for the current SciTE instance.
+
+    -- Get the lexer language.
+    local language = props['Language']
+
+    if language == '' or language == 'null' then
+        MsgBox('Cannot style this language: ' .. language, 'SetStyle', MB_ICONWARNING)
+        return
+    end
+
+    -- Set to use ColourDialog or InputBox for the current instance.
+    if GlobalSettings['style_by_colour'] == nil then
+        if MsgBox('Select foreground colour by Colour Dialog?\n\n' ..
+                  'Click No to edit the value by InputBox.\n\n' ..
+                  'This question will be asked only once per instance.',
+                  'SetStyle', MB_ICONQUESTION|MB_YESNO) == IDYES then
+
+            GlobalSettings['style_by_colour'] = true
+        else
+            GlobalSettings['style_by_colour'] = false
+        end
+    end
+
+    -- Get the style names.
+    local list = {'Default'}
+    local prefix = 'style.' .. language .. '.'
+
+    local id = editor.StyleAt[editor.CurrentPos]
+    local index = 0
+
+    for i = 0, 127 do
+        local name = string.format(prefix .. '%s', i)
+
+        if i == id then
+            index = #list
+        end
+
+        if props[name] ~= '' then
+            table.insert(list, name)
+        end
+    end
+
+    -- Get the selected name.
+    local result = ListBox(list, 'SetStyle', index)
+
+    if result == nil then
+        return
+    end
+
+    result = result + 1
+    local name = list[result]
+
+    -- Unmask all recorded style values for this language.
+    if name == 'Default' then
+        prefix = string.gsub(prefix, '%.', '%%.')
+
+        for k in pairs(GlobalSettings['prop_list']) do
+            if string.find(k, '^' .. prefix) ~= nil then
+                GlobalSettings['prop_list'][k] = nil
+                props[k] = nil
+            end
+        end
+
+        return
+    end
+
+    -- Set foreground colour by ColourDialog.
+    if GlobalSettings['style_by_colour'] then
+        local value = ColourDialog()
+
+        if value == nil then
+            return
+        end
+
+        props[name] = 'fore:' .. value
+        GlobalSettings['prop_list'][name] = props[name]
+        return
+    end
+
+    -- Get the description of the style.
+    local description = ''
+
+    id = string.match(name, '%d+$')
+
+    if id then
+        id = tonumber(id)
+        description = editor:DescriptionOfStyle(id)
+
+        if description == '' then
+            for k, v in pairs({[32] = 'Default style',
+                               [33] = 'Line numbers in the margin',
+                               [34] = 'Matching brace',
+                               [35] = 'Non-matching brace',
+                               [36] = 'Control characters',
+                               [37] = 'Indentation guides',
+                               [38] = 'Calltips'}) do
+
+                if k == id then
+                    description = v
+                    break
+                end
+            end
+        end
+    end
+
+    -- Set a property and value with a InputBox.
+    local value = InputBox(props[name],
+                           'SetStyle',
+                           'Enter the value for ' .. name ..
+                           '\r\n\r\n    ' .. description)
+
+    if value == nil then
+        return
+    end
+
+    if value == '' then
+        local reply = MsgBox('Set the value as empty for ' .. name .. '?' ..
+                             '\r\n\r\n' ..
+                             'Select No to unmask and use the actual value.',
+                             'SetStyle', MB_YESNOCANCEL)
+
+        if reply == IDYES then
+            value = ''
+        elseif reply == IDNO then
+            value = nil
+        else
+            return
+        end
+    end
+
+    props[name] = value
+    GlobalSettings['prop_list'][name] = props[name]
+end
+
+
 local function StartExeFile()
     -- Run a executable file in SciTE subdirectory with no arguments.
 
@@ -2916,6 +3055,7 @@ function GlobalTools()
     list['SelectCalltipColour']         = SelectCalltipColour
     list['SetColour']                   = SetColour
     list['SetProperty']                 = SetProperty
+    list['SetStyle']                    = SetStyle
     list['StartExeFile']                = StartExeFile
     list['StripTrailingSpaces']         = StripTrailingSpaces
     list['ToggleCodePage']              = ToggleCodePage
