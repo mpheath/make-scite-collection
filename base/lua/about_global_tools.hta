@@ -11,7 +11,8 @@
   p {padding-left: 10px}
   dl {padding-left: 30px}
   dd {padding-bottom: 7px}
-  code, li {color: #CDCDCD}
+  li {color: #CDCDCD}
+  code {color: #D7D77F}
   pre {border: 1px grey solid; margin-left: 30px; padding: 5px; background: #303030}
   table {margin-left: 40px}
   td {vertical-align: text-top; padding-right: 25px}
@@ -53,49 +54,61 @@
     <a href="#10">CopyFilePath</a><br>
     <a href="#11">CurSelCountBraces</a><br>
     <a href="#12">DiffFileNameExt</a><br>
+    <a href="#13">EmptyUndoBuffer</a><br>
    </td>
    <td>
-    <a href="#13">EskilFilePath</a><br>
-    <a href="#14">FrhedFilePath</a><br>
-    <a href="#15">InsertDate</a><br>
-    <a href="#16">OpenAbbrevFile</a><br>
-    <a href="#17">OpenApiFile</a><br>
-    <a href="#18">OpenChmFile</a><br>
-    <a href="#19">OpenFileDir</a><br>
-    <a href="#20">OpenHtaFile</a><br>
-    <a href="#21">OpenLuaExtensionFile</a><br>
-    <a href="#22">OpenSciteVarsFile</a><br>
-    <a href="#23">PrintApiKeywords</a><br>
-    <a href="#24">PrintApiLuaPropFiles</a><br>
+    <a href="#14">EskilFilePath</a><br>
+    <a href="#15">FrhedFilePath</a><br>
+    <a href="#16">InsertDate</a><br>
+    <a href="#17">OpenAbbrevFile</a><br>
+    <a href="#18">OpenApiFile</a><br>
+    <a href="#19">OpenChmFile</a><br>
+    <a href="#20">OpenFileDir</a><br>
+    <a href="#21">OpenHtaFile</a><br>
+    <a href="#22">OpenLuaExtensionFile</a><br>
+    <a href="#23">OpenSciteVarsFile</a><br>
+    <a href="#24">OpenTempFile</a><br>
+    <a href="#25">PrintApiKeywords</a><br>
+    <a href="#26">PrintApiLuaPropFiles</a><br>
    </td>
    <td>
-    <a href="#25">PrintAsciiTable</a><br>
-    <a href="#26">PrintCommentLines</a><br>
-    <a href="#27">PrintCommentedCodeLines</a><br>
-    <a href="#28">PrintFindText</a><br>
-    <a href="#29">PrintGlobalNames...</a><br>
-    <a href="#29">PrintGlobalTables...</a><br>
-    <a href="#30">PrintReminders</a><br>
-    <a href="#31">PrintSciteVars</a><br>
-    <a href="#32">ReplaceSelEscape</a><br>
-    <a href="#33">ReplaceSelSortLines</a><br>
-    <a href="#34">ReplaceSelSortList</a><br>
-    <a href="#35">ReplaceSelWrapList</a><br>
+    <a href="#27">PrintAsciiTable</a><br>
+    <a href="#28">PrintCommentLines</a><br>
+    <a href="#29">PrintCommentedCodeLines</a><br>
+    <a href="#30">PrintFindText</a><br>
+    <a href="#31">PrintGlobalNames...</a><br>
+    <a href="#31">PrintGlobalTables...</a><br>
+    <a href="#32">PrintReminders</a><br>
+    <a href="#33">PrintSciteVars</a><br>
+    <a href="#34">PrintPropertyList</a><br>
+    <a href="#35">ReplaceSelEscape</a><br>
+    <a href="#36">ReplaceSelSortLines</a><br>
+    <a href="#37">ReplaceSelSortList</a><br>
+    <a href="#38">ReplaceSelWrapList</a><br>
    </td>
    <td>
-    <a href="#36">SelectCalltipColour</a><br>
-    <a href="#37">StartExeFile</a><br>
-    <a href="#38">StripTrailingSpaces</a><br>
-    <a href="#39">ToggleCodePage</a><br>
-    <a href="#40">ToggleDimComments</a><br>
-    <a href="#41">ToggleExtendedTools</a><br>
-    <a href="#42">ToggleHighlightCurrentWord</a><br>
-    <a href="#43">ToggleMonospaceFont</a><br>
-    <a href="#44">WinMergeFilePath</a><br>
-    <a href="#45">WinMergeFilePath unsaved</a><br>
+    <a href="#39">SelectCalltipColour</a><br>
+    <a href="#40">SetColour</a><br>
+    <a href="#41">SetProperty</a><br>
+    <a href="#42">SetStyle</a><br>
+    <a href="#43">StartExeFile</a><br>
+    <a href="#44">StripTrailingSpaces</a><br>
+    <a href="#45">ToggleCodePage</a><br>
+    <a href="#46">ToggleDimComments</a><br>
+    <a href="#47">ToggleExtendedTools</a><br>
+    <a href="#48">ToggleHighlightCurrentWord</a><br>
+    <a href="#49">ToggleMonospaceFont</a><br>
+    <a href="#50">WinMergeFilePath</a><br>
+    <a href="#51">WinMergeFilePath unsaved</a><br>
    </td>
   </tr>
  </table>
+
+ <p>Some items will not show on the default list.
+ Select ToggleExtendedTools to show the full list.
+ The items initially not listed are typically for
+ debugging or educational purposes that may not be
+ suitable for regular use.</p>
 
 
 
@@ -128,9 +141,18 @@
   <dd>Read <i>FilePath</i> and insert into the database.
   The full content is saved as a type blob.</dd>
 
+  <dt>Compact the database</dt>
+  <dd>Vacuum the database to reduce file size after edits or deletions.</dd>
+
   <dt>Delete any commit</dt>
-  <dd>Select any commit to delete that commit.
-  A vacuum operation will occur to reduce the size of the database.</dd>
+  <dd>Select any commit to delete that commit.</dd>
+
+  <dt>Delete the database</dt>
+  <dd>Removes the database permanently from the file system.</dd>
+
+  <dt>Edit any commit</dt>
+  <dd>Select any commit to edit as a temporary file within SciTE
+  and then commit back into the database.</dd>
 
   <dt>Edit the database</dt>
   <dd>Edit the database with an installed DB Browser for SQLite.</dd>
@@ -142,17 +164,60 @@
   <dt>Print all comments</dt>
   <dd>Print all comments from the database to the output pane.</dd>
 
-  <dt>Restore any commit to edit pane</dt>
-  <dd>Select any commit to clear the content and then insert the
-  content from the commit into the editor pane.</dd>
+  <dt>Restore any commit</dt>
+  <dd>Opens a list with multiple modes:
+   <div style="padding-top: 10px">
+    <dl>
+     <dt>Restore any commit to edit pane</dt>
+     <dd>Select any commit to clear the content and then insert the
+     content from the commit into the editor pane.</dd>
 
-  <dt>Restore any commit to filepath</dt>
-  <dd>Select any commit to write the content to <i>FilePath</i>.</dd>
+     <dt>Restore any commit to filepath</dt>
+     <dd>Select any commit to write the content to <i>FilePath</i>.</dd>
+    </dl>
+   </div>
+  </dd>
 
   <dt>WinMerge any commit</dt>
-  <dd>Select any commit to write to a temporary file and compare
-  with <i>FilePath</i> in WinMerge.</dd>
+  <dd>Opens a list with multiple modes:
+   <div style="padding-top: 10px">
+    <dl>
+     <dt>WinMerge any commit with any commit</dt>
+     <dd>Compares 2 commits in 2-way mode.</dd>
+
+     <dt>WinMerge any commit with any commit 3-way</dt>
+     <dd>Compares 3 commits in 3-way mode.</dd>
+
+     <dt>WinMerge any commit with any filepath</dt>
+     <dd>Compares 1 commit with a selection in WinMerge</dd>
+
+     <dt>WinMerge any commit with any filepath 3-way</dt>
+     <dd>Compares 2 commits with a selection in WinMerge</dd>
+
+     <dt>WinMerge any commit with filepath</dt>
+     <dd>Compares 1 commit with <i>FilePath</i> in 2-way mode.</dd>
+
+     <dt>WinMerge any commit with filepath 3-way</dt>
+     <dd>Compares 2 commits with <i>FilePath</i> in 3-way mode.</dd>
+    </dl>
+   </div>
+  </dd>
  </dl>
+
+ <p>The 2-way merge will be <code>left -&gt; right</code> while the
+ 3-way merge will be <code>left -&gt; middle &lt;- right</code>.
+ The <i>FilePath</i> is expected to be the 2nd pane unless
+ only commits are selected for comparison or the
+ <i>Edit a commit</i> compare button is used, in which
+ <i>FilePath</i> will be in the left pane as read-only to
+ update the commit being edited. The other panes will be for
+ the temporary commit files that will be set for read-only initially.
+ WinMerge can swap panes if a different order is preferred.</p>
+
+ <p><i>Edit a commit</i> shows a strip with a comment that can be changed.
+ Changing tabs may cause the strip to close and reopen. The comment in
+ the strip will return to the initial comment. Edit the editor pane
+ content first, then change the comment just before the commit.</p>
 
 
 
@@ -172,7 +237,7 @@
 
  <p>Clear all bookmarks.</p>
 
- <p>Does same action as <i>Search -> Clear All Bookmarks</i>
+ <p>Does same action as <code>Search -> Clear All Bookmarks</code>
  from the SciTE editor menu.</p>
 
 
@@ -224,10 +289,10 @@
  <p>Braces:</p>
 
  <ul>
-  <li>( )</li>
-  <li>{ }</li>
-  <li>[ ]</li>
-  <li>&lt; &gt;</li>
+  <li><code>( )</code></li>
+  <li><code>{ }</code></li>
+  <li><code>[ ]</code></li>
+  <li><code>&lt; &gt;</code></li>
  </ul>
 
 
@@ -238,7 +303,17 @@
 
 
 
- <h2 id="13">EskilFilePath</h2>
+ <h2 id="13">EmptyUndoBuffer</h2>
+
+ <p>Empty the undo buffer.</p>
+
+ <p>Can be useful when editing a document in a long session
+ and the previous undo history is not wanted. Only use if
+ sure that the current undo history is not needed.</p>
+
+
+
+ <h2 id="14">EskilFilePath</h2>
 
  <p>Run Eskil to diff <i>FilePath</i> with a checkout</p>
 
@@ -247,7 +322,7 @@
 
 
 
- <h2 id="14">FrhedFilePath</h2>
+ <h2 id="15">FrhedFilePath</h2>
 
  <p>Run Frhed to hex edit <i>FilePath</i>.</p>
 
@@ -256,7 +331,7 @@
 
 
 
- <h2 id="15">InsertDate</h2>
+ <h2 id="16">InsertDate</h2>
 
  <p>Insert date at position of caret.</p>
 
@@ -265,21 +340,21 @@
 
 
 
- <h2 id="16">OpenAbbrevFile</h2>
+ <h2 id="17">OpenAbbrevFile</h2>
 
  <p>Open a <i>abbrev.properties</i> file which is searched
  in the subfolders of <i>SciteDefaultHome</i>.</p>
 
 
 
- <h2 id="17">OpenApiFile</h2>
+ <h2 id="18">OpenApiFile</h2>
 
  <p>Open a api file which is searched in
  <code>"$(SciteDefaultHome)\api"</code>.</p>
 
 
 
- <h2 id="18">OpenChmFile</h2>
+ <h2 id="19">OpenChmFile</h2>
 
  <p>Open a chm file which is searched in the subfolders of
  <i>SciteDefaultHome</i>.</p>
@@ -289,45 +364,62 @@
 
 
 
- <h2 id="19">OpenFileDir</h2>
+ <h2 id="20">OpenFileDir</h2>
 
  <p>Open the file directory in a file browser like explorer.</p>
 
 
 
- <h2 id="20">OpenHtaFile</h2>
+ <h2 id="21">OpenHtaFile</h2>
 
  <p>Open a hta file which is searched in the subfolders
  of <i>SciteDefaultHome</i>.</p>
 
 
 
- <h2 id="21">OpenLuaExtensionFile</h2>
+ <h2 id="22">OpenLuaExtensionFile</h2>
 
  <p>Open a lua extension file which is searched as <i>extension.lua</i>
  in the subfolders of <i>SciteDefaultHome</i>.</p>
 
 
 
- <h2 id="22">OpenSciteVarsFile</h2>
+ <h2 id="23">OpenSciteVarsFile</h2>
 
  <p>Open <i>scitevars.cfg</i> file which can be used by PrintSciteVars.</p>
 
 
 
- <h2 id="23">PrintApiKeywords</h2>
+ <h2 id="24">OpenTempFile</h2>
+
+ <p>Open a temporary file with the same file extension
+ as the current file.</p>
+
+ <p>The file will be a temporary file created in the
+ users TEMP directory that will be deleted when closed.
+ Suitable for quick tests of a small amount of code
+ or short lived notes. If the content is useful,
+ then suggest using the menu option in SciTE
+ <code>File -&gt; Save a Copy...</code> before
+ closing the file that will be deleted.</p>
+
+ <p>This is recommended only for temporary use!</p>
+
+
+
+ <h2 id="25">PrintApiKeywords</h2>
 
  <p>Print keywords from api files, like those used in autocomplete.</p>
 
 
 
- <h2 id="24">PrintApiLuaPropFiles</h2>
+ <h2 id="26">PrintApiLuaPropFiles</h2>
 
  <p>Print api, lua and properties files.</p>
 
 
 
- <h2 id="25">PrintAsciiTable</h2>
+ <h2 id="27">PrintAsciiTable</h2>
 
  <p>Print an ASCII table to the output pane.</p>
 
@@ -336,7 +428,7 @@
 
 
 
- <h2 id="26">PrintCommentLines</h2>
+ <h2 id="28">PrintCommentLines</h2>
 
  <p>Get comment lines from the editor pane and print to the output pane.</p>
 
@@ -355,7 +447,7 @@
 
 
 
- <h2 id="27">PrintCommentedCodeLines</h2>
+ <h2 id="29">PrintCommentedCodeLines</h2>
 
  <p>Get comment code lines from the editor pane and print to the output pane.</p>
 
@@ -363,7 +455,7 @@
 
 
 
- <h2 id="28">PrintFindText</h2>
+ <h2 id="30">PrintFindText</h2>
 
  <p>Print search results found from selected text or current word.</p>
 
@@ -374,7 +466,7 @@
 
 
 
- <h2 id="29">PrintGlobalNames... PrintGlobalTables...</h2>
+ <h2 id="31">PrintGlobalNames... PrintGlobalTables...</h2>
 
  <p>Print Lua names and tables.</p>
 
@@ -383,7 +475,7 @@
 
 
 
- <h2 id="30">PrintReminders</h2>
+ <h2 id="32">PrintReminders</h2>
 
  <p>Find reminder lines in the edit pane and print to the output pane.</p>
 
@@ -401,7 +493,7 @@
 
 
 
- <h2 id="31">PrintSciteVars</h2>
+ <h2 id="33">PrintSciteVars</h2>
 
  <p>Print SciTE property variables.</p>
 
@@ -413,7 +505,24 @@
 
 
 
- <h2 id="32">ReplaceSelEscape</h2>
+ <h2 id="34">PrintPropertyList</h2>
+
+ <p>Print a list of property names and values modified by
+ <i>SetProperty</i> or <i>SetStyle</i>.</p>
+
+ <p>If the list is empty, then this item will not show in the ListBox.</p>
+
+ <p>If testing property values, then the printed list can be
+ copied permanently into the User Options file if desired.</p>
+
+ <p>A list can also help to know what has changed and what can be set
+ back to default. If <i>Default</i> is set for a recorded property in
+ <i>SetProperty</i> or <i>SetStyle</i>, then that property will be
+ removed from the list.</p>
+
+
+
+ <h2 id="35">ReplaceSelEscape</h2>
 
  <p>Escapes certain special characters used in some languages.</p>
 
@@ -429,7 +538,7 @@
 
 
 
- <h2 id="33">ReplaceSelSortLines</h2>
+ <h2 id="36">ReplaceSelSortLines</h2>
 
  <p>Sorts a selection of text by line.</p>
 
@@ -447,7 +556,7 @@ item3</pre></code>
 
 
 
- <h2 id="34">ReplaceSelSortList</h2>
+ <h2 id="37">ReplaceSelSortList</h2>
 
  <p>Sorts a JSON style list.</p>
 
@@ -461,7 +570,7 @@ item3</pre></code>
 
 
 
- <h2 id="35">ReplaceSelWrapList</h2>
+ <h2 id="38">ReplaceSelWrapList</h2>
 
  <p>Wraps a JSON style list.</p>
 
@@ -477,22 +586,157 @@ item3</pre></code>
 
 
 
- <h2 id="36">SelectCalltipColour</h2>
+ <h2 id="39">SelectCalltipColour</h2>
 
  <p>Change colours of both autocomplete and calltip popups.</p>
 
 
 
- <h2 id="37">StartExeFile</h2>
+ <h2 id="40">SetColour</h2>
 
- <p>Run executables in the subfolders of <code>SciteDefaultHome</code>.</p>
+ <p>Set a value for a colour variable name with fore and back
+ colours using a Colour Dialog.</p>
+
+ <p><i>Default</i> item will only unmask and remove property names
+ starting with <code>"colour."</code> from the recorded list.</p>
+
+ <p>Changes should not affect the ToggleDimComments feature so
+ SetColour should be considered before SetProperty or SetStyle
+ for changing colours.</p>
+
+ <p>Some of the colours names are not standard for the official SciTE
+ distribution so may only function properly with this custom setup.</p>
+
+
+
+ <h2 id="41">SetProperty</h2>
+
+ <p>Set a property and it's value for the duration of the
+ current SciTE instance.</p>
+
+ <p>This can be useful for temporary needs. Example of changing
+ <i>export.html.wysiwyg</i> to another value so the
+ <code>File -&gt; Export -&gt; To HTML</code> menu item saves the
+ output in another HTML format. Another example is to change some
+ of the wrapping property values to display wrapping differently.
+ Or another example, the user just wants to test a property
+ with different values for discovery.</p>
+
+ <p>Some predefined list items:</p>
+
+ <dl>
+  <dt>Default</dt>
+  <dd>The property will be unmasked to use it's
+  real value as set in the properties file.</dd>
+
+  <dt>Empty</dt>
+  <dd>The property will be set with an empty value.</dd>
+
+  <dt>SelectColour</dt>
+  <dd>Colour Dialog will show to allow selection of a colour.</dd>
+
+  <dt>SelectProperty</dt>
+  <dd>InputBox will show to enter property name and
+  a second InputBox will show to enter the value.</dd>
+ </dl>
+
+ <p>All other items will be displayed as <code>number = description</code>
+ for good user interpretation with the appended descriptions.
+ Only the initial number is used as the value to set the property.
+ If the item starts without a number, the item will be treated as
+ a value that needs special handling.</p>
+
+ <p>One property with special handling is <i>font.monospace</i>.
+ The items are the actual property values. Items are added to the
+ list depending on the value of the <i>technology</i> property. Some
+ 3rd party fonts will be added to the list if selected <i>Yes</i>
+ with the messagebox. These 3rd party fonts can be downloaded from:</p>
+
+ <dl>
+  <dt>Cascadia Code, Cascadia Mono</dt>
+  <dd><i>https://github.com/microsoft/cascadia-code</i></dd>
+
+  <dt>Fira Code</dt>
+  <dd><i>https://github.com/tonsky/FiraCode</i></dd>
+
+  <dt>JetBrains Mono</dt>
+  <dd><i>https://github.com/JetBrains/JetBrainsMono</i></dd>
+
+  <dt>Source Code Pro</dt>
+  <dd><i>https://github.com/adobe-fonts/source-code-pro</i></dd>
+ </dl>
+
+ <p>Fonts will not display ligatures when technology is GDI, so
+  the list may be different based on technology in use.</p>
+
+ <p><i>Cascadia Mono</i> is <i>Cascadia</i> without the ligatures,
+ which will only be listed when technology is <i>DirectWrite</i>.
+ <i>Courier</i> will only be listed if technology is GDI.</p>
+
+
+
+ <h2 id="42">SetStyle</h2>
+
+ <p>Set a style and it's value for the duration of the
+ current SciTE instance.</p>
+
+ <p>Just like SetProperty as a style is a property,
+ except this will focus only on the current language style.</p>
+
+ <p>The preset item for selection will be based at the caret position.
+ For example, if the caret is at a keyword in Lua, then
+ <i>style.lua.5</i> will be highlighted for selection.</p>
+
+ <p><i>Default</i> item will only unmask and remove property names
+ of the current language from the recorded list.</p>
+
+ <p><code>"GlobalSettings['style_by_colour']"</code> in
+ <i>SciTEStartup.lua</i> has 3 possible values:</p>
+
+ <dl>
+  <dt>true</dt>
+  <dd>Always use a Colour Dialog to set a foreground colour.</dd>
+
+  <dt>false</dt>
+  <dd>Always use an InputBox to edit the expanded value as text.</dd>
+
+  <dt>nil</dt>
+  <dd>Show a MsgBox to select true or false for the duration
+  of the SciTE instance. This is the default unless modified.
+ </dl>
+
+ <p>The Colour Dialog is probably suitable for quick changes,
+ though it currently does only the foreground colour. Options
+ such as unmasking a value or to set an empty value currently
+ is not implemented.</p>
+
+ <p>The InputBox allows editing the expanded value of the style.
+ This means that for example <i>style.lua.5</i> will not be the actual
+ value of <code>"$(colour.keyword),bold"</code>, instead will be like
+ the expanded format of <code>"fore:#88BBEF,bold"</code>. Changing
+ the value will save the expanded value so the variable name is
+ lost unless the unexpanded format is entered or the style is
+ unmasked to use the actual value once again.</p>
+
+ <p>The ToggleDimComments feature may not work with
+ comment styles that have lost any variable names.</p>
+
+ <p>Some style names may not appear in the list if their values are empty.
+ Detection of style names is based on not being empty and will search for
+ index numbers from 0 to 127.</p>
+
+
+
+ <h2 id="43">StartExeFile</h2>
+
+ <p>Run executables in the subfolders of <i>SciteDefaultHome</i>.</p>
 
  <p>Executables can be added to subfolders, such as Frhed.
  StartExeFile will run these executables without any arguments.</p>
 
 
 
- <h2 id="38">StripTrailingSpaces</h2>
+ <h2 id="44">StripTrailingSpaces</h2>
 
  <p>Strip trailing spaces from the current document in the edit pane.</p>
 
@@ -503,13 +747,13 @@ item3</pre></code>
 
 
 
- <h2 id="39">ToggleCodePage</h2>
+ <h2 id="45">ToggleCodePage</h2>
 
  <p>Toggle between 0 (ANSI), 65001 (UTF8) and the actual codepage.</p>
 
 
 
- <h2 id="40">ToggleDimComments</h2>
+ <h2 id="46">ToggleDimComments</h2>
 
  <p>Toggle comment colours from normal colour to a lighter colour.</p>
 
@@ -518,7 +762,7 @@ item3</pre></code>
 
 
 
- <h2 id="41">ToggleExtendedTools</h2>
+ <h2 id="47">ToggleExtendedTools</h2>
 
  <p>Toggle the ListBox to show or hide the extended tools.</p>
 
@@ -528,7 +772,7 @@ item3</pre></code>
 
 
 
- <h2 id="42">ToggleHighlightCurrentWord</h2>
+ <h2 id="48">ToggleHighlightCurrentWord</h2>
 
  <p>Toggle highlight current word at position of the caret.</p>
 
@@ -537,7 +781,7 @@ item3</pre></code>
 
 
 
- <h2 id="43">ToggleMonospaceFont</h2>
+ <h2 id="49">ToggleMonospaceFont</h2>
 
  <p>Toggle with monospace font and proportional font.</p>
 
@@ -547,7 +791,7 @@ item3</pre></code>
 
 
 
- <h2 id="44">WinMergeFilePath</h2>
+ <h2 id="50">WinMergeFilePath</h2>
 
  <p>Passes <i>FilePath</i> as 1st argument to WinMerge.
  WinMerge will then show the <i>Select Files or Folders dialog</i>.
@@ -558,20 +802,29 @@ item3</pre></code>
 
 
 
- <h2 id="45">WinMergeFilePath unsaved</h2>
+ <h2 id="51">WinMergeFilePath unsaved</h2>
 
- <p>Compares the edit pane content with <i>FilePath</i> content.</p>
+ <p>Compares the edit pane content with <i>FilePath</i>
+ or another files content.</p>
 
  <p>The edit pane of SciTE is read and saved to a temporary file
  and is passed as the 1st file argument to WinMerge.
- The <i>FilePath</i> is passed as the 2nd file argument to WinMerge.</p>
+ The <i>FilePath</i> is passed as the 2nd file argument to WinMerge.
+ If <i>FilePath</i> does not exist, like with a Untitled document,
+ then only the 1st file argument is passed so that WinMerge will
+ display the option to select the 2nd item to compare.</p>
 
  <p>This can be useful if you do not know the difference between the
  edit pane content and the file content. Especially if a messagebox asks
  to reload from file to determine whether to save or not after the reload.
  If the later is the case, select <i>No</i> to the messagebox and then use
- this tool to compare. <i>File -> Revert</i> menu item can be used if
+ this tool to compare. <code>File -> Revert</code> menu item can be used if
  <i>FilePath</i> on disk is wanted after the compare is done.</p>
+
+ <p>If <i>FilePath</i> does not exist, then comparing a temporary file
+ to another file might be useful. Example, open a commit from
+ <i>BackupFilePath</i> into a new tab and then select this item
+ to compare the edit pane content with a file selected in WinMerge.</p>
 
 </body>
 
