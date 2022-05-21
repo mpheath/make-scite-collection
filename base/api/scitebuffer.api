@@ -1,0 +1,6 @@
+Buffer.buffer (-) The global buffer table which has a key for each open filepath.\n The Buffer methods can be used to access the buffer, though\n perhaps direct access to the buffer may have some advantages.
+Buffer:add() Add filepath key with the value of an empty\n table only if the filepath key does not exist.\n Return true if added.
+Buffer:get([key]) Get the value from the key or from the value\n of the filepath key if key is not given.\n Return the value.
+Buffer:has_strip() Return true if a main key starts with `strip_`.
+Buffer:insert(key, value) Insert a key and value into the filepath key.\n Return true if inserted.
+Buffer:remove([key]) Remove a key or the filepath key if key is not given.\n Return true if removed.
