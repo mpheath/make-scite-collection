@@ -121,6 +121,7 @@ Can be useful for *sc1.exe* as it does not have the external properties files to
 
 ## Make SciTE Api Files
 
+ * *sciteconstants.api*
  * *scitemenucommands.api*
  * *scitepane.api*
  * *sciteproperties.api*
