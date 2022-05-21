@@ -12,7 +12,9 @@ def build_global_properties(bitness):
     global_content = (
         '# SciTE override file for global initialization.\n\n\n'
         '# Behaviour\n'
+        'are.you.sure.on.reload=1\n'
         'clear.before.execute=1\n'
+        'load.on.activate=1\n'
         'margin.width=0\n\n'
         '# Define the Lexer menu\n'
         'keyIndent=\n'
