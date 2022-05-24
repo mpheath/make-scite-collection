@@ -177,7 +177,7 @@ code.page=65001
 #### SciTEGlobal: Change imports.exclude
 
 ```
-imports.exclude=abaqus asl asn1 au3 ave avs baan blitzbasic bullant \
+imports.exclude=abaqus asciidoc asl asn1 au3 ave avs baan blitzbasic bullant \
 cil cmake cobol coffeescript csound dataflex ecl eiffel erlang escript \
 flagship forth freebasic fsharp \
 gap haskell hex inno kix latex lot lout \
@@ -188,7 +188,7 @@ tacl tal txt2tags verilog vhdl visualprolog
 ```
 
 ```
-imports.exclude=abaqus ada asl asm asn1 ave avs baan blitzbasic bullant \
+imports.exclude=abaqus asciidoc ada asl asm asn1 ave avs baan blitzbasic bullant \
 cil cmake cobol coffeescript csound d dataflex ecl eiffel erlang escript \
 flagship forth fortran freebasic fsharp \
 gap haskell hex kix latex lisp lot lout \
