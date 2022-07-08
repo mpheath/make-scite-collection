@@ -51,15 +51,15 @@ if __name__ == '__main__':
             'dest': os.path.join(base, 'eskil')},
         'frhed|x86': {
             'url': 'https://github.com/WinMerge/frhed/releases/download/'
-                   '0.10904.2017/frhed-0.10904.2017.7-win32.zip',
+                   '0.10904.2017/frhed-0.10904.2017.10-x86.zip',
             'dest': base},
         'frhed|x64': {
             'url': 'https://github.com/WinMerge/frhed/releases/download/'
-                   '0.10904.2017/frhed-0.10904.2017.7-x64.zip',
+                   '0.10904.2017/frhed-0.10904.2017.10-x64.zip',
             'dest': base},
         'luacheck|x64': {
-            'url': 'https://github.com/mpeterv/luacheck/releases/download'
-                   '/0.23.0/luacheck.exe',
+            'url': 'https://github.com/lunarmodules/luacheck/releases/download/'
+                   'v0.26.1/luacheck.exe',
             'dest': os.path.join(base, 'lua')},
         'sqlite': {
             'url': '',
