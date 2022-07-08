@@ -43,8 +43,34 @@ def make_testlexers():
             p.wait()
 
 
+def make_unittest():
+    '''Make unitTest.exe for unit testing Lexilla and Scintilla.'''
+
+    cwd = os.getcwd()
+
+    # SciTE 5.0 and later has a separate lexilla folder.
+    if os.path.isdir('lexilla'):
+        paths = [os.path.join(cwd, 'lexilla', 'test', 'unit')]
+    else:
+        paths = []
+
+    paths.append(os.path.join(cwd, 'scintilla', 'test', 'unit'))
+
+    # Compile.
+    for path in paths:
+        with subprocess.Popen('mingw32-make', cwd=path) as p:
+            p.wait()
+
+
 def clean():
-    '''Delete binary files in scite and scintilla folders.'''
+    '''Delete files in lexilla, scintilla and scite folders.'''
+
+    # Ask for confirmation to avoid accidental deletions.
+    print('Clean files in lexilla, scintilla and scite folders.')
+    reply = input('Are you sure? [n|y]: ')
+
+    if reply.lower() != 'y':
+        return
 
     cwd = os.getcwd()
 
@@ -75,7 +101,8 @@ if __name__ == '__main__':
           ' 0  Quit\n'
           ' 1  Make SciTE\n'
           ' 2  Make TestLexers\n'
-          ' 3  Clean\n')
+          ' 3  Make UnitTest\n'
+          ' 4  Clean\n')
 
     reply = input('Enter numbers: ').strip()
 
@@ -88,6 +115,8 @@ if __name__ == '__main__':
             elif item == '2':
                 make_testlexers()
             elif item == '3':
+                make_unittest()
+            elif item == '4':
                 clean()
             else:
                 print(item, 'is an invalid number')
