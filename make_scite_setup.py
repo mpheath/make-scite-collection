@@ -311,6 +311,10 @@ def make_sc1(output):
 
     copy_output_files(bitness)
 
+    # Make a relative user directory.
+    if not os.path.isdir('user'):
+        os.mkdir('user')
+
     # Compile SciTE Launcher.
     if not os.path.isfile('SciTELauncher.exe'):
         if os.path.isfile('SciTELauncher.au3'):
@@ -386,6 +390,10 @@ def make_wscite(output):
     copy_base_files(bitness)
 
     copy_output_files(bitness)
+
+    # Make a relative user directory.
+    if not os.path.isdir('user'):
+        os.mkdir('user')
 
     # Copy properties files.
     items = glob.glob(os.path.join(output, '*.properties'))
