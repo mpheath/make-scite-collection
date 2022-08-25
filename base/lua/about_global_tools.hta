@@ -55,9 +55,9 @@
     <a href="#11">CurSelCountBraces</a><br>
     <a href="#12">DiffFileNameExt</a><br>
     <a href="#13">EmptyUndoBuffer</a><br>
+    <a href="#14">EskilFilePath</a><br>
    </td>
    <td>
-    <a href="#14">EskilFilePath</a><br>
     <a href="#15">FrhedFilePath</a><br>
     <a href="#16">InsertDate</a><br>
     <a href="#17">OpenAbbrevFile</a><br>
@@ -65,41 +65,42 @@
     <a href="#19">OpenChmFile</a><br>
     <a href="#20">OpenFileDir</a><br>
     <a href="#21">OpenHtaFile</a><br>
-    <a href="#22">OpenLuaExtensionFile</a><br>
-    <a href="#23">OpenSciteVarsFile</a><br>
-    <a href="#24">OpenTempFile</a><br>
-    <a href="#25">PrintApiKeywords</a><br>
-    <a href="#26">PrintApiLuaPropFiles</a><br>
+    <a href="#22">OpenLastClosedFile</a><br>
+    <a href="#23">OpenLuaExtensionFile</a><br>
+    <a href="#24">OpenSciteVarsFile</a><br>
+    <a href="#25">OpenTempFile</a><br>
+    <a href="#26">PrintApiKeywords</a><br>
+    <a href="#27">PrintApiLuaPropFiles</a><br>
+    <a href="#28">PrintAsciiTable</a><br>
    </td>
    <td>
-    <a href="#27">PrintAsciiTable</a><br>
-    <a href="#28">PrintCommentLines</a><br>
-    <a href="#29">PrintCommentedCodeLines</a><br>
-    <a href="#30">PrintFindText</a><br>
-    <a href="#31">PrintGlobalNames...</a><br>
-    <a href="#31">PrintGlobalTables...</a><br>
-    <a href="#32">PrintReminders</a><br>
-    <a href="#33">PrintSciteVars</a><br>
-    <a href="#34">PrintPropertyList</a><br>
-    <a href="#35">ReplaceSelEscape</a><br>
-    <a href="#36">ReplaceSelSortLines</a><br>
-    <a href="#37">ReplaceSelSortList</a><br>
-    <a href="#38">ReplaceSelWrapList</a><br>
+    <a href="#29">PrintCommentLines</a><br>
+    <a href="#30">PrintCommentedCodeLines</a><br>
+    <a href="#31">PrintFindText</a><br>
+    <a href="#32">PrintGlobalNames...</a><br>
+    <a href="#32">PrintGlobalTables...</a><br>
+    <a href="#33">PrintReminders</a><br>
+    <a href="#34">PrintSciteVars</a><br>
+    <a href="#35">PrintPropertyList</a><br>
+    <a href="#36">ReplaceSelEscape</a><br>
+    <a href="#37">ReplaceSelSortLines</a><br>
+    <a href="#38">ReplaceSelSortList</a><br>
+    <a href="#39">ReplaceSelWrapList</a><br>
+    <a href="#40">SelectCalltipColour</a><br>
+    <a href="#41">SetColour</a><br>
    </td>
    <td>
-    <a href="#39">SelectCalltipColour</a><br>
-    <a href="#40">SetColour</a><br>
-    <a href="#41">SetProperty</a><br>
-    <a href="#42">SetStyle</a><br>
-    <a href="#43">StartExeFile</a><br>
-    <a href="#44">StripTrailingSpaces</a><br>
-    <a href="#45">ToggleCodePage</a><br>
-    <a href="#46">ToggleDimComments</a><br>
-    <a href="#47">ToggleExtendedTools</a><br>
-    <a href="#48">ToggleHighlightCurrentWord</a><br>
-    <a href="#49">ToggleMonospaceFont</a><br>
-    <a href="#50">WinMergeFilePath</a><br>
-    <a href="#51">WinMergeFilePath unsaved</a><br>
+    <a href="#42">SetProperty</a><br>
+    <a href="#43">SetStyle</a><br>
+    <a href="#44">StartExeFile</a><br>
+    <a href="#45">StripTrailingSpaces</a><br>
+    <a href="#46">ToggleCodePage</a><br>
+    <a href="#47">ToggleDimComments</a><br>
+    <a href="#48">ToggleExtendedTools</a><br>
+    <a href="#49">ToggleHighlightCurrentWord</a><br>
+    <a href="#50">ToggleMonospaceFont</a><br>
+    <a href="#51">WinMergeFilePath</a><br>
+    <a href="#52">WinMergeFilePath unsaved</a><br>
    </td>
   </tr>
  </table>
@@ -377,20 +378,29 @@
 
 
 
- <h2 id="22">OpenLuaExtensionFile</h2>
+ <h2 id="23">OpenLuaExtensionFile</h2>
 
  <p>Open a lua extension file which is searched as <i>extension.lua</i>
  in the subfolders of <i>SciteDefaultHome</i>.</p>
 
 
 
- <h2 id="23">OpenSciteVarsFile</h2>
+ <h2 id="22">OpenLastClosedFile</h2>
+
+ <p>Open the last closed file.</p>
+
+ <p>The last closed file value will be nil at the startup of SciTE.
+ The item will not be listed in GlobalTools if the value is nil.</p>
+
+
+
+ <h2 id="24">OpenSciteVarsFile</h2>
 
  <p>Open <i>scitevars.cfg</i> file which can be used by PrintSciteVars.</p>
 
 
 
- <h2 id="24">OpenTempFile</h2>
+ <h2 id="25">OpenTempFile</h2>
 
  <p>Open a temporary file with the same file extension
  as the current file.</p>
@@ -407,19 +417,19 @@
 
 
 
- <h2 id="25">PrintApiKeywords</h2>
+ <h2 id="26">PrintApiKeywords</h2>
 
  <p>Print keywords from api files, like those used in autocomplete.</p>
 
 
 
- <h2 id="26">PrintApiLuaPropFiles</h2>
+ <h2 id="27">PrintApiLuaPropFiles</h2>
 
  <p>Print api, lua and properties files.</p>
 
 
 
- <h2 id="27">PrintAsciiTable</h2>
+ <h2 id="28">PrintAsciiTable</h2>
 
  <p>Print an ASCII table to the output pane.</p>
 
@@ -428,7 +438,7 @@
 
 
 
- <h2 id="28">PrintCommentLines</h2>
+ <h2 id="29">PrintCommentLines</h2>
 
  <p>Get comment lines from the editor pane and print to the output pane.</p>
 
@@ -447,7 +457,7 @@
 
 
 
- <h2 id="29">PrintCommentedCodeLines</h2>
+ <h2 id="30">PrintCommentedCodeLines</h2>
 
  <p>Get comment code lines from the editor pane and print to the output pane.</p>
 
@@ -455,7 +465,7 @@
 
 
 
- <h2 id="30">PrintFindText</h2>
+ <h2 id="31">PrintFindText</h2>
 
  <p>Print search results found from selected text or current word.</p>
 
@@ -466,7 +476,7 @@
 
 
 
- <h2 id="31">PrintGlobalNames... PrintGlobalTables...</h2>
+ <h2 id="32">PrintGlobalNames... PrintGlobalTables...</h2>
 
  <p>Print Lua names and tables.</p>
 
@@ -475,7 +485,7 @@
 
 
 
- <h2 id="32">PrintReminders</h2>
+ <h2 id="33">PrintReminders</h2>
 
  <p>Find reminder lines in the edit pane and print to the output pane.</p>
 
@@ -493,7 +503,7 @@
 
 
 
- <h2 id="33">PrintSciteVars</h2>
+ <h2 id="34">PrintSciteVars</h2>
 
  <p>Print SciTE property variables.</p>
 
@@ -505,7 +515,7 @@
 
 
 
- <h2 id="34">PrintPropertyList</h2>
+ <h2 id="35">PrintPropertyList</h2>
 
  <p>Print a list of property names and values modified by
  <i>SetProperty</i> or <i>SetStyle</i>.</p>
@@ -522,7 +532,7 @@
 
 
 
- <h2 id="35">ReplaceSelEscape</h2>
+ <h2 id="36">ReplaceSelEscape</h2>
 
  <p>Escapes certain special characters used in some languages.</p>
 
@@ -538,7 +548,7 @@
 
 
 
- <h2 id="36">ReplaceSelSortLines</h2>
+ <h2 id="37">ReplaceSelSortLines</h2>
 
  <p>Sorts a selection of text by line.</p>
 
@@ -556,7 +566,7 @@ item3</pre></code>
 
 
 
- <h2 id="37">ReplaceSelSortList</h2>
+ <h2 id="38">ReplaceSelSortList</h2>
 
  <p>Sorts a JSON style list.</p>
 
@@ -570,7 +580,7 @@ item3</pre></code>
 
 
 
- <h2 id="38">ReplaceSelWrapList</h2>
+ <h2 id="39">ReplaceSelWrapList</h2>
 
  <p>Wraps a JSON style list.</p>
 
@@ -586,13 +596,13 @@ item3</pre></code>
 
 
 
- <h2 id="39">SelectCalltipColour</h2>
+ <h2 id="40">SelectCalltipColour</h2>
 
  <p>Change colours of both autocomplete and calltip popups.</p>
 
 
 
- <h2 id="40">SetColour</h2>
+ <h2 id="41">SetColour</h2>
 
  <p>Set a value for a colour variable name with fore and back
  colours using a Colour Dialog.</p>
@@ -609,7 +619,7 @@ item3</pre></code>
 
 
 
- <h2 id="41">SetProperty</h2>
+ <h2 id="42">SetProperty</h2>
 
  <p>Set a property and it's value for the duration of the
  current SciTE instance.</p>
@@ -675,7 +685,7 @@ item3</pre></code>
 
 
 
- <h2 id="42">SetStyle</h2>
+ <h2 id="43">SetStyle</h2>
 
  <p>Set a style and it's value for the duration of the
  current SciTE instance.</p>
@@ -727,7 +737,7 @@ item3</pre></code>
 
 
 
- <h2 id="43">StartExeFile</h2>
+ <h2 id="44">StartExeFile</h2>
 
  <p>Run executables in the subfolders of <i>SciteDefaultHome</i>.</p>
 
@@ -736,7 +746,7 @@ item3</pre></code>
 
 
 
- <h2 id="44">StripTrailingSpaces</h2>
+ <h2 id="45">StripTrailingSpaces</h2>
 
  <p>Strip trailing spaces from the current document in the edit pane.</p>
 
@@ -747,13 +757,13 @@ item3</pre></code>
 
 
 
- <h2 id="45">ToggleCodePage</h2>
+ <h2 id="46">ToggleCodePage</h2>
 
  <p>Toggle between 0 (ANSI), 65001 (UTF8) and the actual codepage.</p>
 
 
 
- <h2 id="46">ToggleDimComments</h2>
+ <h2 id="47">ToggleDimComments</h2>
 
  <p>Toggle comment colours from normal colour to a lighter colour.</p>
 
@@ -762,7 +772,7 @@ item3</pre></code>
 
 
 
- <h2 id="47">ToggleExtendedTools</h2>
+ <h2 id="48">ToggleExtendedTools</h2>
 
  <p>Toggle the ListBox to show or hide the extended tools.</p>
 
@@ -772,7 +782,7 @@ item3</pre></code>
 
 
 
- <h2 id="48">ToggleHighlightCurrentWord</h2>
+ <h2 id="49">ToggleHighlightCurrentWord</h2>
 
  <p>Toggle highlight current word at position of the caret.</p>
 
@@ -781,7 +791,7 @@ item3</pre></code>
 
 
 
- <h2 id="49">ToggleMonospaceFont</h2>
+ <h2 id="50">ToggleMonospaceFont</h2>
 
  <p>Toggle with monospace font and proportional font.</p>
 
@@ -791,7 +801,7 @@ item3</pre></code>
 
 
 
- <h2 id="50">WinMergeFilePath</h2>
+ <h2 id="51">WinMergeFilePath</h2>
 
  <p>Passes <i>FilePath</i> as 1st argument to WinMerge.
  WinMerge will then show the <i>Select Files or Folders dialog</i>.
@@ -802,7 +812,7 @@ item3</pre></code>
 
 
 
- <h2 id="51">WinMergeFilePath unsaved</h2>
+ <h2 id="52">WinMergeFilePath unsaved</h2>
 
  <p>Compares the edit pane content with <i>FilePath</i>
  or another files content.</p>
