@@ -32,6 +32,9 @@ GlobalSettings = {
         -- Hide or show extended tools. true=all tools, false=less tools.
         ['extended'] = false},
 
+    -- Last file closed that can be reopened later.
+    ['last_closed_file'] = nil,
+
     -- SetProperty record for the last property name set by the SelectProperty item.
     ['prop_last'] = '',
 
@@ -1682,6 +1685,14 @@ local function PrintPropertyList()
 end
 
 
+local function OpenLastClosedFile()
+    -- Open last closed file.
+
+    local filepath = GlobalSettings['last_closed_file']
+    scite.Open(filepath)
+end
+
+
 local function ReplaceSelEscape()
     -- Escape special characters in some languages.
 
@@ -3315,7 +3326,11 @@ function GlobalTools()
     end
 
     if next(GlobalSettings['prop_list']) ~= nil then
-        list['PrintPropertyList']    = PrintPropertyList
+        list['PrintPropertyList']       = PrintPropertyList
+    end
+
+    if GlobalSettings['last_closed_file'] then
+        list['OpenLastClosedFile']      = OpenLastClosedFile
     end
 
     list['ReplaceSelEscape']            = ReplaceSelEscape
@@ -3419,6 +3434,9 @@ function OnClose(filepath)
     -- Remove tmpfile and the filepath key.
     if Buffer:get('tmpfile') then
         os.remove(filepath)
+    else
+        -- Record last closed file.
+        GlobalSettings['last_closed_file'] = filepath
     end
 
     Buffer:remove()
