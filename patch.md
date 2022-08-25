@@ -76,23 +76,6 @@ edge.mode=1
 edge.colour=#C0DCC0
 ```
 
-#### SciTEGlobal: Replace bookmark.fore with bookmark.back
-
-@Element styles
-Old setting makes the marked line a dark red background if the margin is hidden.
-Light blue #F0F5FF is not bright though matches the blue orb.
-Light yellow #FFFFCC does stand out.
-
-```
-
-bookmark.fore=#BE0000
-```
-
-```
-
-bookmark.back=#FFFFCC
-```
-
 #### SciTEGlobal: Change indent size and type
 
 @Indentation
