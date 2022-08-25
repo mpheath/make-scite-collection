@@ -17,10 +17,12 @@ def get_absent_property_items(content):
 
     properties = []
 
-    # Get command... property section and style... property section.
-    alt = r'command\.name\.<i>number</i>\.<i>filepattern|style\.<i>lexer</i>\.\d'
+    # Get command, indicator, marker and style properties.
+    alt = (r'command\.name\.<i>number</i>\.<i>filepattern|'
+           r'style\.<i>lexer</i>\.\d|'
+           r'change.history')
 
-    matches = re.findall(r'<tr>\s*<td>\s*((?:' + alt + r').*?)\s*</td>',
+    matches = re.findall(r'<tr.*?>\s*<td>\s*((?:' + alt + r').*?)\s*</td>',
                          content, re.S|re.I)
 
     if matches:
@@ -64,14 +66,18 @@ def make_index(file, outfile):
                 if ('property-' + item) not in content:
                     if item.startswith('command.'):
                         if 'property-command.go.needs' in content:
-                            items[index] = item + '#' + 'command.go.needs'
+                            items[index] = item + '#command.go.needs'
+                    elif item.startswith('indicator.') or item.startswith('marker.'):
+                        if 'property-change.history' in content:
+                            items[index] = item + '#change.history'
                     elif item.startswith('style.'):
                         if 'property-style.*' in content:
-                            items[index] = item + '#' + 'style.*'
+                            items[index] = item + '#style.*'
 
         matches.extend(items)
 
-    # Sort items.
+    # Sort as unique items.
+    matches = list(set(matches))
     matches.sort(key=str.lower)
 
     # Write the index file.
