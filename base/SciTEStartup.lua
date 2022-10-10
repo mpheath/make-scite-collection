@@ -933,6 +933,27 @@ local function FrhedFilePath()
 end
 
 
+local function GotoPosition()
+    -- Goto a character position.
+
+    local msg = 'Enter position to goto\r\n\r\n' ..
+                'Current position:  ' .. tostring(editor.CurrentPos) .. '\r\n' ..
+                'Last position:  ' .. tostring(editor.Length)
+
+    local pos = InputBox('', 'GlobalTools', msg)
+
+    if not pos then
+        return
+    elseif not string.match(pos, '^[0-9]+$') then
+        MsgBox('Position value entered was not an integer',
+               'GlobalTools', MB_ICONWARNING)
+        return
+    end
+
+    editor:GotoPos(pos)
+end
+
+
 local function InsertDate()
     -- Insert or replace date in the format of 'yyyy-mm-dd'.
 
@@ -3305,6 +3326,7 @@ function GlobalTools()
                                 end
     end
 
+    list['GotoPosition']          = GotoPosition
     list['InsertDate']            = InsertDate
     list['OpenAbbrevFile']        = OpenAbbrevFile
     list['OpenApiFile']           = OpenApiFile
