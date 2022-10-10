@@ -334,6 +334,22 @@ local function BackupFilePath()
     end
 
     -- Database handling functions.
+    local function GetDataBaseSize()
+        -- Get the size of the database file.
+
+        local file = io.open(dbfile)
+
+        if not file then
+            return
+        end
+
+        local size, err = file:seek('end')
+
+        file:close()
+
+        return size, err
+    end
+
     local function InitilizeDatabase()
         -- Create the database and the main table.
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
@@ -390,6 +406,7 @@ local function BackupFilePath()
 
     -- Select mode from the list box.
     local list = {'Commit filepath',
+                  'Compact the database',
                   'Delete any commit',
                   'Delete the database',
                   'Edit any commit',
@@ -487,7 +504,32 @@ local function BackupFilePath()
         return
     end
 
-    if mode == 'delete any commit' then
+    if mode == 'compact the database' then
+
+        -- Get before file size.
+        local before = GetDataBaseSize()
+
+        -- Perform a vacuum of the database.
+        local command = '""' .. sqlite .. '" "' .. dbfile .. '" "VACUUM""'
+
+        os.execute(command)
+
+        -- Get after file size.
+        local after = GetDataBaseSize()
+
+        -- Display results of before and after.
+        if not before or not after then
+            MsgBox('Before and after sizes unknown', 'BackupFilePath')
+            return
+        end
+
+        local len = string.len(tostring(before))
+
+        MsgBox(string.format('Size before: %' .. len .. 's\r\n' ..
+                             'Size after:  %' .. len .. 's\r\n', before, after),
+                             'BackupFilePath', MB_ICONINFORMATION)
+
+    elseif mode == 'delete any commit' then
 
         -- Select the commit.
         local rowid = SelectDatabaseItem()
@@ -506,7 +548,7 @@ local function BackupFilePath()
         -- Delete the commit.
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"DELETE FROM main WHERE rowid = ' ..
-                        tostring(rowid) .. ';VACUUM""'
+                        tostring(rowid) .. '""'
 
         os.execute(command)
 
