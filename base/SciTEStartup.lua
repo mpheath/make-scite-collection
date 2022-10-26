@@ -2247,6 +2247,7 @@ local function SetProperty()
                            '9 = 9 pixels'},
         ['change.history'] = {'Default',
                               '0 = Off',
+                              '1 = On',
                               '3 = Markers',
                               '5 = Indicators',
                               '7 = Markers and Indicators'},
