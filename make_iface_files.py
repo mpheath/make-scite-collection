@@ -101,7 +101,7 @@ def make_hta():
             ' </style>\n'
             '</head>\n\n'
             '<body>\n'
-            ' <h1># SciTE IFace Functions, Getters And Setters</h1>\n\n'
+            ' <h1># Scintilla IFace Functions, Getters And Setters</h1>\n\n'
             ' <p><b>Colors:</b> <i>Basics</i> | <i class="s1">Provisional</i> |'
             ' <i class="s2">Deprecated</i> | <i class="s0">No parameters</i></p>\n\n'
             ' <table>\n'
