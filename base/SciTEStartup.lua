@@ -940,7 +940,7 @@ local function GotoPosition()
                 'Current position:  ' .. tostring(editor.CurrentPos) .. '\r\n' ..
                 'Last position:  ' .. tostring(editor.Length)
 
-    local pos = InputBox('', 'GlobalTools', msg)
+    local pos = InputBox(tostring(editor.CurrentPos), 'GotoPosition', msg)
 
     if not pos then
         return
