@@ -954,6 +954,51 @@ local function GotoPosition()
 end
 
 
+local function InsertCtrlCharacter()
+    -- Insert a control character.
+
+    local list = {'Null.  NUL',
+                  'Start of header.  SOH',
+                  'Start of text.  STX',
+                  'End of text.  ETX',
+                  'End of transmission.  EOT',
+                  'Enquiry.  ENQ',
+                  'Acknowledge.  ACK',
+                  'Bell.  BEL',
+                  'Backspace.  BS',
+                  'Horizontal tab.  HT',
+                  'Line feed.  LF',
+                  'Vertical tab.  VT',
+                  'Form feed.  FF',
+                  'Carriage return.  CR',
+                  'Shift out.  SO',
+                  'Shift in.  SI',
+                  'Data link escape.  DLE',
+                  'Device control 1.  DC1',
+                  'Device control 2.  DC2',
+                  'Device control 3.  DC3',
+                  'Device control 4.  DC4',
+                  'Negative acknowledge.  NAK',
+                  'Synchronize.  SYN',
+                  'End of transmission block.  ETB',
+                  'Cancel.  CAN',
+                  'End of medium.  EM',
+                  'Substitute.  SUB',
+                  'Escape.  ESC',
+                  'File separator.  FS',
+                  'Group separator.  GS',
+                  'Record separator.  RS',
+                  'Unit separator.  US'}
+
+    -- Get the selected name and insert the character.
+    local result = ListBox(list, 'InsertCtrlCharacter')
+
+    if result then
+        editor:AddText(string.char(result))
+    end
+end
+
+
 local function InsertDate()
     -- Insert or replace date in the format of 'yyyy-mm-dd'.
 
@@ -3328,6 +3373,7 @@ function GlobalTools()
     end
 
     list['GotoPosition']          = GotoPosition
+    list['InsertCtrlCharacter']   = InsertCtrlCharacter
     list['InsertDate']            = InsertDate
     list['OpenAbbrevFile']        = OpenAbbrevFile
     list['OpenApiFile']           = OpenApiFile
