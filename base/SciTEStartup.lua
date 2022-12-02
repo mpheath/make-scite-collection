@@ -2070,6 +2070,31 @@ local function SelectCalltipColour()
 end
 
 
+local function SetChangeHistory()
+    -- Set the Change History view option.
+
+    if editor.ChangeHistory == 0 then
+        MsgBox('Change History is disabled.',
+               'SetChangeHistory', MB_ICONWARNING)
+        return
+    end
+
+    local list = {'None',
+                  'Markers',
+                  'Indicators',
+                  'Markers and Indicators'}
+
+    local result = ListBox(list, 'SetChangeHistory')
+
+    if result == nil then
+        return
+    end
+
+    local option = {[0]=1, [1]=3, [2]=5, [3]=7}
+    editor.ChangeHistory = option[result]
+end
+
+
 local function SetColour()
     -- Set a value for a colour variable.
 
@@ -3456,6 +3481,7 @@ function GlobalTools()
     list['ReplaceSelSortList']          = ReplaceSelSortList
     list['ReplaceSelWrapList']          = ReplaceSelWrapList
     list['SelectCalltipColour']         = SelectCalltipColour
+    list['SetChangeHistory']            = SetChangeHistory
     list['SetColour']                   = SetColour
     list['SetProperty']                 = SetProperty
     list['SetStyle']                    = SetStyle
