@@ -386,11 +386,11 @@ calltip.python.word.characters=$(chars.alpha)$(chars.numeric)._@
 Generated from Python 3.9.5 final win32.
 
 ```
-keywordclass.python3=False None True and as assert break class continue \
+keywordclass.python3=False None True and as assert break case class continue \
 def del elif else except finally for from global if import in is lambda \
-nonlocal not or pass raise return try while with yield
+match nonlocal not or pass raise return try while with yield
 
-keywordclass.python=$(keywordclass.python2)
+keywordclass.python=$(keywordclass.python3)
 ```
 
 ```
