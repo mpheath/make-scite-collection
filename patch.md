@@ -383,7 +383,7 @@ calltip.python.word.characters=$(chars.alpha)$(chars.numeric)._@
 
 #### python: Update keywords
 
-Generated from Python 3.9.5 final win32.
+Generated from Python 3.11.2 final win32.
 
 ```
 keywordclass.python3=False None True and as assert break case class continue \
@@ -395,17 +395,17 @@ keywordclass.python=$(keywordclass.python3)
 
 ```
 keywordclass.python3=\
-False None True __peg_parser__ and as assert async \
-await break class continue def del elif else except \
-finally for from global if import in is lambda nonlocal \
-not or pass raise return try while with yield
+False None True and as assert async await break case \
+class continue def del elif else except finally for \
+from global if import in is lambda match nonlocal not \
+or pass raise return try while with yield
 
 keywordclass.python=$(keywordclass.python3) $(keywordclass1.python3)
 ```
 
 #### python: Update builtins and modules
 
-Generated from Python 3.9.5 final win32.
+Generated from Python 3.11.2 final win32.
 
 ```
 substylewords.11.1.$(file.patterns.py)=\
@@ -444,10 +444,11 @@ xdrlib xml xmlrpc zipfile zipimport zlib
 ```
 keywordclass1.python3=\
 ArithmeticError AssertionError AttributeError BaseException \
-BlockingIOError BrokenPipeError BufferError BytesWarning \
-ChildProcessError ConnectionAbortedError ConnectionError \
-ConnectionRefusedError ConnectionResetError DeprecationWarning \
-EOFError Ellipsis EnvironmentError Exception FileExistsError \
+BaseExceptionGroup BlockingIOError BrokenPipeError \
+BufferError BytesWarning ChildProcessError ConnectionAbortedError \
+ConnectionError ConnectionRefusedError ConnectionResetError \
+DeprecationWarning EOFError Ellipsis EncodingWarning \
+EnvironmentError Exception ExceptionGroup FileExistsError \
 FileNotFoundError FloatingPointError FutureWarning \
 GeneratorExit IOError ImportError ImportWarning IndentationError \
 IndexError InterruptedError IsADirectoryError KeyError \
@@ -460,46 +461,47 @@ SyntaxError SyntaxWarning SystemError SystemExit TabError \
 TimeoutError TypeError UnboundLocalError UnicodeDecodeError \
 UnicodeEncodeError UnicodeError UnicodeTranslateError \
 UnicodeWarning UserWarning ValueError Warning WindowsError \
-ZeroDivisionError abs all any ascii bin bool breakpoint \
-bytearray bytes callable chr classmethod compile complex \
-copyright credits delattr dict dir divmod enumerate \
-eval exec exit filter float format frozenset getattr \
-globals hasattr hash help hex id input int isinstance \
-issubclass iter len license list locals map max memoryview \
-min next object oct open ord pow print property quit \
-range repr reversed round set setattr slice sorted \
-staticmethod str sum super tuple type vars zip
+ZeroDivisionError abs aiter all anext any ascii bin \
+bool breakpoint bytearray bytes callable chr classmethod \
+compile complex copyright credits delattr dict dir \
+divmod enumerate eval exec exit filter float format \
+frozenset getattr globals hasattr hash help hex id \
+input int isinstance issubclass iter len license list \
+locals map max memoryview min next object oct open \
+ord pow print property quit range repr reversed round \
+set setattr slice sorted staticmethod str sum super \
+tuple type vars zip
 
 substylewords.11.1.$(file.patterns.py)=\
 abc aifc argparse array ast asynchat asyncio asyncore \
-atexit audioop base64 bdb binascii binhex bisect builtins \
+atexit audioop base64 bdb binascii bisect builtins \
 bz2 cProfile calendar cgi cgitb chunk cmath cmd code \
 codecs codeop collections colorsys compileall concurrent \
 configparser contextlib contextvars copy copyreg csv \
 ctypes dataclasses datetime dbm decimal difflib dis \
 distutils doctest email encodings ensurepip enum errno \
-faulthandler filecmp fileinput fnmatch formatter fractions \
-ftplib functools gc genericpath getopt getpass gettext \
-glob graphlib gzip hashlib heapq hmac html http idlelib \
+faulthandler filecmp fileinput fnmatch fractions ftplib \
+functools gc genericpath getopt getpass gettext glob \
+graphlib gzip hashlib heapq hmac html http idlelib \
 imaplib imghdr imp importlib inspect io ipaddress itertools \
 json keyword lib2to3 linecache locale logging lzma \
 mailbox mailcap marshal math mimetypes mmap modulefinder \
 msilib msvcrt multiprocessing netrc nntplib nt ntpath \
-nturl2path numbers opcode operator optparse os parser \
-pathlib pdb pickle pickletools pipes pkgutil platform \
-plistlib poplib posixpath pprint profile pstats py_compile \
-pyclbr pydoc pyexpat queue quopri random re reprlib \
-rlcompleter runpy sched secrets select selectors shelve \
-shlex shutil signal site smtpd smtplib sndhdr socket \
-socketserver sqlite3 sre_compile sre_constants sre_parse \
-ssl stat statistics string stringprep struct subprocess \
-sunau symbol symtable sys sysconfig tabnanny tarfile \
+nturl2path numbers opcode operator optparse os pathlib \
+pdb pickle pickletools pipes pkg_resources pkgutil \
+platform plistlib poplib posixpath pprint profile pstats \
+py_compile pyclbr pydoc pyexpat queue quopri random \
+re reprlib rlcompleter runpy sched secrets select selectors \
+setuptools shelve shlex shutil signal site smtpd smtplib \
+sndhdr socket socketserver sqlite3 sre_compile sre_constants \
+sre_parse ssl stat statistics string stringprep struct \
+subprocess sunau symtable sys sysconfig tabnanny tarfile \
 telnetlib tempfile textwrap threading time timeit tkinter \
-token tokenize trace traceback tracemalloc turtle turtledemo \
-types typing unicodedata unittest urllib uu uuid venv \
-warnings wave weakref webbrowser winreg winsound wsgiref \
-xdrlib xml xmlrpc xxsubtype zipapp zipfile zipimport \
-zlib zoneinfo
+token tokenize tomllib trace traceback tracemalloc \
+turtle turtledemo types typing unicodedata unittest \
+urllib uu uuid venv warnings wave weakref webbrowser \
+winreg winsound wsgiref xdrlib xml xmlrpc xxsubtype \
+zipapp zipfile zipimport zlib zoneinfo
 
 ```
 
