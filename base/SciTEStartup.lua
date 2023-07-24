@@ -1893,7 +1893,12 @@ local function ReplaceSelSortLines()
     end
 
     -- Ensure text has a trailing newline sequence.
-    text = text .. sep
+    local ends_with_sep = true
+
+    if string.find(text, '\r?\n$') == nil then
+        ends_with_sep = false
+        text = text .. sep
+    end
 
     -- Insert each line into a table and sort.
     local lines = {}
@@ -1904,10 +1909,46 @@ local function ReplaceSelSortLines()
         end
     end
 
-    table.sort(lines)
+    local result = ListBox('Sensitive|' ..
+                           'Insensitive lower compare|' ..
+                           'Insensitive upper compare|' ..
+                           'Sensitive reverse|' ..
+                           'Insensitive lower compare reverse|' ..
+                           'Insensitive upper compare reverse',
+                           'ReplaceSelSortLines')
+
+    if result == nil then
+        return
+    elseif result == 1 then
+        table.sort(lines,   function(a, b)
+                                return string.lower(a) < string.lower(b)
+                            end)
+    elseif result == 2 then
+        table.sort(lines,   function(a, b)
+                                return string.upper(a) < string.upper(b)
+                            end)
+    elseif result == 3 then
+        table.sort(lines,   function(a, b)
+                                return a > b
+                            end)
+    elseif result == 4 then
+        table.sort(lines,   function(a, b)
+                                return string.lower(a) > string.lower(b)
+                            end)
+    elseif result == 5 then
+        table.sort(lines,   function(a, b)
+                                return string.upper(a) > string.upper(b)
+                            end)
+    else
+        table.sort(lines)
+    end
 
     -- Join the lines into a string.
     text = table.concat(lines, sep)
+
+    if ends_with_sep then
+        text = text .. sep
+    end
 
     -- Replace the selection.
     editor:ReplaceSel(text)
