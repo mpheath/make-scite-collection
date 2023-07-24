@@ -29,7 +29,7 @@ If you do not already have the binaries and source files, then the script *downl
 
 ## Download base tools
 
-Download [Eskil], [Frhed], [Luacheck] and [SQLite] to the base directory used by *make_scite_setup.py*. Frhed is x86 (32 bit) and x64 (64 bit). The user gets to choose only 1 Frhed so pick the bitness to suit the target OS. Luacheck is 64 bit only and is a defined tool in the lua.properties override file. These tools are optional.
+Download [Eskil], [Frhed], [Luacheck] and [SQLite] to the base directory used by *make_scite_setup.py*. Frhed is x86 (32 bit) and x64 (64 bit).  Luacheck is x86 (32 bit) and x64 (64 bit) and is a defined tool in the lua.properties override file. Select the bitness to suit the target OS. These tools are optional.
 
 Important reminder, SciTE 64 bit setup uses Frhed in *SciTEStartup.lua*, SciTE 32 bit does not use Eskil and Frhed in *SciTEStartup.lua* as the Lua code is minimal in the latter, due to *rluawfx.dll* being 64 bit.
 
@@ -56,6 +56,7 @@ This is optional to do as the pre-made binaries may be suitable. If you do make 
 Another item in the menu is Make TestLexers. A compiled TestLexers.exe can run test files to detect if an issue exists in the lexers.
 
 Based on use of *mingw32-make* command of the [tdm-gcc] compiler.
+
 
 ## Edit Properties
 
