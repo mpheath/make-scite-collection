@@ -1725,6 +1725,38 @@ local function PrintGlobalTables(arg_table, arg_extra, skip_G)
 end
 
 
+local function PrintMarkers(mode)
+    -- Print markers to output.
+
+    local mask
+
+    if mode == 'bookmarks' then
+        local SCITE_BOOKMARK = 1
+        mask = 1 << SCITE_BOOKMARK
+    elseif mode == 'change_history' then
+        mask = (1 << SC_MARKNUM_HISTORY_REVERTED_TO_ORIGIN) |
+               (1 << SC_MARKNUM_HISTORY_SAVED) |
+               (1 << SC_MARKNUM_HISTORY_MODIFIED) |
+               (1 << SC_MARKNUM_HISTORY_REVERTED_TO_MODIFIED)
+    end
+
+    local prev_line
+
+    for i = 0, editor.LineCount - 1 do
+        if editor:MarkerGet(i) & mask ~= 0 then
+            if prev_line then
+                if i - 1 ~= prev_line then
+                    print()
+                end
+            end
+
+            PrintNumberedLine(i + 1, editor:GetLine(i))
+            prev_line = i
+        end
+    end
+end
+
+
 local function PrintReminders()
     -- Find reminder lines in source. Code concept from RSciTE.
 
@@ -3479,6 +3511,15 @@ function GlobalTools()
     list['PrintApiKeywords']      = PrintApiKeywords
     list['PrintApiLuaPropsFiles'] = PrintApiLuaPropsFiles
     list['PrintAsciiTable']       = PrintAsciiTable
+
+    list['PrintBookmarks']    = function()
+                                    PrintMarkers('bookmarks')
+                                end
+
+    list['PrintChangeHistory']    = function()
+                                        PrintMarkers('change_history')
+                                    end
+
     list['PrintCommentLines']     = PrintCommentLines
 
     list['PrintCommentedCodeLines']   = function()
