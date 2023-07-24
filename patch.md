@@ -163,8 +163,8 @@ code.page=65001
 imports.exclude=abaqus ada asciidoc asl asn1 au3 ave avs baan blitzbasic bullant \
 caml cil cmake cobol coffeescript csound d dataflex ecl eiffel erlang escript \
 flagship forth fortran freebasic fsharp \
-gap haskell hex inno kix latex lot lout \
-maxima metapost mmixal modula3 nim nimrod nncrontab nsis \
+gap haskell hex hollywood inno kix latex lot lout \
+maxima metapost mmixal modula3 nim nncrontab nsis \
 opal oscript pov powerpro ps purebasic r raku rebol rust \
 sas scriptol smalltalk sorcins spice specman \
 tacl tal txt2tags verilog vhdl visualprolog
@@ -174,8 +174,8 @@ tacl tal txt2tags verilog vhdl visualprolog
 imports.exclude=abaqus ada asciidoc asl asm asn1 ave avs baan blitzbasic bullant \
 caml cil cmake cobol coffeescript csound d dataflex ecl eiffel erlang escript \
 flagship forth fortran freebasic fsharp \
-gap haskell hex kix latex lisp lot lout \
-matlab maxima metapost mmixal modula3 nim nimrod nncrontab nsis \
+gap haskell hex hollywood kix latex lisp lot lout \
+matlab maxima metapost mmixal modula3 nim nncrontab nsis \
 opal oscript pov powerpro ps purebasic r raku rebol ruby rust \
 sas scriptol smalltalk sorcins spice specman \
 tacl tal tcl tex txt2tags verilog vhdl visualprolog
