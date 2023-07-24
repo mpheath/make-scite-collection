@@ -2330,6 +2330,7 @@ local function SetProperty()
                                 '.html', '.iss', '.js', '.json', '.lua',
                                 '.md', '.pas', '.php', '.properties',
                                 '.ps1', '.py', '.sh', '.sql', '.txt', '.xml'},
+        ['discover.properties'] = preset.off_on,
         ['edge.colour'] = preset.grey_colours,
         ['edge.column'] = {'Default',
                            '40 = 40 characters',
@@ -2412,6 +2413,7 @@ local function SetProperty()
         ['horizontal.scroll.width'] = preset.scroll_width,
         ['horizontal.scroll.width.tracking'] = preset.off_on,
         ['horizontal.scrollbar'] = preset.off_on,
+        ['indent.auto'] = preset.off_on,
         ['indent.automatic'] = preset.off_on,
         ['indent.closing'] = preset.off_on,
         ['indent.opening'] = preset.off_on,
@@ -2575,6 +2577,7 @@ local function SetProperty()
                                                   '4 = Check indent for any tabs'}}
     elseif language == 'sql' then
         lexprops = {['fold.sql.at.else'] = preset.off_on,
+                    ['fold.sql.only.begin'] = preset.off_on,
                     ['lexer.sql.allow.dotted.word'] = preset.off_on,
                     ['lexer.sql.numbersign.comment'] = preset.off_on,
                     ['sql.backslash.escapes'] = preset.off_on}
