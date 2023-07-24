@@ -476,6 +476,8 @@ _update = {
     'others': [
         # Change dark background on batch labels to lighter colour.
         ['style.batch.3', '$(colour.embedded.js),bold,eolfilled'],
+        # Change text colour to comment colour and not to be bold.
+        ['style.batch.8', '$(style.batch.3),$(colour.code.comment.line),notbold'],
     ],
     'powerpro': [
         # Fix '#fore:$(font.base)' value.
