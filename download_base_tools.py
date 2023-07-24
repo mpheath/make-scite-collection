@@ -51,15 +51,19 @@ if __name__ == '__main__':
             'dest': os.path.join(base, 'eskil')},
         'frhed|x86': {
             'url': 'https://github.com/WinMerge/frhed/releases/download/'
-                   '0.10904.2017/frhed-0.10904.2017.10-x86.zip',
+                   '0.10904.2017/frhed-0.10904.2017.11-x86.zip',
             'dest': base},
         'frhed|x64': {
             'url': 'https://github.com/WinMerge/frhed/releases/download/'
-                   '0.10904.2017/frhed-0.10904.2017.10-x64.zip',
+                   '0.10904.2017/frhed-0.10904.2017.11-x64.zip',
             'dest': base},
+        'luacheck|x86': {
+            'url': 'https://github.com/lunarmodules/luacheck/releases/download/'
+                   'v1.1.1/luacheck32.exe',
+            'dest': os.path.join(base, 'lua')},
         'luacheck|x64': {
             'url': 'https://github.com/lunarmodules/luacheck/releases/download/'
-                   'v0.26.1/luacheck.exe',
+                   'v1.1.1/luacheck.exe',
             'dest': os.path.join(base, 'lua')},
         'sqlite': {
             'url': '',
@@ -99,7 +103,11 @@ if __name__ == '__main__':
 
         # Ask the user if OK to do the operation.
         if url.endswith('.exe'):
-            fullpath = os.path.join(dest, file)
+
+            if file == 'luacheck32.exe':
+                fullpath = os.path.join(dest, 'luacheck.exe')
+            else:
+                fullpath = os.path.join(dest, file)
 
             if os.path.isfile(fullpath):
                 continue
