@@ -895,6 +895,30 @@ local function DiffFileNameExt()
 end
 
 
+local function EmptyUndoBuffer()
+    -- Empty undo and redo of the buffer and clear the Change History.
+
+    local msg = 'Are you sure?'
+
+    if editor.Modify then
+        msg = 'The buffer should be in a saved state else the ' ..
+              'buffer will be in a state of being dirty with ' ..
+              'the Change History being clean. Unsaved changes ' ..
+              'would then become undoable.\n\n' .. msg
+    end
+
+    if MsgBox(msg, 'EmptyUndoBuffer', MB_ICONQUESTION|
+                                      MB_DEFBUTTON2|
+                                      MB_YESNO) == IDYES then
+
+        local mode = editor.ChangeHistory
+        editor.ChangeHistory = 0
+        editor:EmptyUndoBuffer()
+        editor.ChangeHistory = mode
+    end
+end
+
+
 local function EskilFilePath()
     -- Run Eskil to diff FilePath with a checkout.
 
@@ -3382,16 +3406,7 @@ function GlobalTools()
     end
 
     if editor:CanUndo() or editor:CanRedo() then
-        list['EmptyUndoBuffer']   = function()
-                                        if MsgBox('Are you sure?',
-                                                  'EmptyUndoBuffer',
-                                                  MB_ICONQUESTION|
-                                                  MB_DEFBUTTON2|
-                                                  MB_YESNO) == IDYES then
-
-                                            editor:EmptyUndoBuffer()
-                                        end
-                                    end
+        list['EmptyUndoBuffer'] = EmptyUndoBuffer
     end
 
     if os.path.exist(GlobalSettings['paths']['frhed']) then
