@@ -105,7 +105,9 @@
     <a href="#54">ToggleHighlightCurrentWord</a><br>
     <a href="#55">ToggleMonospaceFont</a><br>
     <a href="#56">WinMergeFilePath</a><br>
-    <a href="#57">WinMergeFilePath unsaved</a><br>
+    <a href="#57">WinMergeFilePath left</a><br>
+    <a href="#58">WinMergeFilePath middle</a><br>
+    <a href="#59">WinMergeFilePath unsaved</a><br>
    </td>
   </tr>
  </table>
@@ -895,7 +897,10 @@ item3</pre></code>
 
  <h2 id="56">WinMergeFilePath</h2>
 
- <p>Passes <i>FilePath</i> as 1st argument to WinMerge.
+ <p>If <i>left</i> and possibly <i>middle</i> are set, then <i>FilePath</i>
+ will be the last argument to WinMerge.</p>
+
+ <p>If not <i>left</i> is set then will pass <i>FilePath</i> as 1st argument to WinMerge.
  WinMerge will then show the <i>Select Files or Folders dialog</i>.
  Choose your settings and then press the <i>Compare</i> button.</p>
 
@@ -904,7 +909,23 @@ item3</pre></code>
 
 
 
- <h2 id="57">WinMergeFilePath unsaved</h2>
+ <h2 id="57">WinMergeFilePath left</h2>
+
+ <p>Stores the <i>FilePath</i> as 1st argument for the latter use of WinMergeFilePath.</p>
+
+ <p>Works similar to the WinMerge advanced context menu entries.</p>
+
+
+
+ <h2 id="58">WinMergeFilePath middle</h2>
+
+ <p>Stores the <i>FilePath</i> as 2nd argument for the latter use of WinMergeFilePath.</p>
+
+ <p>Works similar to the WinMerge advanced context menu entries.</p>
+
+
+
+ <h2 id="59">WinMergeFilePath unsaved</h2>
 
  <p>Compares the edit pane content with <i>FilePath</i>
  or another files content.</p>
