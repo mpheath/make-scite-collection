@@ -23,6 +23,9 @@ end
 -- Global settings table.
 GlobalSettings = {
 
+    -- WinMerge compare paths for left and middle.
+    ['compare_paths'] = {},
+
     -- GlobalTools various settings.
     ['tools'] = {
 
@@ -3260,6 +3263,14 @@ local function WinMergeFilePath(mode)
     -- Build the command.
     local command
 
+    if mode == 'left' then
+        table.insert(GlobalSettings['compare_paths'], 1, filepath)
+        return
+    elseif mode == 'middle' then
+        table.insert(GlobalSettings['compare_paths'], 2, filepath)
+        return
+    end
+
     if mode == 'unsaved' then
         local text = editor:GetText()
 
@@ -3308,7 +3319,17 @@ local function WinMergeFilePath(mode)
         end
 
         -- Build the command to diff the files.
-        command = '"' .. app .. '" /u "' .. filepath .. '"'
+        command = '"' .. app .. '" /u'
+
+        if next(GlobalSettings['compare_paths']) then
+            for i = 1, #GlobalSettings['compare_paths'] do
+                command = command .. ' "' .. GlobalSettings['compare_paths'][i] .. '"'
+            end
+
+            GlobalSettings['compare_paths'] = {}
+        end
+
+        command = command .. ' "' .. filepath .. '"'
     end
 
     -- Run WinMerge.
@@ -3594,7 +3615,19 @@ function GlobalTools()
     list['ToggleMonospaceFont']         = ToggleMonospaceFont
 
     if os.path.exist(GlobalSettings['paths']['winmerge']) then
-        list['WinMergeFilePath']          = WinMergeFilePath
+        if props['FileNameExt'] ~= '' then
+            list['WinMergeFilePath'] = WinMergeFilePath
+
+            list['WinMergeFilePath left'] = function()
+                                                WinMergeFilePath('left')
+                                            end
+
+            if next(GlobalSettings['compare_paths']) then
+                list['WinMergeFilePath middle']   = function()
+                                                        WinMergeFilePath('middle')
+                                                    end
+            end
+        end
 
         list['WinMergeFilePath unsaved']  = function()
                                                 WinMergeFilePath('unsaved')
