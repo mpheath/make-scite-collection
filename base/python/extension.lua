@@ -90,9 +90,9 @@ function OnChar(char)
         -- AutoComplete variable name file re methods.
         if string.match(curline, '%f[%w](re_%w+)%.\r?\n?$') then
 
-            local names = 'findall finditer flags fullmatch ' ..
-                          'groupindex groups match pattern ' ..
-                          'scanner search split sub subn'
+            local names = 'findall finditer flags fullmatch groupindex ' ..
+                          'groups match pattern scanner search split sub ' ..
+                          'subn'
 
             local length = LengthEntered()
             editor:AutoCShow(length, names)
@@ -102,9 +102,10 @@ function OnChar(char)
         -- AutoComplete variable name file subprocess.Popen methods.
         if string.match(curline, '%f[%w][p]%.\r?\n?$') then
 
-            local names = 'args communicate encoding errors kill pid poll ' ..
-                          'returncode send_signal stderr stdin stdout ' ..
-                          'terminate text_mode universal_newlines wait'
+            local names = 'args communicate encoding errors kill pid ' ..
+                          'pipesize poll returncode send_signal stderr ' ..
+                          'stdin stdout terminate text_mode ' ..
+                          'universal_newlines wait'
 
             local length = LengthEntered()
             editor:AutoCShow(length, names)
@@ -115,9 +116,9 @@ function OnChar(char)
         if string.match(curline, '%f[%w][z]%.\r?\n?$') then
 
             local names = 'NameToInfo close comment compression ' ..
-                          'compresslevel debug extract extractall ' ..
-                          'filelist filename fp getinfo infolist ' ..
-                          'mode namelist open printdir pwd read ' ..
+                          'compresslevel debug extract extractall filelist ' ..
+                          'filename fp getinfo infolist metadata_encoding ' ..
+                          'mkdir mode namelist open printdir pwd read ' ..
                           'setpassword start_dir testzip write writestr'
 
             local length = LengthEntered()
@@ -136,8 +137,8 @@ function OnChar(char)
         end
 
         if match then
-            local names = 'clear copy fromkeys get items keys ' ..
-                          'pop popitem setdefault update values'
+            local names = 'clear copy fromkeys get items keys pop popitem ' ..
+                          'setdefault update values'
 
             local length = LengthEntered()
             editor:AutoCShow(length, names)
@@ -155,8 +156,8 @@ function OnChar(char)
         end
 
         if match then
-            local names = 'append clear copy count extend ' ..
-                          'index insert pop remove reverse sort'
+            local names = 'append clear copy count extend index insert pop ' ..
+                          'remove reverse sort'
 
             local length = LengthEntered()
             editor:AutoCShow(length, names)
@@ -175,8 +176,9 @@ function OnChar(char)
 
         if match or string.match(curline, "%f[%w]([0-9]+)%.\r?\n?$") then
 
-            local names = 'as_integer_ratio bit_length conjugate denominator ' ..
-                          'from_bytes imag numerator real to_bytes'
+            local names = 'as_integer_ratio bit_count bit_length conjugate ' ..
+                          'denominator from_bytes imag is_integer ' ..
+                          'numerator real to_bytes'
 
             local length = LengthEntered()
             editor:AutoCShow(length, names)
@@ -195,15 +197,15 @@ function OnChar(char)
 
         if match or string.match(curline, "['\"]%.\r?\n?$") then
 
-            local names = 'capitalize casefold center count encode endswith ' ..
-                          'expandtabs find format format_map index isalnum ' ..
-                          'isalpha isascii isdecimal isdigit isidentifier ' ..
-                          'islower isnumeric isprintable isspace istitle ' ..
-                          'isupper join ljust lower lstrip maketrans ' ..
-                          'partition removeprefix removesuffix replace ' ..
-                          'rfind rindex rjust rpartition rsplit rstrip ' ..
-                          'split splitlines startswith strip swapcase ' ..
-                          'title translate upper zfill'
+            local names = 'capitalize casefold center count encode ' ..
+                          'endswith expandtabs find format format_map ' ..
+                          'index isalnum isalpha isascii isdecimal isdigit ' ..
+                          'isidentifier islower isnumeric isprintable ' ..
+                          'isspace istitle isupper join ljust lower lstrip ' ..
+                          'maketrans partition removeprefix removesuffix ' ..
+                          'replace rfind rindex rjust rpartition rsplit ' ..
+                          'rstrip split splitlines startswith strip ' ..
+                          'swapcase title translate upper zfill'
 
             local length = LengthEntered()
             editor:AutoCShow(length, names)
