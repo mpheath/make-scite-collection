@@ -2344,6 +2344,7 @@ local function SetProperty()
     local list = {
         ['are.you.sure.on.reload'] = preset.off_on,
         ['autocomplete.choose.single'] = preset.off_on,
+        ['autocomplete.multi'] = preset.off_on,
         ['autocomplete.visible.item.count'] = {'Default',
                                                'Empty',
                                                '3 = 3 items',
@@ -2666,6 +2667,7 @@ local function SetProperty()
                     ['lexer.python.literals.binary'] = preset.off_on,
                     ['lexer.python.strings.b'] = preset.off_on,
                     ['lexer.python.strings.f'] = preset.off_on,
+                    ['lexer.python.strings.f.pep.701'] = preset.off_on,
                     ['lexer.python.strings.over.newline'] = preset.off_on,
                     ['lexer.python.strings.u'] = preset.off_on,
                     ['lexer.python.unicode.identifiers'] = preset.off_on,
