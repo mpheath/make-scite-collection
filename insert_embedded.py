@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Insert Embedded.properties into Sc1.exe using Resource Hacker.'''
 

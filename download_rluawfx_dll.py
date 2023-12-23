@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Download rluawfx-en.dll and luawfx.cpp. Make rluawfx_functions.hta.'''
 

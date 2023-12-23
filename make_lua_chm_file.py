@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make lua.hhc, lua.hhk and lua.hhp to compile lua.chm.'''
 

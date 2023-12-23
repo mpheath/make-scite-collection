@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make scitestyles.api file from SciTEGlobal.properties and others.properties.'''
 

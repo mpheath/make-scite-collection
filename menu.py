@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Easy concept to run the scripts by a menu.'''
 

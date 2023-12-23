@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Build SciTE.exe and Sc1.exe from source with gcc.'''
 

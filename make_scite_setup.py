@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Build a new wscite or sc1 setup.'''
 

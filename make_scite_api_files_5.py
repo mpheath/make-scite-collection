@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make scitestyler.api file from ScriptLexer.html.'''
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make sciteconstants.api file from various files.'''
 

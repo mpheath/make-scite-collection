@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make hhc, hhk and hhp files to make lexilla.chm, scintilla.chm and scite.chm.'''
 

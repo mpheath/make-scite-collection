@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Remove directories and files that are not needed anymore.'''
 

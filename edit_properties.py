@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Edit the embedded or external property files.
 

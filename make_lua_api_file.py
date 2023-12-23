@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make lua.api and lua.json.'''
 

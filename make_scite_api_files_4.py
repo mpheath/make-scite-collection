@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make scitemenucommands.api file from CommandValues.html.'''
 

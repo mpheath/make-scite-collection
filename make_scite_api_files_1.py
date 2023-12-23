@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Make sciteproperties.api and scitevariables.api files from SciTEDoc.html.'''
 

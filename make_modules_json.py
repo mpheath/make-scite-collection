@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Read property files and save into 1 json file.'''
 

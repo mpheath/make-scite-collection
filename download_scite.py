@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Download SciTE source and executables and optionally extract the source.'''
 

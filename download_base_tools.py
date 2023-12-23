@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!python3
 
 '''Copy or extract base tools from the downloaded files.'''
 
