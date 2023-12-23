@@ -165,7 +165,7 @@ if __name__ == '__main__':
         print(' ', file)
 
         # Read cpp file.
-        with open(file) as r:
+        with open(file, errors='surrogateescape') as r:
             content = r.read()
 
         # Change directory to output.
