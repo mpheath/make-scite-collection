@@ -104,6 +104,7 @@ if __name__ == '__main__':
     required_name = 'scite/src/SciTE.h'
     source_dirs = ('lexilla', 'scintilla', 'scite')
     source_zipfile = None
+    repo_found = False
 
     for file_pattern in file_patterns:
         if file_pattern.startswith('scite'):
@@ -111,14 +112,29 @@ if __name__ == '__main__':
             break
 
     if os.path.isfile(source_zipfile):
-        for item in source_dirs:
-            if os.path.exists(os.path.join(initial_dir, item)):
-                print('warning: This may remove current lexilla, scintilla and scite '
-                      'directories and then extract the source from the zipfile.')
-                break
 
-        reply = input('Extract {} to current directory [n|y]: '
-                      .format(os.path.basename(source_zipfile)))
+        # Warn if a source folder is a repository.
+        for item in source_dirs:
+            for subdir in ('.git', '.hg'):
+                if os.path.isdir(os.path.join(initial_dir, item, subdir)):
+                    print('warning: {} recognized as a repository'.format(item))
+                    repo_found = True
+
+        if repo_found:
+            # Do not extract to replace repositories.
+            print('Extract option not available to replace repositories.')
+            reply = 'n'
+        else:
+            # Warn if a source folder already exist.
+            for item in source_dirs:
+                if os.path.exists(os.path.join(initial_dir, item)):
+                    print('warning: This may remove current lexilla, scintilla and scite '
+                          'directories and then extract the source from the zipfile.')
+                    break
+
+            # Get permission to extract.
+            reply = input('Extract {} to current directory [n|y]: '
+                          .format(os.path.basename(source_zipfile)))
 
         if reply.lower() == 'y':
 
