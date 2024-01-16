@@ -17,7 +17,7 @@ def get_sqlite_url():
     except urllib.error.HTTPError as err_msg:
         print('   ', err_msg)
 
-    pattern = r'^PRODUCT,.*,(\d+/sqlite-tools-win32-x86-\d+.zip)'
+    pattern = r'^PRODUCT,.*,(\d+/sqlite-tools-win-x64-\d+.zip)'
 
     product = re.findall(pattern, content, re.M)
 
@@ -47,23 +47,23 @@ if __name__ == '__main__':
     dic = {
         'eskil': {
             'url': 'http://eskil.tcl-lang.org/index.html/uv/htdocs/download/'
-                   'eskil284.win.zip',
+                   'eskil285.win.zip',
             'dest': os.path.join(base, 'eskil')},
         'frhed|x86': {
             'url': 'https://github.com/WinMerge/frhed/releases/download/'
-                   '0.10904.2017/frhed-0.10904.2017.11-x86.zip',
+                   '0.10904.2017/frhed-0.10904.2017.14-x86.zip',
             'dest': base},
         'frhed|x64': {
             'url': 'https://github.com/WinMerge/frhed/releases/download/'
-                   '0.10904.2017/frhed-0.10904.2017.11-x64.zip',
+                   '0.10904.2017/frhed-0.10904.2017.14-x64.zip',
             'dest': base},
         'luacheck|x86': {
             'url': 'https://github.com/lunarmodules/luacheck/releases/download/'
-                   'v1.1.1/luacheck32.exe',
+                   'v1.1.2/luacheck32.exe',
             'dest': os.path.join(base, 'lua')},
         'luacheck|x64': {
             'url': 'https://github.com/lunarmodules/luacheck/releases/download/'
-                   'v1.1.1/luacheck.exe',
+                   'v1.1.2/luacheck.exe',
             'dest': os.path.join(base, 'lua')},
         'sqlite': {
             'url': '',
