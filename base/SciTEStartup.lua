@@ -551,7 +551,7 @@ local function BackupFilePath()
         -- Delete the commit.
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"DELETE FROM main WHERE rowid = ' ..
-                        tostring(rowid) .. '""'
+                        rowid .. '""'
 
         os.execute(command)
 
@@ -589,7 +589,7 @@ local function BackupFilePath()
 
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
-                        'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+                        'FROM main WHERE rowid = ' .. rowid .. '""'
 
         os.execute(command)
 
@@ -631,7 +631,7 @@ local function BackupFilePath()
 
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"SELECT content FROM main WHERE rowid = ' ..
-                        tostring(rowid) .. '""'
+                        rowid .. '""'
 
         local file = io.popen(command)
 
@@ -673,7 +673,7 @@ local function BackupFilePath()
         -- Read the committed content.
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"SELECT content FROM main WHERE rowid = ' ..
-                        tostring(rowid) .. '""'
+                        rowid .. '""'
 
         local file = io.popen(command)
 
@@ -708,7 +708,7 @@ local function BackupFilePath()
         -- Write to FilePath.
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"SELECT writefile(\'' .. filepath .. '\', content) ' ..
-                        'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+                        'FROM main WHERE rowid = ' .. rowid .. '""'
 
         os.execute(command)
 
@@ -765,7 +765,7 @@ local function BackupFilePath()
 
             local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                             '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
-                            'FROM main WHERE rowid = ' .. tostring(rowid) .. '""'
+                            'FROM main WHERE rowid = ' .. rowid .. '""'
 
             os.execute(command)
         end
