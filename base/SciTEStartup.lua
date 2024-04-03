@@ -481,6 +481,9 @@ local function BackupFilePath()
             return
         end
 
+        -- Replace newlines with a space with pasted multiline comments.
+        comment = string.gsub(comment, '[\r\n]+', ' ')
+
         -- Escape single quotes in comments.
         comment = string.gsub(comment, '\'', '\'\'')
 
