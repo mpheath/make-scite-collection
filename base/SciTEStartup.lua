@@ -484,6 +484,9 @@ local function BackupFilePath()
         -- Replace newlines with a space with pasted multiline comments.
         comment = string.gsub(comment, '[\r\n]+', ' ')
 
+        -- Replace double quotes with back quotes.
+        comment = string.gsub(comment, '"', '`')
+
         -- Escape single quotes in comments.
         comment = string.gsub(comment, '\'', '\'\'')
 
@@ -3821,7 +3824,9 @@ function OnStrip(control, change)
         if controltype[control] == 'commit' then
 
             -- Get the comment.
-            local comment = string.gsub(scite.StripValue(1), "'", "''")
+            local comment = scite.StripValue(1)
+            comment = string.gsub(comment, "'", "''")
+            comment = string.gsub(comment, '"', '`')
             comment = string.match(comment, '^%s*(.-)%s*$')
 
             if comment == nil or comment == '' then
