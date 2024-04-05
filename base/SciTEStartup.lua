@@ -391,12 +391,20 @@ local function BackupFilePath()
         -- Select item from the ListBox to return the rowid and comment.
         local title = 'Select the commit'
 
-        if total ~= nil and total > 1 then
-            for k, v in pairs({'1st', '2nd', '3rd'}) do
-                if index == k then
-                    title = string.format('Select the %s of %s commits', v, total)
-                    break
+        if index then
+            if total then
+                if total > 1 then
+                    title = string.format('Select the %s of %s commits',
+                                          ({'1st', '2nd', '3rd'})[index],
+                                          total)
                 end
+            else
+                -- Get next commit automatically.
+                if rowids[index + 1] then
+                    return rowids[index + 1], comments[index + 1]
+                end
+
+                return false
             end
         end
 
@@ -444,7 +452,9 @@ local function BackupFilePath()
                     'WinMerge any commit with blank',
                     'WinMerge any commit with blank 3-way',
                     'WinMerge any commit with any commit',
-                    'WinMerge any commit with any commit 3-way'}
+                    'WinMerge any commit with any commit 3-way',
+                    'WinMerge any commit with next commit',
+                    'WinMerge any commit with next commit 3-way'}
         end
 
         result = ListBox(list, 'Select the mode')
@@ -726,6 +736,10 @@ local function BackupFilePath()
         -- Will be set to the number of tmpfiles.
         local tmpfilecount = 1
 
+        -- Will be set to true if mode is next commit.
+        local automatic
+
+        -- Set tmpfile count, filepath and possibly set automatic to true.
         local text = string.match(mode, '^winmerge any commit with (.+)$')
 
         for k, v in pairs({['filepath'         ] = {1, filepath},
@@ -733,24 +747,43 @@ local function BackupFilePath()
                            ['blank'            ] = {1, ''      },
                            ['blank 3-way'      ] = {2, ''      },
                            ['any commit'       ] = {2, nil     },
-                           ['any commit 3-way' ] = {3, nil     }}) do
-
+                           ['any commit 3-way' ] = {3, nil     },
+                           ['next commit'      ] = {2, nil     },
+                           ['next commit 3-way'] = {3, nil     }}) do
             if k == text then
                 tmpfilecount, filepath = v[1], v[2]
                 break
             end
         end
 
+        if text == 'next commit' or text == 'next commit 3-way' then
+            automatic = true
+        end
+
         -- Get tmpfile names and comments and write the tmpfiles.
         local comments = {}
         local tmpfiles = {}
+        local rowid, comment
 
         for i = 1, tmpfilecount do
 
             -- Get the rowid and the comment.
-            local rowid, comment = SelectDatabaseItem(i, tmpfilecount)
+            if automatic and i > 1 then
+                rowid, comment = SelectDatabaseItem(tonumber(rowid))
 
-            if rowid == nil then
+                if rowid == false then
+                    for _ = i, tmpfilecount do
+                        table.insert(tmpfiles, '')
+                        table.insert(comments, '')
+                    end
+
+                    break
+                end
+            else
+                rowid, comment = SelectDatabaseItem(i, tmpfilecount)
+            end
+
+            if not rowid then
                 return
             end
 
@@ -806,13 +839,21 @@ local function BackupFilePath()
         for i = 2, #tmpfiles do
             local v = args[#tmpfiles + 1 - i]
 
-            command = command ..
-                      string.format('%s "%s" %s "%s" ',
-                                    v[1], comments[i], v[2], tmpfiles[i])
+            if comments[i] ~= '' then
+                command = command .. string.format('%s "%s" ', v[1], comments[i])
+            end
+
+            if tmpfiles[i] ~= '' then
+                command = command .. string.format('%s "%s" ', v[2], tmpfiles[i])
+            else
+                command = command .. '"" '
+            end
         end
 
         for i = 1, #tmpfiles do
-            command = command .. string.format('&del "%s" ', tmpfiles[i])
+            if tmpfiles[i] ~= '' then
+                command = command .. string.format('&del "%s" ', tmpfiles[i])
+            end
         end
 
         command = string.sub(command, 1, -2)
