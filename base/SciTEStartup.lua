@@ -439,12 +439,12 @@ local function BackupFilePath()
             list = {'Restore any commit to edit pane',
                     'Restore any commit to filepath'}
         elseif mode == 'winmerge any commit' then
-            list = {'WinMerge any commit with any commit',
-                    'WinMerge any commit with any commit 3-way',
-                    'WinMerge any commit with any filepath',
-                    'WinMerge any commit with any filepath 3-way',
-                    'WinMerge any commit with filepath',
-                    'WinMerge any commit with filepath 3-way'}
+            list = {'WinMerge any commit with filepath',
+                    'WinMerge any commit with filepath 3-way',
+                    'WinMerge any commit with blank',
+                    'WinMerge any commit with blank 3-way',
+                    'WinMerge any commit with any commit',
+                    'WinMerge any commit with any commit 3-way'}
         end
 
         result = ListBox(list, 'Select the mode')
@@ -718,27 +718,26 @@ local function BackupFilePath()
 
         os.execute(command)
 
-    elseif string.match(mode, '^winmerge any commit') then
+    elseif string.match(mode, '^winmerge any commit .+') then
 
         -- Set path to WinMerge.
         local app = GlobalSettings['paths']['winmerge']
 
-        -- Set number of tmpfiles and set filepath value.
+        -- Will be set to the number of tmpfiles.
         local tmpfilecount = 1
 
-        if mode ~= 'winmerge any commit' then
-            local text = string.match(mode, '^winmerge any commit with (.+)$')
+        local text = string.match(mode, '^winmerge any commit with (.+)$')
 
-            for k, v in pairs({['any commit'        ] = {2, nil     },
-                               ['any commit 3-way'  ] = {3, nil     },
-                               ['any filepath'      ] = {1, ''      },
-                               ['any filepath 3-way'] = {2, ''      },
-                               ['filepath'          ] = {1, filepath},
-                               ['filepath 3-way'    ] = {2, filepath}}) do
-                if k == text then
-                    tmpfilecount, filepath = v[1], v[2]
-                    break
-                end
+        for k, v in pairs({['filepath'         ] = {1, filepath},
+                           ['filepath 3-way'   ] = {2, filepath},
+                           ['blank'            ] = {1, ''      },
+                           ['blank 3-way'      ] = {2, ''      },
+                           ['any commit'       ] = {2, nil     },
+                           ['any commit 3-way' ] = {3, nil     }}) do
+
+            if k == text then
+                tmpfilecount, filepath = v[1], v[2]
+                break
             end
         end
 
