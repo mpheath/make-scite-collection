@@ -755,8 +755,17 @@ local function BackupFilePath()
                 return
             end
 
+            -- Trim long comments.
             if string.len(comment) > 40 then
-                comment = string.sub(comment, 1, 37) .. '...'
+                local pos = 36
+
+                for x in string.gmatch(comment, '()%s+') do
+                    if x > 26 and x < 37 then
+                        pos = x
+                    end
+                end
+
+                comment = string.sub(comment, 1, pos) .. '...'
             end
 
             -- Write the text to a temporary file.
