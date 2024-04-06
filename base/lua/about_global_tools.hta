@@ -190,37 +190,61 @@
   <dd>Opens a list with multiple modes:
    <div style="padding-top: 10px">
     <dl>
+     <dt>WinMerge any commit with filepath</dt>
+     <dd>Compares 1 commit with <i>FilePath</i> in 2-way mode.</dd>
+
+     <dt>WinMerge any commit with filepath 3-way</dt>
+     <dd>Compares 2 commits with <i>FilePath</i> in 3-way mode.</dd>
+
+     <dt>WinMerge any commit with blank</dt>
+     <dd>Compares 1 commit with a blank pane in 2-way mode.</dd>
+
+     <dt>WinMerge any commit with blank 3-way</dt>
+     <dd>Compares 2 commits with a blank pane in 3-way mode.</dd>
+
      <dt>WinMerge any commit with any commit</dt>
      <dd>Compares 2 commits in 2-way mode.</dd>
 
      <dt>WinMerge any commit with any commit 3-way</dt>
      <dd>Compares 3 commits in 3-way mode.</dd>
 
-     <dt>WinMerge any commit with any filepath</dt>
-     <dd>Compares 1 commit with a selection in WinMerge</dd>
+     <dt>WinMerge any commit with next commit</dt>
+     <dd>Compares 2 commits in 2-way mode.</dd>
 
-     <dt>WinMerge any commit with any filepath 3-way</dt>
-     <dd>Compares 2 commits with a selection in WinMerge</dd>
-
-     <dt>WinMerge any commit with filepath</dt>
-     <dd>Compares 1 commit with <i>FilePath</i> in 2-way mode.</dd>
-
-     <dt>WinMerge any commit with filepath 3-way</dt>
-     <dd>Compares 2 commits with <i>FilePath</i> in 3-way mode.</dd>
+     <dt>WinMerge any commit with next commit 3-way</dt>
+     <dd>Compares 3 commits in 3-way mode.</dd>
     </dl>
    </div>
   </dd>
  </dl>
 
- <p>The 2-way merge will be <code>left -&gt; right</code> while the
- 3-way merge will be <code>left -&gt; middle &lt;- right</code>.
+ <p>The 2-way merge mode will be <code>left -&gt; right</code> while the
+ 3-way merge mode will be <code>left -&gt; middle &lt;- right</code>.
  The <i>FilePath</i> is expected to be the 2nd pane unless
  only commits are selected for comparison or the
  <i>Edit a commit</i> compare button is used, in which
  <i>FilePath</i> will be in the left pane as read-only to
  update the commit being edited. The other panes will be for
  the temporary commit files that will be set for read-only initially.
+ Next commit mode selects commits in incrementing order so that
+ in 3-way mode will be <code>1st -&gt; 2nd -&gt; 3rd</code>
+ and all panes will be read-only.
  WinMerge can swap panes if a different order is preferred.</p>
+
+ <p>The next commit merge mode allows any commit to be selected
+ and following commits will be automatically selected as well. Example,
+ in next commit merge 3-way mode, if the 5th commit is selected,
+ then the 6th and 7th commits will complete the 3-way comparison
+ requirements. If the next commit is out of bounds, then the
+ remaining selections will be blank. WinMerge will open blank
+ panes for these blank selections so you are free to use these
+ blank panes to your advantage, whatever that might be.
+ The next commit merge mode saves time and saves remembering
+ the last selection by avoiding the selection of each commit manually.</p>
+
+ <p>Blank panes in WinMerge can load any file by right clicking
+ on the panes title bar and select <i>Open...</i> which will open
+ a dialog to choose a file to load into the blank pane.</p>
 
  <p><i>Edit a commit</i> shows a strip with a comment that can be changed.
  Changing tabs may cause the strip to close and reopen. The comment in
@@ -309,6 +333,8 @@
 
  <p>Diff <i>FileNameExt</i> with fossil or git.</p>
 
+ <p>Prints the diff to the output pane.</p>
+
 
 
  <h2 id="13">EmptyUndoBuffer</h2>
@@ -327,10 +353,10 @@
 
  <h2 id="14">EskilFilePath</h2>
 
- <p>Run Eskil to diff <i>FilePath</i> with a checkout</p>
+ <p>Run Eskil to diff <i>FilePath</i> with a checkout.</p>
 
  <p>Eskil expected location:&nbsp;
- <code>"$(SciTEDefaultHome)\eskil\eskil.exe"</code></p>
+ <code>"$(SciTEDefaultHome)\eskil\eskil.exe"</code>.</p>
 
 
 
@@ -339,7 +365,7 @@
  <p>Run Frhed to hex edit <i>FilePath</i>.</p>
 
  <p>Frhed expected location:&nbsp;
- <code>"$(SciTEDefaultHome)\frhed\frhed.exe"</code></p>
+ <code>"$(SciTEDefaultHome)\frhed\frhed.exe"</code>.</p>
 
 
 
@@ -482,7 +508,7 @@
 
  <h2 id="32">PrintChangeHistory</h2>
 
- <p>Print all lines with change marks</p>
+ <p>Print all lines with change marks.</p>
 
  <p>Change marks are all states like modified, reverted and saved.</p>
 
@@ -522,7 +548,7 @@
  <p>Like the find and search built into SciTE, except this can print the
  results to the output pane.</p>
 
- <p>Based on code from <i>http://lua-users.org/wiki/SciteMiscScripts</i></p>
+ <p>Based on code from <i>http://lua-users.org/wiki/SciteMiscScripts</i> .</p>
 
 
 
@@ -621,15 +647,15 @@ item3</pre></code>
   <dd>Upper letters first.</dd>
 
   <dt>Insensitive lower compare</dt>
-  <dd>All letters converted to lower before compare</dd>
+  <dd>All letters converted to lower before compare.</dd>
 
   <dt>Insensitive upper compare</dt>
-  <dd>All letters converted to upper before compare</dd>
+  <dd>All letters converted to upper before compare.</dd>
 
   <dt>Sensitive reverse</dt>
   <dt>Insensitive lower compare reverse</dt>
   <dt>Insensitive upper compare reverse</dt>
-  <dd>Like first 3 modes though in reverse order</dd>
+  <dd>Like first 3 modes though in reverse order.</dd>
  </dl>
 
 
@@ -905,7 +931,7 @@ item3</pre></code>
  Choose your settings and then press the <i>Compare</i> button.</p>
 
  <p>WinMerge expected location:&nbsp;
- <code>"%ProgramFiles%\WinMerge\WinMergeU.exe"</code></p>
+ <code>"%ProgramFiles%\WinMerge\WinMergeU.exe"</code>.</p>
 
 
 
