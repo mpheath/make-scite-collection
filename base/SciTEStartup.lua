@@ -1203,7 +1203,7 @@ local function OpenFileDir()
     -- Open the current files directory.
 
     local filedir = props['FileDir']
-    os.execute('explorer "' .. filedir .. '"')
+    os.execute('start "" "' .. filedir .. '"')
 end
 
 
