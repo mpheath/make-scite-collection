@@ -3362,6 +3362,11 @@ local function WinMergeFilePath(mode)
                       '/dl "Unsaved" ' ..
                       '/wl "' .. tmpfile .. '"'
 
+            -- Check filepath is actual file.
+            if string.match(filepath, '\\$') then
+                filepath = ''
+            end
+
             if filepath ~= '' then
                 command = command .. ' "' .. filepath .. '"'
             end
