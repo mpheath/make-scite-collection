@@ -1237,6 +1237,51 @@ local function OpenHtaFile()
 end
 
 
+local function OpenLastClosedFile()
+    -- Open last closed file.
+
+    local filepath = GlobalSettings['last_closed_file']
+    scite.Open(filepath)
+end
+
+
+local function OpenLuaExtensionFile()
+    -- Open a lua extension file.
+
+    -- Get the file list.
+    local list = {}
+
+    local command = 'cmd /q /c ' ..
+                    'pushd "' .. props['SciteDefaultHome'] .. '" ^&^& ' ..
+                    'for /d %A in (*) do ' ..
+                    'if exist "%~A\\extension.lua" ' ..
+                    'echo "%~nxA\\extension.lua"'
+
+    local file = io.popen(command)
+
+    for line in file:lines() do
+        table.insert(list, (string.gsub(line, '"', '')))
+    end
+
+    file:close()
+
+    -- Get the selection.
+    local result = ListBox(list, 'OpenLuaExtensionFile')
+
+    if result ~= nil then
+        local item = list[result + 1]
+        scite.Open(props['SciteDefaultHome'] .. '\\' .. item)
+    end
+end
+
+
+local function OpenSciteVarsFile()
+    -- Open scitevars.cfg that PrintSciteVars() can read.
+
+    scite.Open('scitevars.cfg')
+end
+
+
 local function OpenTempFile()
     -- Open a file for temporary use.
 
@@ -1291,43 +1336,6 @@ local function OpenTempFile()
     else
         MsgBox('No file handle to write.', 'OpenTempFile', MB_ICONWARNING)
     end
-end
-
-
-local function OpenLuaExtensionFile()
-    -- Open a lua extension file.
-
-    -- Get the file list.
-    local list = {}
-
-    local command = 'cmd /q /c ' ..
-                    'pushd "' .. props['SciteDefaultHome'] .. '" ^&^& ' ..
-                    'for /d %A in (*) do ' ..
-                    'if exist "%~A\\extension.lua" ' ..
-                    'echo "%~nxA\\extension.lua"'
-
-    local file = io.popen(command)
-
-    for line in file:lines() do
-        table.insert(list, (string.gsub(line, '"', '')))
-    end
-
-    file:close()
-
-    -- Get the selection.
-    local result = ListBox(list, 'OpenLuaExtensionFile')
-
-    if result ~= nil then
-        local item = list[result + 1]
-        scite.Open(props['SciteDefaultHome'] .. '\\' .. item)
-    end
-end
-
-
-local function OpenSciteVarsFile()
-    -- Open scitevars.cfg that PrintSciteVars() can read.
-
-    scite.Open('scitevars.cfg')
 end
 
 
@@ -1815,6 +1823,23 @@ local function PrintMarkers(mode)
 end
 
 
+local function PrintPropertyList()
+    -- Print a list of property names and values modified by SetProperty.
+
+    local list = {}
+
+    for k, v in pairs(GlobalSettings['prop_list']) do
+        table.insert(list, string.format('%s=%s', k, v))
+    end
+
+    table.sort(list)
+
+    for i = 1, #list do
+        print(list[i])
+    end
+end
+
+
 local function PrintReminders()
     -- Find reminder lines in source. Code concept from RSciTE.
 
@@ -1887,31 +1912,6 @@ local function PrintSciteVars()
             print(scite_vars[i] .. ':\n', value)
         end
     end
-end
-
-
-local function PrintPropertyList()
-    -- Print a list of property names and values modified by SetProperty.
-
-    local list = {}
-
-    for k, v in pairs(GlobalSettings['prop_list']) do
-        table.insert(list, string.format('%s=%s', k, v))
-    end
-
-    table.sort(list)
-
-    for i = 1, #list do
-        print(list[i])
-    end
-end
-
-
-local function OpenLastClosedFile()
-    -- Open last closed file.
-
-    local filepath = GlobalSettings['last_closed_file']
-    scite.Open(filepath)
 end
 
 
@@ -3557,12 +3557,12 @@ function GlobalTools()
     list['CurSelCountBraces']     = CurSelCountBraces
     list['DiffFileNameExt']       = DiffFileNameExt
 
-    if os.path.exist(GlobalSettings['paths']['eskil']) then
-        list['EskilFilePath'] = EskilFilePath
-    end
-
     if editor:CanUndo() or editor:CanRedo() then
         list['EmptyUndoBuffer'] = EmptyUndoBuffer
+    end
+
+    if os.path.exist(GlobalSettings['paths']['eskil']) then
+        list['EskilFilePath'] = EskilFilePath
     end
 
     if os.path.exist(GlobalSettings['paths']['frhed']) then
@@ -3579,6 +3579,11 @@ function GlobalTools()
     list['OpenChmFile']           = OpenChmFile
     list['OpenFileDir']           = OpenFileDir
     list['OpenHtaFile']           = OpenHtaFile
+
+    if GlobalSettings['last_closed_file'] then
+        list['OpenLastClosedFile'] = OpenLastClosedFile
+    end
+
     list['OpenLuaExtensionFile']  = OpenLuaExtensionFile
 
     if GlobalSettings['tools']['extended'] then
@@ -3612,28 +3617,20 @@ function GlobalTools()
     list['PrintFindText'] = PrintFindText
 
     if GlobalSettings['tools']['extended'] then
-        list['PrintGlobalNames name_only']    = function()
-                                                    PrintGlobalNames(0)
-                                                end
-
         list['PrintGlobalNames brief']    = function()
                                                 PrintGlobalNames(1)
                                             end
-
-        list['PrintGlobalNames informative']  = function()
-                                                    PrintGlobalNames(2)
-                                                end
 
         list['PrintGlobalNames calltip_style']    = function()
                                                         PrintGlobalNames(3)
                                                     end
 
-        list['PrintGlobalTables _G brief']    = function()
-                                                    PrintGlobalTables(_G, false, true)
+        list['PrintGlobalNames informative']  = function()
+                                                    PrintGlobalNames(2)
                                                 end
 
-        list['PrintGlobalTables _G extra']    = function()
-                                                    PrintGlobalTables(_G, true, true)
+        list['PrintGlobalNames name_only']    = function()
+                                                    PrintGlobalNames(0)
                                                 end
 
         list['PrintGlobalTables .* brief']    = function()
@@ -3643,20 +3640,24 @@ function GlobalTools()
         list['PrintGlobalTables .* extra']    = function()
                                                     PrintGlobalTables(nil, true, true)
                                                 end
-    end
 
-    list['PrintReminders']              = PrintReminders
+        list['PrintGlobalTables _G brief']    = function()
+                                                    PrintGlobalTables(_G, false, true)
+                                                end
 
-    if GlobalSettings['tools']['extended'] then
-        list['PrintSciteVars']          = PrintSciteVars
+        list['PrintGlobalTables _G extra']    = function()
+                                                    PrintGlobalTables(_G, true, true)
+                                                end
     end
 
     if next(GlobalSettings['prop_list']) ~= nil then
         list['PrintPropertyList']       = PrintPropertyList
     end
 
-    if GlobalSettings['last_closed_file'] then
-        list['OpenLastClosedFile']      = OpenLastClosedFile
+    list['PrintReminders']              = PrintReminders
+
+    if GlobalSettings['tools']['extended'] then
+        list['PrintSciteVars']          = PrintSciteVars
     end
 
     list['ReplaceSelEscape']            = ReplaceSelEscape
