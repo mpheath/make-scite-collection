@@ -13,18 +13,18 @@ OnSavePointReached() OnEvent Function Definition.
 OnSwitchFile(filename) OnEvent Function Definition.\n Will receive the filename of the affected buffer as their first argument.
 OnUpdateUI() OnEvent Function Definition.
 OnUserListSelection(listId, listText) OnEvent Function Definition.\n Receives two arguments: a number indicating the list type,\n and a string indicating the selected item text.
-editor.append(text) - appends text to the end of the document
-editor.findtext(text, [flags], [startPos, [endPos]])\n - returns the start and end of the first match, or nil if no match\n - flags can be 0 (the default), or a combination of SCFIND constants\n   such as SCFIND_WHOLEWORD, SCFIND_MATCHCASE, and SCFIND_REGEXP
-editor.insert(pos, text) - inserts text at the specified position
-editor.match(text, [flags], [startPos])\n - returns a generator that allows you to loop over the matches\n   i.e. for m in editor:match(text, flags) do ... end\n - the match object (i.e. the loop counter m in the above\n   example) supports read-only properties pos, len, and text;\n   and also supports a function replace(replaceText) to\n   support search and replace.\n - while looping through matches, if the document is modified\n   by any method other than the loop counter's replace method,\n   this may cause the match generator to lose its place.\n - also, do not attempt to store the match object for later\n      access outside the loop; it will not be useable.
-editor.remove(startPos, endPos) - removes the text in the range
-editor.textrange(startPos, endPos) - gets the text in the specified range
-output.append(text) - appends text to the end of the document
-output.findtext(text, [flags], [startPos, [endPos]])\n - returns the start and end of the first match, or nil if no match\n - flags can be 0 (the default), or a combination of SCFIND constants\n   such as SCFIND_WHOLEWORD, SCFIND_MATCHCASE, and SCFIND_REGEXP
-output.insert(pos, text) - inserts text at the specified position
-output.match(text, [flags], [startPos])\n - returns a generator that allows you to loop over the matches\n   i.e. for m in editor:match(text, flags) do ... end\n - the match object (i.e. the loop counter m in the above\n   example) supports read-only properties pos, len, and text;\n   and also supports a function replace(replaceText) to\n   support search and replace.\n - while looping through matches, if the document is modified\n   by any method other than the loop counter's replace method,\n   this may cause the match generator to lose its place.\n - also, do not attempt to store the match object for later\n      access outside the loop; it will not be useable.
-output.remove(startPos, endPos) - removes the text in the range
-output.textrange(startPos, endPos) - gets the text in the specified range
+editor:append(text) - appends text to the end of the document
+editor:findtext(text, [flags], [startPos, [endPos]]) - returns the start and end of the first match, or nil if no match\n - flags can be 0 (the default), or a combination of SCFIND constants\n   such as SCFIND_WHOLEWORD, SCFIND_MATCHCASE, and SCFIND_REGEXP
+editor:insert(pos, text) - inserts text at the specified position
+editor:match(text, [flags], [startPos]) - returns a generator that allows you to loop over the matches\n   i.e. for m in editor:match(text, flags) do ... end\n - the match object (i.e. the loop counter m in the above\n   example) supports read-only properties pos, len, and text;\n   and also supports a function replace(replaceText) to\n   support search and replace.\n - while looping through matches, if the document is modified\n   by any method other than the loop counter's replace method,\n   this may cause the match generator to lose its place.\n - also, do not attempt to store the match object for later\n      access outside the loop; it will not be useable.
+editor:remove(startPos, endPos) - removes the text in the range
+editor:textrange(startPos, endPos) - gets the text in the specified range
+output:append(text) - appends text to the end of the document
+output:findtext(text, [flags], [startPos, [endPos]]) - returns the start and end of the first match, or nil if no match\n - flags can be 0 (the default), or a combination of SCFIND constants\n   such as SCFIND_WHOLEWORD, SCFIND_MATCHCASE, and SCFIND_REGEXP
+output:insert(pos, text) - inserts text at the specified position
+output:match(text, [flags], [startPos]) - returns a generator that allows you to loop over the matches\n   i.e. for m in editor:match(text, flags) do ... end\n - the match object (i.e. the loop counter m in the above\n   example) supports read-only properties pos, len, and text;\n   and also supports a function replace(replaceText) to\n   support search and replace.\n - while looping through matches, if the document is modified\n   by any method other than the loop counter's replace method,\n   this may cause the match generator to lose its place.\n - also, do not attempt to store the match object for later\n      access outside the loop; it will not be useable.
+output:remove(startPos, endPos) - removes the text in the range
+output:textrange(startPos, endPos) - gets the text in the specified range
 props(-) Get or set SciTE property settings.\n Example: props['SciteDefaultHome']
 scite.ConstantName(number[, prefix]) - returns the symbolic name of a Scintilla / SciTE constant.\n - optional prefix to find a specific constant name.
 scite.MenuCommand(IDM_constant) - equivalent to the corresponding IDM_ command defined in SciTE.h
@@ -34,6 +34,6 @@ scite.SendEditor(SCI_constant, ...) - sends a message to the editor pane.\n - eq
 scite.SendOutput(SCI_constant, ...) - sends a message to the output pane.
 scite.StripSet(number, '<choose a fruit>') The editable part of combo boxes and editable text can be set with StripSet(element, value).
 scite.StripSetList(number, "Example\\nApple\\nPear") The list part of combo boxes can be set with StripSetList(element, value)\n where the items in 'value' are separated with new lines.
-scite.StripShow("!'Explanation:'{}(&Search)'Name:'[Name](OK)(Cancel)")\n There are 5 supported elements:\n labels, editable text, combo boxes, buttons and default buttons.\n These are surrounded by different indicator strings:\n   ' '  for labels\n    []  for editable text\n    {}  for combo boxes\n    ()  for buttons\n   (()) for default buttons\n There can also be a newline to start a new line and a ! to show a close box on Windows only.
+scite.StripShow("!'Explanation:'{}(&Search)'Name:'[Name](OK)(Cancel)")\n There are 5 supported elements:\n labels, editable text, combo boxes, buttons and default buttons.\n These are surrounded by different indicator strings:\n   ' '  single quotes for labels\n    []  square braces for editable text\n    {}  curly braces for combo boxes\n    ()  round braces for buttons\n   (()) round braces nested for default buttons\n There can also be a \\n newline to start a new line and a\n ! exclaimation mark to show a close box on Windows only.
 scite.StripValue(element) The value of editable text or combo boxes can be retrieved with StripValue(element).
 scite.UpdateStatusBar(boolean) Updates the StatusBar. If boolean is True, sets file properties status.
