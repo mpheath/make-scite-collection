@@ -55,7 +55,7 @@ This is optional to do as the pre-made binaries may be suitable. If you do make 
 
 Another item in the menu is Make TestLexers. A compiled TestLexers.exe can run test files to detect if an issue exists in the lexers.
 
-Based on use of *mingw32-make* command of the [tdm-gcc] compiler.
+Based on use of *mingw32-make* command of the [nuwen] compiler.
 
 
 ## Edit Properties
@@ -204,11 +204,11 @@ Paths searched for programs:
  [json.lua]: https://github.com/rxi/json.lua
  [Luacheck]: https://github.com/mpeterv/luacheck
  [MIT]: https://opensource.org/licenses/MIT
+ [nuwen]: https://nuwen.net/mingw.html
  [Public domain]: http://en.wikipedia.org/wiki/Public_Domain
  [Resource Hacker]: http://www.angusj.com/resourcehacker/
  [RSciTE]: https://github.com/robertorossi73/rscite
  [SQLite]: https://www.sqlite.org/
- [tdm-gcc]: https://github.com/jmeubank/tdm-gcc/releases
  [WinMerge]: https://winmerge.org/
  [UPX]: https://upx.github.io/
 
