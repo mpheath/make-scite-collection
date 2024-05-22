@@ -3748,7 +3748,7 @@ function OnBeforeSave()
         local text = editor:GetText()
 
         -- Check if text is only a line end sequence.
-        if text == '\r\n' or text == '\n' then
+        if text == '\r\n' or text == '\r' or text == '\n' then
 
             -- Question YesNo to rewrite as empty file.
             if MsgBox('The setting ensure.final.line.end may have caused an ' ..
