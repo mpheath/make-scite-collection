@@ -2517,6 +2517,8 @@ local function SetProperty()
                                '0 = Filename.html',
                                '1 = Fullpath.ext.html',
                                '2 = Fullpath_ext.html'},
+        ['ext.lua.auto.reload'] = preset.off_on,
+        ['ext.lua.reset'] = preset.off_on,
         ['filter.context'] = {'Default',
                               '0 = Off',
                               '1 = 1 line',
