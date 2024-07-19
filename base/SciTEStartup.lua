@@ -1,7 +1,7 @@
 -- Defined SciTE Startup Lua script.
 
 
--- Ensure SciTEDefaultHome is in the initial package path.
+-- Ensure SciteDefaultHome is in the initial package path.
 if string.find(package.path, props['SciteDefaultHome'] .. '\\lua\\?.lua', 1, true) == nil then
     package.path = props['SciteDefaultHome'] .. '\\lua\\?.lua;' ..
                    props['SciteDefaultHome'] .. '\\lua\\?\\init.lua;' ..
@@ -251,6 +251,32 @@ local _ = (function()
 end)()
 
 
+local function EscapeComment(comment)
+    -- Escape comment for safe SQLite use.
+
+    if comment == nil or comment == '' then
+        return comment
+    end
+
+    -- Replace newlines with a space with pasted multiline comments.
+    comment = string.gsub(comment, '[\r\n]+', ' ')
+
+    -- Replace double quotes with back quotes.
+    comment = string.gsub(comment, '"', '`')
+
+    -- Replace pipe with space.
+    comment = string.gsub(comment, '|', ' ')
+
+    -- Escape single quotes in comments.
+    comment = string.gsub(comment, '\'', '\'\'')
+
+    -- Remove outer spaces.
+    comment = string.gsub(comment, '^%s*(.-)%s*$', '%1')
+
+    return comment
+end
+
+
 local function PrintNumberedLine(number, line)
     -- Print filename, line number and trimmed line text.
 
@@ -491,14 +517,7 @@ local function BackupFilePath()
             return
         end
 
-        -- Replace newlines with a space with pasted multiline comments.
-        comment = string.gsub(comment, '[\r\n]+', ' ')
-
-        -- Replace double quotes with back quotes.
-        comment = string.gsub(comment, '"', '`')
-
-        -- Escape single quotes in comments.
-        comment = string.gsub(comment, '\'', '\'\'')
+        comment = EscapeComment(comment)
 
         -- Initialize the database.
         if not os.path.exist(dbfile) then
@@ -3882,9 +3901,7 @@ function OnStrip(control, change)
 
             -- Get the comment.
             local comment = scite.StripValue(1)
-            comment = string.gsub(comment, "'", "''")
-            comment = string.gsub(comment, '"', '`')
-            comment = string.match(comment, '^%s*(.-)%s*$')
+            comment = EscapeComment(comment)
 
             if comment == nil or comment == '' then
                 MsgBox('Invalid commit comment', 'Commit', MB_ICONWARNING)
