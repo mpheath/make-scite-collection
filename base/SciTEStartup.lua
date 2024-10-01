@@ -973,25 +973,39 @@ end
 
 
 local function EmptyUndoBuffer()
-    -- Empty undo and redo of the buffer and clear the Change History.
+    -- Empty undo and redo of the buffers and clear the Change History.
 
-    local msg = 'Are you sure?'
+    local list = {}
 
-    if editor.Modify then
-        msg = 'The buffer should be in a saved state else the ' ..
-              'buffer will be in a state of being dirty with ' ..
-              'the Change History being clean. Unsaved changes ' ..
-              'would then become undoable.\n\n' .. msg
+    if not editor.Modify and (editor:CanUndo() or editor:CanRedo()) then
+        table.insert(list, 'editor')
     end
 
-    if MsgBox(msg, 'EmptyUndoBuffer', MB_ICONQUESTION|
-                                      MB_DEFBUTTON2|
-                                      MB_YESNO) == IDYES then
+    if output:CanUndo() or output:CanRedo() then
+        table.insert(list, 'output')
+    end
 
-        local mode = editor.ChangeHistory
+    if #list == 2 then
+        table.insert(list, 'both')
+    end
+
+    local result = ListBox(list, 'EmptyUndoBuffer')
+
+    if result == nil then
+        return
+    end
+
+    local mode = list[result + 1]
+
+    if mode == 'editor' or mode == 'both' then
+        local setting = editor.ChangeHistory
         editor.ChangeHistory = 0
         editor:EmptyUndoBuffer()
-        editor.ChangeHistory = mode
+        editor.ChangeHistory = setting
+    end
+
+    if mode == 'output' or mode == 'both' then
+        output:EmptyUndoBuffer()
     end
 end
 
@@ -3578,7 +3592,9 @@ function GlobalTools()
     list['CurSelCountBraces']     = CurSelCountBraces
     list['DiffFileNameExt']       = DiffFileNameExt
 
-    if editor:CanUndo() or editor:CanRedo() then
+    if (not editor.Modify and (editor:CanUndo() or editor:CanRedo())) or
+        (output:CanUndo() or output:CanRedo()) then
+
         list['EmptyUndoBuffer'] = EmptyUndoBuffer
     end
 

@@ -339,7 +339,7 @@
 
  <h2 id="EmptyUndoBuffer">EmptyUndoBuffer</h2>
 
- <p>Empty the undo buffer.</p>
+ <p>Empty the undo buffer for the editor and output panes.</p>
 
  <p>Can be useful when editing a document in a long session
  and the previous undo history is not wanted. Only use if
@@ -348,6 +348,9 @@
  <p>Since Change History was added to SciTE,
  Change History will be disabled to synchronize with the
  emptied buffers and then set back to the previous setting.</p>
+
+ <p>This item may not be available if the editor buffer
+ is unsaved or no undo/redo stored for both buffers.</p>
 
 
 
