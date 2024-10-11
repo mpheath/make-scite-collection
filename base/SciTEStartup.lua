@@ -3924,15 +3924,6 @@ function OnStrip(control, change)
                 return
             end
 
-            -- Insert the modified tmpfile into the database.
-            local command = '""' .. edit_commit['sqlite'] .. '" ' ..
-                            '"' .. edit_commit['dbfile'] .. '" ' ..
-                            '"UPDATE main ' ..
-                            "SET comment='" .. comment .. "'," ..
-                            'content=' ..
-                            'readfile(\'' .. edit_commit['tmpfile'] .. '\') ' ..
-                            'WHERE rowid = ' .. edit_commit['rowid'] .. '""'
-
             -- Get filename only for dbfile for the following message.
             local dbfile = string.match(edit_commit['dbfile'], '[^\\/]-$')
 
@@ -3941,16 +3932,58 @@ function OnStrip(control, change)
             end
 
             -- Get confirmation.
-            local text = 'Database: "' .. dbfile .. '"\r\n\r\n' ..
-                         'Commit the update?'
+            local result
+            local text = 'Database: "' .. dbfile .. '"\r\n\r\n'
 
-            if MsgBox(text, 'Commit', MB_ICONQUESTION|
-                                      MB_DEFBUTTON2|
-                                      MB_YESNO) == IDYES then
-                os.execute(command)
+            if editor.Modify then
+                text = text .. 'WARNING: Buffer content has not been saved.\n\n'
+            end
+
+            if comment == edit_commit['comment'] then
+                text = text .. 'Comment has not changed. ' ..
+                       'Insert new commit option is available ' ..
+                       'only if the comment has changed.\n\n' ..
+                       'Update the commit?'
+
+                result = MsgBox(text, 'Commit', MB_ICONQUESTION|
+                                                MB_DEFBUTTON2|
+                                                MB_OKCANCEL)
+
+                if result == IDOK then
+                    result = IDNO
+                end
+            else
+                text = text .. 'Comment has changed. ' ..
+                       'Insert new commit option is available.\n\n' ..
+                       'Insert as a new commit instead of ' ..
+                       'update the commit?'
+
+                result = MsgBox(text, 'Commit', MB_ICONQUESTION|
+                                                MB_DEFBUTTON3|
+                                                MB_YESNOCANCEL)
+            end
+
+            -- Insert the modified tmpfile into the database.
+            local command = '""' .. edit_commit['sqlite'] .. '" ' ..
+                            '"' .. edit_commit['dbfile'] .. '" '
+
+            if result == IDYES then
+                command = command .. '"INSERT INTO main VALUES' ..
+                          '(date(\'now\', \'localtime\'),' ..
+                          ' \'' .. comment .. '\',' ..
+                          ' readfile(\'' .. edit_commit['tmpfile'] .. '\'))""'
+
+            elseif result == IDNO then
+                command = command .. '"UPDATE main ' ..
+                          "SET comment='" .. comment .. "'," ..
+                          'content=' ..
+                          'readfile(\'' .. edit_commit['tmpfile'] .. '\') ' ..
+                          'WHERE rowid = ' .. edit_commit['rowid'] .. '""'
             else
                 return
             end
+
+            os.execute(command)
         end
 
         -- Close the strip.
