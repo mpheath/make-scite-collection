@@ -3164,6 +3164,110 @@ local function StartExeFile()
 end
 
 
+local function StoreBookmarks()
+    -- Empty, Prune, Restore and Store bookmarks.
+
+    local bookmark = 1
+    local mask = 1 << bookmark
+    local stored_bookmarks = Buffer:get('stored_bookmarks')
+    local list = {'Store'}
+
+    if stored_bookmarks then
+        if #stored_bookmarks > 1 then
+            list = {'Empty', 'Prune', 'Restore', 'Store'}
+        else
+            list = {'Empty', 'Restore', 'Store'}
+        end
+    end
+
+    local result = ListBox(list, 'StoreBookmarks')
+
+    if not result then
+        return
+    end
+
+    local mode = list[result + 1]
+
+    if mode == 'Empty' then
+        Buffer:remove('stored_bookmarks')
+        return
+    end
+
+    if mode == 'Prune' then
+        list = {}
+
+        for i = 1, #stored_bookmarks do
+            table.insert(list, (stored_bookmarks[i])[1])
+        end
+
+        result = ListBox(list, 'StoreBookmarks Prune')
+
+        if not result then
+            return
+        end
+
+        table.remove(stored_bookmarks, result + 1)
+        table.sort(stored_bookmarks, function(x, y) return x[1] < y[1] end)
+
+        if #stored_bookmarks == 0 then
+            Buffer:remove('stored_bookmarks')
+        end
+
+        return
+    end
+
+    if mode == 'Restore' then
+        list = {}
+
+        for i = 1, #stored_bookmarks do
+            table.insert(list, (stored_bookmarks[i])[1])
+        end
+
+        result = ListBox(list, 'StoreBookmarks Restore')
+
+        if not result then
+            return
+        end
+
+        local t = (stored_bookmarks[result + 1])[2]
+
+        for _, v in pairs(t) do
+            editor:MarkerAdd(v, bookmark)
+        end
+
+        return
+    end
+
+    if mode == 'Store' then
+        local markers = {}
+
+        for i = 0, editor.LineCount - 1 do
+            if editor:MarkerGet(i) & mask ~= 0 then
+                table.insert(markers, i)
+            end
+        end
+
+        if next(markers) then
+            local comment = InputBox('', 'StoreBookmarks Store',
+                                     'Comment for a stored bookmark set')
+
+            if not comment then
+                return
+            end
+
+            if not stored_bookmarks then
+                stored_bookmarks = {}
+                Buffer:insert('stored_bookmarks', stored_bookmarks)
+            end
+
+            table.insert(stored_bookmarks, {comment, markers})
+        end
+
+        return
+    end
+end
+
+
 local function StripTrailingSpaces()
     -- http://lua-users.org/wiki/SciteCleanDocWhitespace
 
@@ -3707,6 +3811,11 @@ function GlobalTools()
     list['SetProperty']                 = SetProperty
     list['SetStyle']                    = SetStyle
     list['StartExeFile']                = StartExeFile
+
+    if Buffer:get() then
+        list['StoreBookmarks']          = StoreBookmarks
+    end
+
     list['StripTrailingSpaces']         = StripTrailingSpaces
     list['ToggleCodePage']              = ToggleCodePage
     list['ToggleDimComments']           = ToggleDimComments

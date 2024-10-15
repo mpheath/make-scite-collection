@@ -57,9 +57,9 @@
     <a href="#EmptyUndoBuffer">EmptyUndoBuffer</a><br>
     <a href="#EskilFilePath">EskilFilePath</a><br>
     <a href="#FrhedFilePath">FrhedFilePath</a><br>
+    <a href="#GotoPosition">GotoPosition</a><br>
    </td>
    <td>
-    <a href="#GotoPosition">GotoPosition</a><br>
     <a href="#InsertCtrlCharacter">InsertCtrlCharacter</a><br>
     <a href="#InsertDate">InsertDate</a><br>
     <a href="#OpenAbbrevFile">OpenAbbrevFile</a><br>
@@ -74,10 +74,10 @@
     <a href="#PrintApiKeywords">PrintApiKeywords</a><br>
     <a href="#PrintApiLuaPropFiles">PrintApiLuaPropFiles</a><br>
     <a href="#PrintAsciiTable">PrintAsciiTable</a><br>
-   </td>
-   <td>
     <a href="#PrintBookmarks">PrintBookmarks</a><br>
     <a href="#PrintChangeHistory">PrintChangeHistory</a><br>
+   </td>
+   <td>
     <a href="#PrintCommentLines">PrintCommentLines</a><br>
     <a href="#PrintCommentedCodeLines">PrintCommentedCodeLines</a><br>
     <a href="#PrintFindText">PrintFindText</a><br>
@@ -91,13 +91,14 @@
     <a href="#ReplaceSelSortList">ReplaceSelSortList</a><br>
     <a href="#ReplaceSelWrapList">ReplaceSelWrapList</a><br>
     <a href="#SelectCalltipColour">SelectCalltipColour</a><br>
-   </td>
-   <td>
     <a href="#SetChangeHistory">SetChangeHistory</a><br>
     <a href="#SetColour">SetColour</a><br>
     <a href="#SetProperty">SetProperty</a><br>
+   </td>
+   <td>
     <a href="#SetStyle">SetStyle</a><br>
     <a href="#StartExeFile">StartExeFile</a><br>
+    <a href="#StoreBookmarks">StoreBookmarks</a><br>
     <a href="#StripTrailingSpaces">StripTrailingSpaces</a><br>
     <a href="#ToggleCodePage">ToggleCodePage</a><br>
     <a href="#ToggleDimComments">ToggleDimComments</a><br>
@@ -866,6 +867,21 @@ item3</pre></code>
 
  <p>Executables can be added to subfolders, such as Frhed.
  StartExeFile will run these executables without any arguments.</p>
+
+
+
+ <h2 id="StoreBookmarks">StoreBookmarks</h2>
+
+ <p>Empty, Prune, Restore and Store bookmarks.</p>
+
+ <p>Empty removes all stored bookmark sets. Prune removes a single stored
+ bookmark set. Restore adds a stored bookmark set to the margin. Store saves
+ a bookmark set from the margin.</p>
+
+ <p>Each bookmark set will be stored with a comment for informed retrieval.
+ Any existing bookmarks may need to be cleared before restoration unless
+ combining of bookmark sets is preferred. Stored bookmark sets will only
+ exist in the current SciTE instance.</p>
 
 
 
