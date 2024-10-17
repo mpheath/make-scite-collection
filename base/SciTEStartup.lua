@@ -426,8 +426,14 @@ local function BackupFilePath()
                 end
             else
                 -- Get next commit automatically.
-                if rowids[index + 1] then
-                    return rowids[index + 1], comments[index + 1]
+                local rowid = tostring(index)
+
+                for i, v in ipairs(rowids) do
+                    if v == rowid then
+                        if rowids[i + 1] then
+                            return rowids[i + 1], comments[i + 1]
+                        end
+                    end
                 end
 
                 return false
