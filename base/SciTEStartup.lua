@@ -433,6 +433,8 @@ local function BackupFilePath()
                         if rowids[i + 1] then
                             return rowids[i + 1], comments[i + 1]
                         end
+
+                        break
                     end
                 end
 
