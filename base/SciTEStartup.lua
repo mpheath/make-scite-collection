@@ -277,6 +277,27 @@ local function EscapeComment(comment)
 end
 
 
+local function GetTmpFilename(fileext)
+    -- Create a temporary filename.
+
+    local tmpfile = os.tmpname()
+
+    if string.sub(tmpfile, 1, 1) == '\\' then
+        tmpfile = os.getenv('TEMP') .. tmpfile
+    end
+
+    if fileext and fileext ~= '' then
+        if not string.find(tmpfile, '%.' .. fileext .. '$') then
+            if not os.path.exist(tmpfile .. '.' .. fileext) then
+                tmpfile = tmpfile .. '.' .. fileext
+            end
+        end
+    end
+
+    return tmpfile
+end
+
+
 local function PrintNumberedLine(number, line)
     -- Print filename, line number and trimmed line text.
 
@@ -623,21 +644,17 @@ local function BackupFilePath()
             return
         end
 
-        -- Write the commit to a temporary file and open it for editing.
-        local tmpfile = os.tmpname()
+        -- Get the file extension.
+        local fileext = props['FileExt']
 
-        if string.sub(tmpfile, 1, 1) == '\\' then
-            tmpfile = os.getenv('TEMP') .. tmpfile
-        end
+        -- Write the commit to a temporary file and open it for editing.
+        local tmpfile = GetTmpFilename(fileext)
 
         local command = '""' .. sqlite .. '" "' .. dbfile .. '" ' ..
                         '"SELECT writefile(\'' .. tmpfile .. '\', content) ' ..
                         'FROM main WHERE rowid = ' .. rowid .. '""'
 
         os.execute(command)
-
-        -- Get the file extension.
-        local fileext = props['FileExt']
 
         -- Open the tmpfile and show the strip.
         scite.Open(tmpfile)
@@ -760,6 +777,9 @@ local function BackupFilePath()
         -- Set path to WinMerge.
         local app = GlobalSettings['paths']['winmerge']
 
+        -- Get the extension for the tmpfiles.
+        local fileext = props['FileExt']
+
         -- Will be set to the number of tmpfiles.
         local tmpfilecount = 1
 
@@ -828,11 +848,7 @@ local function BackupFilePath()
             end
 
             -- Write the text to a temporary file.
-            local tmpfile = os.tmpname()
-
-            if string.sub(tmpfile, 1, 1) == '\\' then
-                tmpfile = os.getenv('TEMP') .. tmpfile
-            end
+            local tmpfile = GetTmpFilename(fileext)
 
             table.insert(tmpfiles, tmpfile)
             table.insert(comments, comment)
@@ -845,11 +861,12 @@ local function BackupFilePath()
         end
 
         -- Build the file extension argument.
-        local fileext = props['FileExt']
         local fileext_arg = ''
 
         if fileext ~= '' then
-            fileext_arg = '/fileext "' .. fileext .. '" '
+            if not string.find(tmpfiles[1], '%.' .. fileext .. '$') then
+                fileext_arg = '/fileext "' .. fileext .. '" '
+            end
         end
 
         -- Build the command to diff the files.
@@ -1357,11 +1374,7 @@ local function OpenTempFile()
               'that will be removed on close.\n\n'
 
     -- Create the temporary file and open it.
-    local tmpfile = os.tmpname() .. '.' .. fileext
-
-    if string.sub(tmpfile, 1, 1) == '\\' then
-        tmpfile = os.getenv('TEMP') .. tmpfile
-    end
+    local tmpfile = GetTmpFilename(fileext)
 
     local file = io.open(tmpfile, 'w')
 
@@ -3487,11 +3500,8 @@ local function WinMergeFilePath(mode)
         text = string.gsub(text, '\r', '')
 
         -- Write the unsaved text to a temporary file.
-        local tmpfile = os.tmpname()
-
-        if string.sub(tmpfile, 1, 1) == '\\' then
-            tmpfile = os.getenv('TEMP') .. tmpfile
-        end
+        local fileext = props['FileExt']
+        local tmpfile = GetTmpFilename(fileext)
 
         local file = io.open(tmpfile, 'w')
 
