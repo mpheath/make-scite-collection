@@ -299,10 +299,22 @@ end
 
 
 local function PrintNumberedLine(number, line)
-    -- Print filename, line number and trimmed line text.
+    -- Print filename, line number and reformatted line text.
 
-    local line_trimmed = string.gsub(line, '^%s*(.-)%s*$', '%1')
-    print(string.format('%s:%04i: %s', props['FileNameExt'], number, line_trimmed))
+    -- Trim right side of whitespace.
+    line = string.gsub(line, '%s+$', '')
+
+    -- Replace leading tabs with spaces.
+    if editor.UseTabs and editor.TabWidth then
+        local _, i = string.find(line, '^\t+')
+
+        if i and i > 0 then
+            line = string.gsub(line, '^\t+', string.rep(' ', editor.TabWidth * i))
+        end
+    end
+
+    -- Print reformated line.
+    print(string.format('%s:%04i: %s', props['FileNameExt'], number, line))
 end
 
 
