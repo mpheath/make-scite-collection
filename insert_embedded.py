@@ -72,7 +72,11 @@ if __name__ == '__main__':
             if os.path.isfile(reshacker):
                 break
     else:
-        reshacker = os.path.join(os.getcwd(), 'bin', 'ResourceHacker.exe')
+        bin_dir = settings['bin']
+        reshacker = os.path.join(bin_dir, 'ResourceHacker.exe')
+
+        if not os.path.isdir(bin_dir):
+            os.makedirs(bin_dir)
 
     if not os.path.isfile(reshacker):
         reply = input('Download resource_hacker.zip? [n|y]: ')
