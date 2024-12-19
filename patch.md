@@ -167,7 +167,7 @@ gap haskell hex hollywood inno kix latex lot lout \
 maxima metapost mmixal modula3 nim nncrontab nsis \
 opal oscript pov powerpro ps purebasic r raku rebol rust \
 sas scriptol smalltalk sorcins spice specman \
-tacl tal txt2tags verilog vhdl visualprolog
+tacl tal troff txt2tags verilog vhdl visualprolog
 ```
 
 ```
