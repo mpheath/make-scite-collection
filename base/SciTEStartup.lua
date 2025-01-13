@@ -2620,7 +2620,8 @@ local function SetProperty()
                           '16 = Line below folded',
                           '24 = Line below both',
                           '30 = Line all',
-                          '64 = Debug fold levels'},
+                          '64 = Debug fold levels',
+                          '128 = Debug line state'},
         ['fold.highlight'] = preset.off_on,
         ['fold.on.open'] = preset.off_on,
         ['fold.stroke.width'] = {'Default',
@@ -2971,7 +2972,7 @@ local function SetProperty()
     if name == 'fold.flags' then
         local digits = string.match(selected, '^%d+')
 
-        if digits == '64' then
+        if digits == '64' or digits == '128' then
             props['line.margin.width'] = '10+'
         else
             props['line.margin.width'] = nil
