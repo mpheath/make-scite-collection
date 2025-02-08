@@ -86,6 +86,7 @@
     <a href="#PrintPropertyList">PrintPropertyList</a><br>
     <a href="#PrintReminders">PrintReminders</a><br>
     <a href="#PrintSciteVars">PrintSciteVars</a><br>
+    <a href="#ReplaceSelAutocomplete">ReplaceSelAutocomplete</a><br>
     <a href="#ReplaceSelEscape">ReplaceSelEscape</a><br>
     <a href="#ReplaceSelSortLines">ReplaceSelSortLines</a><br>
     <a href="#ReplaceSelSortList">ReplaceSelSortList</a><br>
@@ -93,9 +94,9 @@
     <a href="#SelectCalltipColour">SelectCalltipColour</a><br>
     <a href="#SetChangeHistory">SetChangeHistory</a><br>
     <a href="#SetColour">SetColour</a><br>
-    <a href="#SetProperty">SetProperty</a><br>
    </td>
    <td>
+    <a href="#SetProperty">SetProperty</a><br>
     <a href="#SetStyle">SetStyle</a><br>
     <a href="#StartExeFile">StartExeFile</a><br>
     <a href="#StoreBookmarks">StoreBookmarks</a><br>
@@ -609,6 +610,53 @@
  be read for property variable names and will include them. Comment lines
  starting with <code>;</code> or <code>#</code> will be ignored when the
  file is read.</p>
+
+
+
+ <h2 id="ReplaceSelAutocomplete">ReplaceSelAutocomplete</h2>
+
+ <p>Selects the string to search by caret position or selection
+ and then shows an autocomplete list with the matched items.</p>
+
+ <p>If <code>rin</code> in <code>print</code> is selected, then
+ <code>rin</code> is searched for matches and the selection will
+ extend to select <code>print</code> for full replacement.
+ The search for matches will be case insensitive string in string.
+ Some languages like Lua may contain a dot or a colon so the selection
+ may extend to include these characters and the replacement will be
+ the whole object notation.</p>
+
+ <p>If no matches are found then the autocomplete list will not show.</p>
+
+ <p>The default selected string in the autocomplete list might be
+ the exact match or a match that starts with the substring, otherwise
+ will be the first string in the list.</p>
+
+ <p>The Lua function <i>ReplaceSelAutocomplete</i> is global so can be a
+ command in a menu entry with a shortcut assigned for quick access.</p>
+
+ <p>Example:</p>
+
+<code><pre># 47 ReplaceSelAutocomplete
+command.name.47.*=ReplaceSelAutocomplete
+command.47.*=ReplaceSelAutocomplete
+command.subsystem.47.*=3
+command.save.before.47.*=2
+command.shortcut.47.*=Ctrl+Alt+Space
+</pre></code>
+
+ <p>The <code>command.name</code> can be omitted so access is only
+ available by the <code>command.shortcut</code> which may avoid
+ another entry in the tools menu as the entry is already in
+ GlobalTools.</p>
+
+ <p>An advantage of this type of autocomplete compared to the builtin
+ autocomplete is that the later depends on the user knowing the string
+ from the start while sometimes a user may only know the string should
+ contain example <code>line</code> though this substring might be anywhere
+ in the string. Example in Lua, one of the matched strings wanted could
+ be <code>editor:GetLine</code> and the user did not know the full string
+ from the start.</p>
 
 
 

@@ -3630,6 +3630,172 @@ function DebugPrintSelection()
 end
 
 
+function ReplaceSelAutocomplete()
+    -- Replace current selection or current word with autocompletion.
+
+    if editor:AutoCActive() then
+        return
+    end
+
+    -- Get selected text or word.
+    local selected = props['CurrentSelection']
+
+    if selected == '' then
+        selected = props['CurrentWord']
+    end
+
+    if selected == '' then
+        return
+    end
+
+    -- Set pattern for the language.
+    local language = editor.LexerLanguage
+    local pattern
+
+    if language == 'batch' then
+        pattern = '[%w_]'
+    elseif language == 'css' or language == 'powershell' then
+        pattern = '[%w%-]'
+    elseif language == 'lua' then
+        pattern = '[%w_%.:]'
+    else
+        pattern = '[%w_%.]'
+    end
+
+    if not string.find(selected, '^' .. pattern .. '+$') then
+        return
+    end
+
+    -- Get initial pos to go back if needed later.
+    local initialPos = editor.CurrentPos
+
+    -- Ensure anchor is at start.
+    if editor.Anchor > editor.CurrentPos then
+        editor:SwapMainAnchorCaret()
+    end
+
+    -- Extend selection start.
+    local startPos = editor.Anchor
+
+    repeat
+        startPos = startPos - 1
+        local ch = editor.CharAt[startPos]
+    until not string.find(string.char(ch), pattern)
+
+    startPos = startPos + 1
+
+    while string.find(string.char(editor.CharAt[startPos]), '[%-%.:]') do
+        startPos = startPos + 1
+    end
+
+    editor.SelectionStart = startPos
+
+    -- Extend selection end.
+    local endPos = editor.CurrentPos - 1
+
+    repeat
+        endPos = endPos + 1
+        local ch = editor.CharAt[endPos]
+    until not string.find(string.char(ch), pattern)
+
+    while string.find(string.char(editor.CharAt[endPos - 1]), '[%-%.:]') do
+        endPos = endPos - 1
+    end
+
+    editor.SelectionEnd = endPos
+
+    -- Search api files for keywords.
+    local api = props['APIPath']
+
+    local list = {}
+
+    for path in string.gmatch(api, '[^;]+') do
+        local file = io.open(path)
+
+        if file then
+            local selectedLower = string.lower(selected)
+
+            for line in file:lines() do
+                local keyword = string.match(line, '^' .. pattern .. '+')
+
+                if keyword then
+                    local keywordLower = string.lower(keyword)
+
+                    if string.find(keywordLower, selectedLower, 1, true) then
+                        table.insert(list, keyword)
+                    end
+                end
+            end
+
+            file:close()
+        end
+    end
+
+    table.unique(list)
+
+    -- Get full selection and return if autocomplete list is selection.
+    selected = editor:GetSelText()
+
+    if #list == 0 or (#list == 1 and list[1] == selected) then
+        editor:SetEmptySelection(initialPos)
+        return
+    else
+        if editor.AutoCIgnoreCase then
+            local function comp(x, y)
+                return string.upper(x) < string.upper(y)
+            end
+
+            table.sort(list, comp)
+        else
+            table.sort(list)
+        end
+    end
+
+    -- Show autocomplete.
+    local itemList = table.concat(list, ' ')
+
+    if itemList ~= '' then
+        if editor.Anchor < editor.CurrentPos then
+            editor:SwapMainAnchorCaret()
+        end
+
+        editor.AutoCSeparator = 0x20
+        editor:AutoCShow(0, itemList)
+
+        if editor:AutoCActive() then
+            editor:Clear()
+
+            -- Autocomplete select item only if needed.
+            if #list < 2 then
+                return
+            end
+
+            if selected == '' or editor.AutoCCurrentText == selected then
+                return
+            end
+
+            -- 1st try exact match.
+            for _, v in pairs(list) do
+                if v == selected then
+                    editor:AutoCSelect(selected)
+                    return
+                end
+            end
+
+            -- 2nd try from start match.
+            local selectedLen = string.len(selected)
+
+            for _, v in pairs(list) do
+                if string.sub(v, 1, selectedLen) == selected then
+                    editor:AutoCSelect(selected)
+                    return
+                end
+            end
+        end
+    end
+end
+
+
 function OnUserListSelection(id, item)
     -- Event handler for GetUserListSelection().
     -- Local id events use >= 100.
@@ -3832,6 +3998,7 @@ function GlobalTools()
         list['PrintSciteVars']          = PrintSciteVars
     end
 
+    list['ReplaceSelAutocomplete']      = ReplaceSelAutocomplete
     list['ReplaceSelEscape']            = ReplaceSelEscape
     list['ReplaceSelSortLines']         = ReplaceSelSortLines
     list['ReplaceSelSortList']          = ReplaceSelSortList
