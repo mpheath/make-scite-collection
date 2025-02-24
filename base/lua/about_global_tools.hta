@@ -648,7 +648,17 @@ command.shortcut.47.*=Ctrl+Alt+Space
  <p>The <code>command.name</code> can be omitted so access is only
  available by the <code>command.shortcut</code> which may avoid
  another entry in the tools menu as the entry is already in
- GlobalTools.</p>
+ GlobalTools. If <code>command.name</code> is undefined. then may
+ need to use the property <code>user.shortcuts</code> to set the
+ shortcut instead of <code>command.shortcut</code>.</p>
+
+ <p>Example:</p>
+
+<code><pre>
+user.shortcuts=Ctrl+Alt+Space|1147|
+</pre></code>
+
+<p>That is the command base number <code>1100</code> plus the command number <code>47</code>.</p>
 
  <p>An advantage of this type of autocomplete compared to the builtin
  autocomplete is that the later depends on the user knowing the string
