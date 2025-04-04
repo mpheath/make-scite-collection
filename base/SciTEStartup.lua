@@ -2725,7 +2725,8 @@ local function SetProperty()
                           '0 = GDI',
                           '1 = DirectWrite',
                           '2 = DirectWrite (retain frame)',
-                          '3 = DirectWrite (works with some cards)'},
+                          '3 = DirectWrite (works with some cards)',
+                          '4 = DirectWrite (updated v1.1)'},
         ['time.commands'] = preset.off_on,
         ['title.full.path'] = {'Default',
                                '0 = Filename',
@@ -2942,7 +2943,7 @@ local function SetProperty()
     if name == 'font.monospace' then
 
         -- Get technology in use.
-        local directwrite = string.match(props['technology'], '[123]') ~= nil
+        local directwrite = string.match(props['technology'], '[1-4]') ~= nil
 
         -- Default fonts.
         list[name] = {'Default',
