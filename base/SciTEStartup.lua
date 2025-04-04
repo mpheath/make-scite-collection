@@ -1473,8 +1473,23 @@ end
 local function PrintAsciiTable()
     -- Print ASCII table of decimal, hexadecimal and characters.
 
+    -- Set literal representations for unprintable characters.
+    local repr = true
+
+    local t = {['\0'] = '[NULL]',
+               ['\r'] = '[CR]',
+               ['\n'] = '[LF]',
+               ['\t'] = '[TAB]',
+               ['\32'] = '[SPACE]'}
+
     for i = 0, 255 do
-        print(string.format('%4s  %2x  %s', i, i, string.char(i)))
+        local ch = string.char(i)
+
+        if repr and i <= 32 then
+            ch = t[ch] or ch
+        end
+
+        print(string.format('%4s  %2x  %s', i, i, ch))
     end
 end
 
