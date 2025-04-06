@@ -3638,7 +3638,7 @@ function DebugPrintSelection()
     -- Add a line to print the value.
     if props['FileExt'] == 'au3' then
         -- AutoIt3.
-        editor:AddText('ConsoleWrite("' .. string.gsub(text, '"', '""') .. ': " & ' .. text .. ' & @CRLF) ; debug:')
+        editor:AddText('ConsoleWrite("' .. string.gsub(text, '"', '""') .. ': " & ' .. text .. ' & @CRLF)  ; debug:')
     elseif props['FileExt'] == 'bat' or props['FileExt'] == 'cmd' then
         -- Batch.
         local _, repl = string.gsub(text, '%%', '%%')
@@ -3656,10 +3656,10 @@ function DebugPrintSelection()
         editor:AddText('echo debug: ' .. string.gsub(text, '%%', '%%%%') .. ': ' .. text)
     elseif props['FileExt'] == 'lua' then
         -- Lua.
-        editor:AddText('print("' .. string.gsub(text, '"', '\\\"') .. ':", ' .. text .. ') -- debug:')
+        editor:AddText('print("' .. string.gsub(text, '"', '\\\"') .. ':", ' .. text .. ')  -- debug:')
     elseif props['FileExt'] == 'py' or props['FileExt'] == 'pyw' then
         -- Python.
-        editor:AddText('print("' .. string.gsub(text, '"', '\\\"') .. ':", ' .. text .. ') # debug:')
+        editor:AddText('print("' .. string.gsub(text, '"', '\\\"') .. ':", ' .. text .. ')  # debug:')
     else
         return
     end
