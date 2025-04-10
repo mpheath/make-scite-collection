@@ -140,9 +140,9 @@ def clean_manual(content):
 
         if item == '<hr>':
             return item
-        elif re.match('</{,1}h[r0-6]>', item):
+        elif re.match('</{0,1}h[r0-6]>', item):
             return item
-        elif re.match('</{,1}pre>', item):
+        elif re.match('</{0,1}pre>', item):
             return item
         else:
             return ''
