@@ -63,6 +63,7 @@
     <a href="#InsertCtrlCharacter">InsertCtrlCharacter</a><br>
     <a href="#InsertDate">InsertDate</a><br>
     <a href="#ManageBookmarks">ManageBookmarks</a><br>
+    <a href="#ManageTemplates">ManageTemplates</a><br>
     <a href="#OpenAbbrevFile">OpenAbbrevFile</a><br>
     <a href="#OpenApiFile">OpenApiFile</a><br>
     <a href="#OpenChmFile">OpenChmFile</a><br>
@@ -430,6 +431,34 @@
  Any existing bookmarks may need to be cleared before restoration unless
  combining of bookmark sets is preferred. Stored bookmark sets will only
  exist in the current SciTE instance.</p>
+
+
+
+ <h2 id="ManageTemplates">ManageTemplates</h2>
+
+ <p>Add from template file, edit template file or open template folder.</p>
+
+ <dl>
+  <dt>Add from template file</dt>
+  <dd>Add text from a template file into a document at the position of the caret.</dd>
+
+  <dt>Edit template file</dt>
+  <dd>Edit a template file to update it.</dd>
+
+  <dt>Open template folder</dt>
+  <dd>Open template folder to do various actions like creating new template files.</dd>
+ </dl>
+
+ <p>The users templates folder is searched for template files
+ located in <code>"%AppData%\Microsoft\Windows\Templates"</code> .</p>
+
+ <p>The template filetypes available to select will be based on preset
+ languages, by filetype else will be from all template files.</p>
+
+ <p>Template file content is opened and read by Lua's <code>io.open</code>
+ so only plain text files are added as text. UTF-16 files have binary
+ content and will be added as binary as decoding to plain text is not done.
+ Select binary files at your own risk.</p>
 
 
 

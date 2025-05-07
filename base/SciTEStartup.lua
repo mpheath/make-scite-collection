@@ -1269,6 +1269,113 @@ local function ManageBookmarks()
 end
 
 
+local function ManageTemplates()
+    -- Add from, edit or browse template files.
+
+    local function GetFilePattern()
+        -- Get file pattern for matching template files.
+
+        local fileext = props['FileExt']
+        local lang = props['Language']
+        local pattern
+
+        -- Get pattern from filetype.
+        if fileext ~= '' and lang ~= 'null' or fileext == 'txt' then
+            pattern = '*.' .. fileext
+        else
+            -- Get pattern from document language.
+            local patterns = {['au3'] = '*.au3',
+                              ['batch'] = '*.bat *.cmd',
+                              ['cpp'] = '*.c *.cpp *.cxx *.h *.hpp .hxx',
+                              ['hypertext'] = '*.hta *.html',
+                              ['inno'] = '*.iss',
+                              ['lua'] = '*.lua',
+                              ['markdown'] = '*.md',
+                              ['pascal'] = '*.pas',
+                              ['powershell'] = '*.ps1 *.psm1',
+                              ['props'] = '*.cfg *.ini *.hhp *.properties *.session',
+                              ['python'] = '*.py *.pyw',
+                              ['sql'] = '*.sql'}
+
+            pattern = patterns[lang]
+        end
+
+        if pattern == nil then
+            pattern = '*'
+        end
+
+        return pattern
+    end
+
+    -- Get the mode of operation.
+    local list = {'Add from template file',
+                  'Edit template file',
+                  'Open template folder'}
+
+    local result = ListBox(list, 'ManageTemplates')
+
+    if result == nil then
+        return
+    end
+
+    local mode = list[result + 1]
+
+    -- Set templates path.
+    local appdata = os.getenv('AppData')
+    local templates = appdata .. '\\Microsoft\\Windows\\Templates'
+
+    -- Open templates folder.
+    if mode == 'Open template folder' then
+        os.execute('start "" "' .. templates .. '"')
+        return
+    end
+
+    -- Get template files.
+    local pattern = GetFilePattern()
+
+    local command = 'pushd "' .. templates .. '" ' ..
+                    '& dir /b /a:-d ' .. pattern .. ' ' ..
+                    '& popd'
+
+    list = {}
+    local file = io.popen(command)
+
+    if file then
+        for line in file:lines() do
+            table.insert(list, line)
+        end
+
+        file:close()
+    end
+
+    -- Show list of template filenames.
+    result = ListBox(list, 'ManageTemplates')
+
+    if result == nil then
+        return
+    end
+
+    -- Add from or edit a template file.
+    local template = templates .. '\\' .. list[result + 1]
+
+    if mode == 'Edit template file' then
+        scite.Open(template)
+
+    elseif mode == 'Add from template file' then
+        file = io.open(template)
+
+        if file then
+            local text = file:read('a')
+            file:close()
+
+            if text ~= '' then
+                editor:AddText(text)
+            end
+        end
+    end
+end
+
+
 local function OpenAbbrevFile()
     -- Open a abbreviation file.
 
@@ -3958,6 +4065,7 @@ function GlobalTools()
         list['ManageBookmarks']   = ManageBookmarks
     end
 
+    list['ManageTemplates']       = ManageTemplates
     list['OpenAbbrevFile']        = OpenAbbrevFile
     list['OpenApiFile']           = OpenApiFile
     list['OpenChmFile']           = OpenChmFile
