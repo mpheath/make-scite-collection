@@ -4341,6 +4341,11 @@ function OnStrip(control, change)
         -- Close the tmpfile tab.
         if Buffer:get('tmpfile') then
             scite.MenuCommand(IDM_CLOSE)
+
+            -- Activate original tab.
+            if props['FilePath'] ~= edit_commit['filepath'] then
+                scite.Open(edit_commit['filepath'])
+            end
         end
     end
 end
