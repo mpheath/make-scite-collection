@@ -1102,6 +1102,8 @@ local function GotoPosition()
         return
     end
 
+    local line = editor:LineFromPosition(pos)
+    editor:EnsureVisible(line)
     editor:GotoPos(pos)
 end
 
