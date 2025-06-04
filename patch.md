@@ -178,7 +178,7 @@ gap haskell hex hollywood kix latex lisp lot lout \
 matlab maxima metapost mmixal modula3 nim nncrontab nsis \
 opal oscript pov powerpro ps purebasic r raku rebol ruby rust \
 sas scriptol smalltalk sorcins spice specman \
-tacl tal tcl tex txt2tags verilog vhdl visualprolog
+tacl tal troff tcl tex txt2tags verilog vhdl visualprolog
 ```
 
 #### cpp: Add javascript api, autocomplete and calltips
