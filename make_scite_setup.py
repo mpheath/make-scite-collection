@@ -110,9 +110,9 @@ def compile_au3(file, bitness):
             os.makedirs(bin_dir)
 
         url = ('https://www.autoitscript.com/autoit3/'
-               'files/archive/autoit/autoit-v3.3.14.5.zip')
+               'files/archive/autoit/autoit-v3.3.16.1.zip')
 
-        compressed = _download_range(url, 256320, 1117562)
+        compressed = _download_range(url, 305369, 1275535)
 
         uncompressed = zlib.decompress(compressed, -15)
 

@@ -6,7 +6,7 @@
 
 #pragma compile(Out, 'SciTELauncher.exe')
 #pragma compile(Icon, '..\scite\win32\SciBall.ico')
-#pragma compile(FileVersion, 3.3.10.2)
+#pragma compile(FileVersion, 3.3.16.1)
 #pragma compile(ProductVersion, 1.0.0.0)
 #pragma compile(FileDescription, 'SciTE Launcher')
 #pragma compile(ProductName, 'SciTE Launcher')
