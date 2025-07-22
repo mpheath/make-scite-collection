@@ -2961,6 +2961,7 @@ local function SetProperty()
                                '1 = Fullpath',
                                '2 = Filename in directory'},
         ['title.show.buffers'] = preset.off_on,
+        ['undo.selection.history'] = preset.off_on,
         ['virtual.space'] = {'Default',
                              '0 = Off',
                              '1 = Allow rectangle selection',
