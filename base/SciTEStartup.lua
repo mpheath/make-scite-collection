@@ -3925,7 +3925,7 @@ function ReplaceSelAutocomplete()
                 return
             end
 
-            -- 1st try exact match.
+            -- Try exact match.
             for _, v in pairs(list) do
                 if v == selected then
                     editor:AutoCSelect(selected)
@@ -3933,7 +3933,17 @@ function ReplaceSelAutocomplete()
                 end
             end
 
-            -- 2nd try from start match.
+            -- Try editor object for subsystem languages.
+            if language == 'lua' or language == 'python' then
+                for _, v in pairs(list) do
+                    if string.find(v, '^editor[.:]') then
+                        editor:AutoCSelect(v)
+                        return
+                    end
+                end
+            end
+
+            -- Try from start match.
             local selectedLen = string.len(selected)
 
             for _, v in pairs(list) do
