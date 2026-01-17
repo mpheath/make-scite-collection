@@ -42,6 +42,7 @@ function OnChar(char)
             local names = props['substylewords.11.1.$(file.patterns.py)']
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -63,6 +64,7 @@ function OnChar(char)
                 names = table.concat(filtered, ' ')
 
                 local length = LengthEntered()
+                editor.AutoCSeparator = 0x20
                 editor:AutoCShow(length, names)
                 return true
             end
@@ -83,6 +85,7 @@ function OnChar(char)
                           'writable write write_through writelines'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -95,6 +98,7 @@ function OnChar(char)
                           'subn'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -108,6 +112,7 @@ function OnChar(char)
                           'universal_newlines wait'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -122,6 +127,7 @@ function OnChar(char)
                           'setpassword start_dir testzip write writestr'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -141,6 +147,7 @@ function OnChar(char)
                           'setdefault update values'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -160,6 +167,7 @@ function OnChar(char)
                           'remove reverse sort'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -181,6 +189,7 @@ function OnChar(char)
                           'numerator real to_bytes'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end
@@ -208,6 +217,7 @@ function OnChar(char)
                           'swapcase title translate upper zfill'
 
             local length = LengthEntered()
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(length, names)
             return true
         end

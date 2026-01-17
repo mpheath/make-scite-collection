@@ -34,6 +34,7 @@ function OnKey(keycode)
                     editor:AddText(' ')
                     local start = editor:WordStartPosition(pos, true)
 
+                    editor.AutoCSeparator = 0x20
                     editor:AutoCShow(pos - start, 'HKLM HKCU HKCR HKA HKU HKCC')
                     return true
                 end
@@ -43,6 +44,7 @@ function OnKey(keycode)
                     editor:AddText(' ')
                     local start = editor:WordStartPosition(pos, true)
 
+                    editor.AutoCSeparator = 0x20
                     editor:AutoCShow(pos - start, 'string dword expandsz ' ..
                                                   'multisz qword binary none')
                     return true
@@ -148,6 +150,7 @@ function SetSection(char)
         local autoc = table.concat(list, ' ')
         autoc = string.gsub(autoc, ' ', '] ') .. ']'
 
+        editor.AutoCSeparator = 0x20
         editor:AutoCShow(pos - start, autoc)
         return true
     end

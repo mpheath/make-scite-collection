@@ -35,6 +35,7 @@ function OnChar(char)
             local startpos = editor:WordStartPosition(pos, true)
 
             -- Show the autocomplete.
+            editor.AutoCSeparator = 0x20
             editor:AutoCShow(pos - startpos, 'disabledelayedexpansion ' ..
                                              'disableextensions ' ..
                                              'enabledelayedexpansion ' ..
@@ -62,6 +63,7 @@ function OnChar(char)
             if names and names ~= '' then
                 local pos = editor.CurrentPos
                 local startpos = editor:WordStartPosition(pos, true)
+                editor.AutoCSeparator = 0x20
                 editor:AutoCShow(pos - startpos, names)
             end
 
