@@ -161,7 +161,7 @@ code.page=65001
 
 ```
 imports.exclude=abaqus ada asciidoc asl asn1 au3 ave avs baan blitzbasic bullant \
-caml cil cmake cobol coffeescript csound d dataflex ecl eiffel erlang escript \
+caml cil cmake cobol coffeescript csound d dataflex ecl eiffel erlang escript escseq \
 flagship forth fortran freebasic fsharp \
 gap haskell hex hollywood inno kix latex lot lout \
 maxima metapost mmixal modula3 nim nncrontab nsis \
