@@ -229,7 +229,7 @@ local _ = (function()
                      scitedir .. '\\AutoIt3', scitedir}
 
     -- Check AutoIt paths and if ok, set autoit3dir.
-    for _, dir in pairs(au3dirs) do
+    for _, dir in ipairs(au3dirs) do
         au3dir = NormPath(dir)
 
         local file = io.open(au3dir .. '\\AutoIt3.exe')
@@ -1234,7 +1234,7 @@ local function ManageBookmarks()
 
         local t = (stored_bookmarks[result + 1])[2]
 
-        for _, v in pairs(t) do
+        for _, v in ipairs(t) do
             editor:MarkerAdd(v, bookmark)
         end
 
@@ -2621,7 +2621,7 @@ local function SetColour()
     local title = name .. '=' .. props[name]
     local value = ''
 
-    for _, v in pairs({'fore:', 'back:'}) do
+    for _, v in ipairs({'fore:', 'back:'}) do
         result = MsgBox('Set ' .. v, title, MB_ICONQUESTION|
                                             MB_YESNOCANCEL)
         if result == IDYES then
@@ -3016,7 +3016,7 @@ local function SetProperty()
     local language = props['Language']
     local lexprops = {}
 
-    for _, v in pairs({'cpp', 'html', 'json', 'markdown',
+    for _, v in ipairs({'cpp', 'html', 'json', 'markdown',
                        'properties', 'python', 'sql', 'xml'}) do
 
         if v == language then
@@ -3458,7 +3458,7 @@ local function StartExeFile()
     for line in file:lines() do
         line = string.gsub(line, '"', '')
 
-        for _, pattern in pairs(ignore_list) do
+        for _, pattern in ipairs(ignore_list) do
             if string.find(line, pattern) then
                 goto label_1
             end
@@ -3555,7 +3555,7 @@ local function ToggleDimComments()
                       -- registry.
                       'style.registry.1'}
 
-        for _, v in pairs(list) do
+        for _, v in ipairs(list) do
             if props[v] ~= nil then
                 props[v] = value
             end
@@ -3954,7 +3954,7 @@ function ReplaceSelAutocomplete()
             end
 
             -- Try exact match.
-            for _, v in pairs(list) do
+            for _, v in ipairs(list) do
                 if v == selected then
                     editor:AutoCSelect(selected)
                     return
@@ -3963,7 +3963,7 @@ function ReplaceSelAutocomplete()
 
             -- Try editor object for subsystem languages.
             if language == 'lua' or language == 'python' then
-                for _, v in pairs(list) do
+                for _, v in ipairs(list) do
                     if string.find(v, '^editor[.:]') then
                         editor:AutoCSelect(v)
                         return
@@ -3974,7 +3974,7 @@ function ReplaceSelAutocomplete()
             -- Try from start match.
             local selectedLen = string.len(selected)
 
-            for _, v in pairs(list) do
+            for _, v in ipairs(list) do
                 if string.sub(v, 1, selectedLen) == selected then
                     editor:AutoCSelect(selected)
                     return
