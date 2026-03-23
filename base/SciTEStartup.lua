@@ -1686,6 +1686,8 @@ end
 local function PrintAsciiTable()
     -- Print ASCII table of decimal, hexadecimal and characters.
 
+    local title = 'PrintAsciiTable'
+
     -- Set literal representations for unprintable characters.
     local repr = true
 
@@ -1695,7 +1697,20 @@ local function PrintAsciiTable()
                ['\t'] = '[TAB]',
                ['\32'] = '[SPACE]'}
 
-    for i = 0, 255 do
+    -- Set range to 128 or extend to 255.
+    local stop = 128
+
+    if output.CodePage == 0 then
+        if MsgBox('Want to include extended ASCII?',
+                  title, MB_ICONQUESTION |
+                         MB_YESNO |
+                         MB_DEFBUTTON2) == IDYES then
+            stop = 255
+        end
+    end
+
+    -- Output the character table.
+    for i = 0, stop do
         local ch = string.char(i)
 
         if repr and i <= 32 then
