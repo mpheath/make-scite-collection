@@ -2313,7 +2313,8 @@ local function ReplaceSelSortLines()
                            'Insensitive upper compare|' ..
                            'Sensitive reverse|' ..
                            'Insensitive lower compare reverse|' ..
-                           'Insensitive upper compare reverse',
+                           'Insensitive upper compare reverse|' ..
+                           'Shuffle',
                            'ReplaceSelSortLines')
 
     if result == nil then
@@ -2338,6 +2339,13 @@ local function ReplaceSelSortLines()
         table.sort(lines,   function(a, b)
                                 return string.upper(a) > string.upper(b)
                             end)
+    elseif result == 6 then
+        math.randomseed(os.time())
+
+        for i = #lines, 2, -1 do
+            local j = math.random(i)
+            lines[i], lines[j] = lines[j], lines[i]
+        end
     else
         table.sort(lines)
     end
