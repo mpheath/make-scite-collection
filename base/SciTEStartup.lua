@@ -2881,6 +2881,7 @@ local function SetProperty()
                             '1 = Non-antialiased',
                             '2 = Antialiased',
                             '3 = LCD Optimized'},
+        ['full.screen.hides.menu'] = preset.off_on,
         ['highlight.current.word'] = preset.off_on,
         ['highlight.current.word.by.style'] = preset.off_on,
         ['horizontal.scroll.width'] = preset.scroll_width,
