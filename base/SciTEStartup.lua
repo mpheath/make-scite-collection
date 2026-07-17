@@ -2314,6 +2314,7 @@ local function ReplaceSelSortLines()
                            'Sensitive reverse|' ..
                            'Insensitive lower compare reverse|' ..
                            'Insensitive upper compare reverse|' ..
+                           'Reverse|' ..
                            'Shuffle',
                            'ReplaceSelSortLines')
 
@@ -2340,6 +2341,14 @@ local function ReplaceSelSortLines()
                                 return string.upper(a) > string.upper(b)
                             end)
     elseif result == 6 then
+        local i, j = 1, #lines
+
+        while i < j do
+            lines[i], lines[j] = lines[j], lines[i]
+            i = i + 1
+            j = j - 1
+        end
+    elseif result == 7 then
         math.randomseed(os.time())
 
         for i = #lines, 2, -1 do
